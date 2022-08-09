@@ -3,11 +3,13 @@
     <Resource
             auth="Container"
             driverClassName="com.mysql.cj.jdbc.Driver"
-            maxIdle="5"
             username="root"
             password="root"
             name="jdbc/FDDWebEng"
             type="javax.sql.DataSource"
             url="jdbc:mysql://localhost:3306/FDDWebEng??useTimezone=true&amp;serverTimezone=GMT%2B8&amp;useSSL=false"
+            maxActive="10"
+            maxIdle="5"
+            maxWait="10000"
     />
 </Context>

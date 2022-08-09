@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `ListaDischi` (
   `numeroCopie` int(11) NOT NULL,
   `Stato` enum('Ottimo','Buono','Discreto','Sufficiente','Pessimo') NOT NULL,
   `formato` enum('Vinile','CD','Digitale','Cassetta','Altro') NOT NULL,
-  `barcode` int(11) DEFAULT NULL,
+  `barcode` varchar(11) DEFAULT NULL,
   `imgCopertina` text,
   `imgFronte` text,
   `imgRetro` text,
