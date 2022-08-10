@@ -1,21 +1,23 @@
-package it.univaq.f4i.iw.ex.newspaper.data.dao;
+package it.fdd.sharedcollection.data.dao;
 
-import it.univaq.f4i.iw.ex.newspaper.data.model.Article;
-import it.univaq.f4i.iw.ex.newspaper.data.model.Author;
-import it.univaq.f4i.iw.ex.newspaper.data.model.Image;
-import it.univaq.f4i.iw.ex.newspaper.data.model.Issue;
-import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.framework.data.DataLayer;
+import it.fdd.sharedcollection.data.model.Canzone;
+import it.fdd.sharedcollection.data.model.Collezione;
+import it.fdd.sharedcollection.data.model.Disco;
+import it.fdd.sharedcollection.data.model.Utente;
+import it.fdd.sharedcollection.data.model.Artista;
+import it.fdd.sharedcollection.data.model.Genere;
+import it.fdd.sharedcollection.data.model.ListaArtisti;
+import it.fdd.sharedcollection.data.model.ListaBrani;
+import it.fdd.sharedcollection.data.model.ListaDischi;
+import it.fdd.sharedcollection.data.model.ListaGeneri;
+import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
+import it.fdd.framework.data.DataException;
+import it.fdd.framework.data.DataLayer;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-
-/**
- *
- * @author Giuseppe Della Penna
- */
 public class SharedCollectionDataLayer extends DataLayer {
 
-    public NewspaperDataLayer(DataSource datasource) throws SQLException {
+    public SharedCollectionDataLayer(DataSource datasource) throws SQLException {
         super(datasource);
     }
 
@@ -23,27 +25,62 @@ public class SharedCollectionDataLayer extends DataLayer {
     public void init() throws DataException {
         //registriamo i nostri dao
         //register our daos
-        registerDAO(Article.class, new ArticleDAO_MySQL(this));
-        registerDAO(Author.class, new AuthorDAO_MySQL(this));
-        registerDAO(Issue.class, new IssueDAO_MySQL(this));
-        registerDAO(Image.class, new ImageDAO_MySQL(this));
+        registerDAO(Artista.class, new ArtistaDAO_MySQL(this));
+        registerDAO(Canzone.class, new CanzoneDAO_MySQL(this));
+        registerDAO(Collezione.class, new CollezioneDAO_MySQL(this));
+        registerDAO(Disco.class, new DiscoDAO_MySQL(this));
+        registerDAO(Genere.class, new GenereDAO_MySQL(this));
+        registerDAO(ListaArtisti.class, new ListaArtistiDAO_MySQL(this));
+        registerDAO(ListaBrani.class, new ListaBraniDAO_MySQL(this));
+        registerDAO(ListaDischi.class, new ListaDischiDAO_MySQL(this));
+        registerDAO(ListaGeneri.class, new ListaGeneriDAO_MySQL(this));
+        registerDAO(Utente.class, new UtenteDAO_MySQL(this));
+        registerDAO(UtentiAutorizzati.class, new UtentiAutorizzatiDAO_MySQL(this));
     }
 
     //helpers
-    public ArticleDAO getArticleDAO() {
-        return (ArticleDAO) getDAO(Article.class);
+    public ArtistaDAO getArtistaDAO() {
+        return (ArtistaDAO) getDAO(Artista.class);
     }
 
-    public AuthorDAO getAuthorDAO() {
-        return (AuthorDAO) getDAO(Author.class);
+    public CanzoneDAO getCanzoneDAO() {
+        return (CanzoneDAO) getDAO(Canzone.class);
     }
 
-    public IssueDAO getIssueDAO() {
-        return (IssueDAO) getDAO(Issue.class);
+    public CollezioneDAO getCollezioneDAO() {
+        return (CollezioneDAO) getDAO(Collezione.class);
     }
 
-    public ImageDAO getImageDAO() {
-        return (ImageDAO) getDAO(Image.class);
+    public DiscoDAO getDiscoDAO() {
+        return (DiscoDAO) getDAO(Disco.class);
+    }
+
+    public GenereDAO getGenereDAO() {
+        return (GenereDAO) getDAO(Genere.class);
+    }
+
+    public LisraArtistiDAO getLisraArtistiDAO() {
+        return (LisraArtistiDAO) getDAO(LisraArtisti.class);
+    }
+
+    public LisraBraniDAO getLisraBraniDAO() {
+        return (LisraBraniDAO) getDAO(LisraBrani.class);
+    }
+
+    public LisraDischiDAO getLisraDischiDAO() {
+        return (LisraDischiDAO) getDAO(LisraDischi.class);
+    }
+
+    public LisraGeneriDAO getLisraGeneriDAO() {
+        return (LisraGeneriDAO) getDAO(LisraGeneri.class);
+    }
+
+    public UtenteDAO getUtenteDAO() {
+        return (UtenteDAO) getDAO(Utente.class);
+    }
+
+    public UtentiAutorizzatiDAO getUtentiAutorizzatiDAO() {
+        return (UtentiAutorizzatiDAO) getDAO(UtentiAutorizzati.class);
     }
 
 }
