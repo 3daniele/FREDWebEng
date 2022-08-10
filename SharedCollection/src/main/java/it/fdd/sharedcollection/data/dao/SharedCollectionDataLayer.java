@@ -31,13 +31,13 @@ public class SharedCollectionDataLayer extends DataLayer {
         registerDAO(Canzone.class, new CanzoneDAO_MySQL(this));
         registerDAO(Collezione.class, new CollezioneDAO_MySQL(this));
         registerDAO(Disco.class, new DiscoDAO_MySQL(this));
-        registerDAO(Genere.class, new GenereDAO_MySQL(this));
-        registerDAO(ListaArtisti.class, new ListaArtistiDAO_MySQL(this));
+        //registerDAO(Genere.class, new GenereDAO_MySQL(this));
+        //registerDAO(ListaArtisti.class, new ListaArtistiDAO_MySQL(this));
         registerDAO(ListaBrani.class, new ListaBraniDAO_MySQL(this));
-        registerDAO(ListaDischi.class, new ListaDischiDAO_MySQL(this));
-        registerDAO(ListaGeneri.class, new ListaGeneriDAO_MySQL(this));
+        //registerDAO(ListaDischi.class, new ListaDischiDAO_MySQL(this));
+        //registerDAO(ListaGeneri.class, new ListaGeneriDAO_MySQL(this));
         registerDAO(Utente.class, new UtenteDAO_MySQL(this));
-        registerDAO(UtentiAutorizzati.class, new UtentiAutorizzatiDAO_MySQL(this));
+        //registerDAO(UtentiAutorizzati.class, new UtentiAutorizzatiDAO_MySQL(this));
     }
 
     //helpers
@@ -61,28 +61,31 @@ public class SharedCollectionDataLayer extends DataLayer {
         return (GenereDAO) getDAO(Genere.class);
     }
 
-    public LisraArtistiDAO getLisraArtistiDAO() {
-        return (LisraArtistiDAO) getDAO(LisraArtisti.class);
+    public ListaArtistiDAO getListaArtistiDAO() {
+        return (ListaArtistiDAO) getDAO(ListaArtisti.class);
     }
 
-    public LisraBraniDAO getLisraBraniDAO() {
-        return (LisraBraniDAO) getDAO(LisraBrani.class);
+    public ListaBraniDAO getListaBraniDAO() {
+        return (ListaBraniDAO) getDAO(ListaBrani.class);
     }
 
-    public LisraDischiDAO getLisraDischiDAO() {
-        return (LisraDischiDAO) getDAO(LisraDischi.class);
+    /*
+    public ListaDischiDAO getListaDischiDAO() {
+        return (ListaDischiDAO) getDAO(ListaDischi.class);
     }
 
-    public LisraGeneriDAO getLisraGeneriDAO() {
-        return (LisraGeneriDAO) getDAO(LisraGeneri.class);
+    public ListaGeneriDAO getListaGeneriDAO() {
+        return (ListaGeneriDAO) getDAO(ListaGeneri.class);
     }
+    */
 
     public UtenteDAO getUtenteDAO() {
         return (UtenteDAO) getDAO(Utente.class);
     }
 
+    /*
     public UtentiAutorizzatiDAO getUtentiAutorizzatiDAO() {
         return (UtentiAutorizzatiDAO) getDAO(UtentiAutorizzati.class);
     }
-
+    */
 }

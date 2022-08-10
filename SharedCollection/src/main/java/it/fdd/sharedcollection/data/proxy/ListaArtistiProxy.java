@@ -3,6 +3,7 @@ package it.fdd.sharedcollection.data.proxy;
 import it.fdd.framework.data.DataException;
 import it.fdd.framework.data.DataItemProxy;
 import it.fdd.framework.data.DataLayer;
+import it.fdd.sharedcollection.data.dao.ArtistaDAO;
 import it.fdd.sharedcollection.data.dao.CanzoneDAO;
 import it.fdd.sharedcollection.data.impl.ListaArtitistiImpl;
 import it.fdd.sharedcollection.data.model.Artista;
@@ -69,7 +70,7 @@ public class ListaArtistiProxy extends ListaArtitistiImpl implements DataItemPro
 
         if (super.getArtista() == null && key_artista > 0) {
             try {
-                super.setArtista(((ArtistaDao) dataLayer.getDAO(Artista.class)).getArtista(key_artista));
+                super.setArtista(((ArtistaDAO) dataLayer.getDAO(Artista.class)).getArtista(key_artista));
             } catch (DataException ex) {
                 Logger.getLogger(ArtistaProxy.class.getName()).log(Level.SEVERE, null, ex);
             }

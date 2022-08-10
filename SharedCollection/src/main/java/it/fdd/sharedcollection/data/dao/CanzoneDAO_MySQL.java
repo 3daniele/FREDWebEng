@@ -93,7 +93,7 @@ public class CanzoneDAO_MySQL extends DAO implements CanzoneDAO {
                     }
                 }
             } catch (SQLException ex) {
-                throw new DataException("Impossibile caricare il canzone dall'ID", ex);
+                throw new DataException("Impossibile caricare canzone dall'ID", ex);
             }
         }
         return canzone;
@@ -109,7 +109,7 @@ public class CanzoneDAO_MySQL extends DAO implements CanzoneDAO {
                 result.add((Canzone) getCanzone(rs.getInt("canzoneID")));
             }
         } catch (SQLException ex) {
-            throw new DataException("Impossibile caricare i dischi", ex);
+            throw new DataException("Impossibile caricare le canzoni", ex);
         }
         return result;
     }
@@ -155,7 +155,7 @@ public class CanzoneDAO_MySQL extends DAO implements CanzoneDAO {
                 ((DataItemProxy) canzone).setModified(false);
             }
         } catch (SQLException | OptimisticLockException ex) {
-            throw new DataException("Impossibile salvare il canzone", ex);
+            throw new DataException("Impossibile salvare la canzone", ex);
         }
     }
 }

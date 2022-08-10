@@ -4,13 +4,13 @@ import it.fdd.framework.data.DAO;
 import it.fdd.framework.data.DataException;
 import it.fdd.framework.data.DataLayer;
 import it.fdd.sharedcollection.data.model.Collezione;
-import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.proxy.CollezioneProxy;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     private PreparedStatement sCollezioneByID;
@@ -30,8 +30,8 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sCollezioni = connection.prepareStatement("SELECT * FROM collezione");
             sCollezioniByUtente = connection.prepareStatement("SELECT * FROM collezione WHERE utente=?");
 
-            iCollezione = connection.prepareStatement("INSERT INTO collezione (nome,condivisione,dataCreazione,utente) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            uCollezione = connection.prepareStatement("UPDATE collezione SET nome=?,condivisione=?,dataCreazione=?,utente=? WHERE ID=?");
+            iCollezione = connection.prepareStatement("INSERT INTO collezione (nome,condivisione,dataDiCreazione,utente) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            uCollezione = connection.prepareStatement("UPDATE collezione SET nome=?,condivisione=?,dataDiCreazione=?,utente=? WHERE ID=?");
             dCollezione = connection.prepareStatement("DELETE FROM collezione WHERE ID=?");
 
         } catch (SQLException ex) {
@@ -59,11 +59,6 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
         super.destroy();
     }
 
-    @Override
-    public CollezioneProxy createCollezione() {
-        return new CollezioneProxy(getDataLayer());
-    }
-
     private CollezioneProxy createCollezione(ResultSet rs) throws DataException{
         CollezioneProxy a = createCollezione();
         try{
@@ -77,5 +72,25 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             throw new DataException("Unable to create Collezione object form ResultSet", ex);
         }
         return a;
+    }
+
+    @Override
+    public CollezioneProxy createCollezione() {
+        return new CollezioneProxy(getDataLayer());
+    }
+
+    @Override
+    public Collezione getCollezione(int collezione_key) throws DataException {
+        return null;
+    }
+
+    @Override
+    public List<Collezione> getCollezioni() throws DataException {
+        return null;
+    }
+
+    @Override
+    public List<Collezione> getCollezioniByUtente(int utente_key) throws DataException {
+        return null;
     }
 }

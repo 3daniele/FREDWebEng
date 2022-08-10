@@ -95,7 +95,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
                     }
                 }
             } catch (SQLException ex) {
-                throw new DataException("Impossibile caricare il disco dall'ID", ex);
+                throw new DataException("Impossibile caricare disco dall'ID", ex);
             }
         }
         return disco;
