@@ -13,8 +13,10 @@ import it.fdd.sharedcollection.data.model.ListaGeneri;
 import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
 import it.fdd.framework.data.DataException;
 import it.fdd.framework.data.DataLayer;
+
 import java.sql.SQLException;
 import javax.sql.DataSource;
+
 public class SharedCollectionDataLayer extends DataLayer {
 
     public SharedCollectionDataLayer(DataSource datasource) throws SQLException {

@@ -17,7 +17,7 @@ public class CanzoneImpl extends DataItemImpl<Integer> implements Canzone {
     }
 
     @Override
-    public String getnome() {
+    public String getNome() {
         return this.nome;
     }
 

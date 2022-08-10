@@ -5,7 +5,7 @@ import java.sql.Time;
 
 public interface Canzone extends DataItem<Integer> {
 
-    String getnome();
+    String getNome();
 
     Time getDurata();
 
