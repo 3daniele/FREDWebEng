@@ -9,9 +9,7 @@ public interface ListaArtistiDAO {
 
     ListaArtisti createListaArtisti();
 
-    ListaArtisti getArtista(int artista_key) throws DataException;
-
-    int getNumeroArtisti() throws DataException;
+    ListaArtisti getArtista(int key) throws DataException;
 
     List<ListaArtisti> getListaArtisti() throws DataException;
 
@@ -27,7 +25,7 @@ public interface ListaArtistiDAO {
 
     List<ListaArtisti> getListaCanzoniByRuolo(int ruolo_key) throws DataException;
 
-    void storeListaArtista(ListaArtisti element) throws DataException;
+    void storeListaArtisti(ListaArtisti element) throws DataException;
 
 
 
