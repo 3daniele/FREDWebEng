@@ -11,9 +11,7 @@ public interface UtentiAutorizzatiDAO {
 
     UtentiAutorizzati getUtentiAutorizzati(int utentiAutorizzati_key) throws DataException;
 
-    List<Integer> getUtentiAutorizzatiByCollezione(int collezione_key) throws DataException;
-
-    List<Integer> getUtentiAutorizzatiByUtente(int utente_key) throws DataException;
+    List<UtentiAutorizzati> getUtentiAutorizzati() throws DataException;
 
     void storeUtentiAutorizzati(UtentiAutorizzati utentiAutorizzati) throws DataException;
 }

@@ -1,15 +1,11 @@
 package it.fdd.sharedcollection.data.dao;
 
-import it.fdd.framework.data.DAO;
-import it.fdd.framework.data.DataException;
-import it.fdd.framework.data.DataLayer;
+import it.fdd.framework.data.*;
 import it.fdd.sharedcollection.data.model.Collezione;
 import it.fdd.sharedcollection.data.proxy.CollezioneProxy;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
@@ -17,7 +13,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     private PreparedStatement sCollezioni, sCollezioniByUtente;
     private PreparedStatement iCollezione, uCollezione, dCollezione;
 
-    public CollezioneDAO_MySQL(DataLayer d){
+    public CollezioneDAO_MySQL(DataLayer d) {
         super(d);
     }
 
@@ -41,8 +37,6 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
 
     @Override
     public void destroy() throws DataException {
-        //anche chiudere i PreparedStamenent � una buona pratica...
-        //also closing PreparedStamenents is a good practice...
         try {
 
             sCollezioneByID.close();
@@ -59,38 +53,115 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
         super.destroy();
     }
 
-    private CollezioneProxy createCollezione(ResultSet rs) throws DataException{
+    @Override
+    public CollezioneProxy createCollezione() {
+        return new CollezioneProxy(getDataLayer());
+    }
+
+    private CollezioneProxy createCollezione(ResultSet rs) throws DataException {
         CollezioneProxy a = createCollezione();
-        try{
+        try {
             a.setKey(rs.getInt("id"));
             a.setNome(rs.getString("nome"));
             //bisogna prendere direttamente l'utente dall'id
             //a.setUtente(rs.getInt("utente"));
             a.setCondivisione(rs.getString("condivisone"));
             a.setDataCreazione(rs.getDate("dataCreazione"));
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             throw new DataException("Unable to create Collezione object form ResultSet", ex);
         }
         return a;
     }
 
     @Override
-    public CollezioneProxy createCollezione() {
-        return new CollezioneProxy(getDataLayer());
-    }
-
-    @Override
     public Collezione getCollezione(int collezione_key) throws DataException {
-        return null;
+        Collezione a = null;
+        if (dataLayer.getCache().has(Collezione.class, collezione_key)) {
+            a = dataLayer.getCache().get(Collezione.class, collezione_key);
+        } else {
+            try {
+                sCollezioneByID.setInt(1, collezione_key);
+                try (ResultSet rs = sCollezioneByID.executeQuery()) {
+                    if (rs.next()) {
+                        a = createCollezione(rs);
+                        dataLayer.getCache().add(Collezione.class, a);
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("Unable to load article by ID", ex);
+            }
+        }
+        return a;
     }
 
     @Override
     public List<Collezione> getCollezioni() throws DataException {
-        return null;
+        List<Collezione> result = new ArrayList();
+
+        try (ResultSet rs = sCollezioni.executeQuery()) {
+            while (rs.next()) {
+                result.add((Collezione) getCollezione(rs.getInt("id")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Collezioni", ex);
+        }
+        return result;
     }
 
     @Override
     public List<Collezione> getCollezioniByUtente(int utente_key) throws DataException {
-        return null;
+        List<Collezione> result = new ArrayList();
+
+        try {
+            sCollezioniByUtente.setInt(1, utente_key);
+            try (ResultSet rs = sCollezioniByUtente.executeQuery()) {
+                while (rs.next()) {
+                    result.add((Collezione) getCollezione(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Collezione by Utente", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public void storeCollezione(Collezione collezione) throws DataException {
+        try {
+            if (collezione.getKey() != null && collezione.getKey() > 0) {
+                if (collezione instanceof DataItemProxy && !((DataItemProxy) collezione).isModified()) {
+                    return;
+                }
+                uCollezione.setString(1, collezione.getNome());
+                uCollezione.setString(2, collezione.getCondivisione());
+                uCollezione.setDate(3,(Date) collezione.getDataCreazione());
+                uCollezione.setInt(4, collezione.getUtente().getKey());
+                uCollezione.setInt(5, collezione.getKey());
+
+                if (uCollezione.executeUpdate() == 0) {
+                    throw new OptimisticLockException(collezione);
+                }
+            } else {
+                iCollezione.setString(1, collezione.getNome());
+                iCollezione.setString(2, collezione.getCondivisione());
+                iCollezione.setDate(3, (Date) collezione.getDataCreazione());
+                iCollezione.setInt(4, collezione.getUtente().getKey());
+
+                if (iCollezione.executeUpdate() == 1) {
+                    try (ResultSet keys = iCollezione.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            collezione.setKey(key);
+                            dataLayer.getCache().add(Collezione.class, collezione);
+                        }
+                    }
+                }
+            }
+            if (collezione instanceof DataItemProxy) {
+                ((DataItemProxy) collezione).setModified(false);
+            }
+        } catch (SQLException | OptimisticLockException ex) {
+            throw new DataException("Unable to store collezione", ex);
+        }
     }
 }

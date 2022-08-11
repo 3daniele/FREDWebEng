@@ -34,8 +34,6 @@ public class CollezioneProxy extends CollezioneImpl implements DataItemProxy {
 
     @Override
     public Utente getUtente() {
-        //notare come l'autore in relazione venga caricato solo su richiesta
-        //note how the related Utente is loaded only after it is requested
         if (super.getUtente() == null && utente_key > 0) {
             try {
                 super.setUtente(((UtenteDAO) dataLayer.getDAO(Utente.class)).getUtente(utente_key));
@@ -43,14 +41,6 @@ public class CollezioneProxy extends CollezioneImpl implements DataItemProxy {
                 Logger.getLogger(CollezioneProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        //attenzione: l'autore caricato viene lagato all'oggetto in modo da non 
-        //dover venir ricaricato alle richieste successive, tuttavia, questo
-        //puo' rende i dati potenzialmente disallineati: se l'autore viene modificato
-        //nel DB, qui rimarr� la sua "vecchia" versione
-        //warning: the loaded Utente is embedded in this object so that further
-        //requests do not require its reloading. However, this may cause data
-        //problems since if the Utente is updated in the DB, here its "old"
-        //version will be still attached
         return super.getUtente();
     }
 
@@ -87,10 +77,8 @@ public class CollezioneProxy extends CollezioneImpl implements DataItemProxy {
         return modified;
     }
 
-    public void setUtenteKey(int utnete_key) {
+    public void setUtenteKey(int utente_key) {
         this.utente_key = utente_key;
-        //resettiamo la cache dell'autore
-        //reset author cache
         super.setUtente(null);
     }
 }

@@ -14,4 +14,6 @@ public interface CollezioneDAO {
     List<Collezione> getCollezioni() throws DataException;
 
     List<Collezione> getCollezioniByUtente(int utente_key) throws DataException;
+
+    void storeCollezione(Collezione collezione) throws DataException;
 }
