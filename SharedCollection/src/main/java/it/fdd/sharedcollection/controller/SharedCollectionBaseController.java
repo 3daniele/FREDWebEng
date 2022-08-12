@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 
-public class SharedCollectionBaseController extends HttpServlet {
+public abstract class SharedCollectionBaseController extends HttpServlet {
     @Resource(name = "jdbc/FDDWebEng")
     private DataSource ds;
 
