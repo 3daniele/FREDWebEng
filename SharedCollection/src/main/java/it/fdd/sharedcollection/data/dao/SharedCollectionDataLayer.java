@@ -31,13 +31,13 @@ public class SharedCollectionDataLayer extends DataLayer {
         registerDAO(Canzone.class, new CanzoneDAO_MySQL(this));
         registerDAO(Collezione.class, new CollezioneDAO_MySQL(this));
         registerDAO(Disco.class, new DiscoDAO_MySQL(this));
-        //registerDAO(Genere.class, new GenereDAO_MySQL(this));
-        //registerDAO(ListaArtisti.class, new ListaArtistiDAO_MySQL(this));
+        registerDAO(Genere.class, new GenereDAO_MySQL(this));
+        registerDAO(ListaArtisti.class, new ListaArtistiDAO_MySQL(this));
         registerDAO(ListaBrani.class, new ListaBraniDAO_MySQL(this));
-        //registerDAO(ListaDischi.class, new ListaDischiDAO_MySQL(this));
-        //registerDAO(ListaGeneri.class, new ListaGeneriDAO_MySQL(this));
+        registerDAO(ListaDischi.class, new ListaDischiDAO_MySQL(this));
+        registerDAO(ListaGeneri.class, new ListaGeneriDAO_MySQL(this));
         registerDAO(Utente.class, new UtenteDAO_MySQL(this));
-        //registerDAO(UtentiAutorizzati.class, new UtentiAutorizzatiDAO_MySQL(this));
+        registerDAO(UtentiAutorizzati.class, new UtentiAutorizzatiDAO_MySQL(this));
     }
 
     //helpers
@@ -69,7 +69,6 @@ public class SharedCollectionDataLayer extends DataLayer {
         return (ListaBraniDAO) getDAO(ListaBrani.class);
     }
 
-    /*
     public ListaDischiDAO getListaDischiDAO() {
         return (ListaDischiDAO) getDAO(ListaDischi.class);
     }
@@ -77,15 +76,13 @@ public class SharedCollectionDataLayer extends DataLayer {
     public ListaGeneriDAO getListaGeneriDAO() {
         return (ListaGeneriDAO) getDAO(ListaGeneri.class);
     }
-    */
 
     public UtenteDAO getUtenteDAO() {
         return (UtenteDAO) getDAO(Utente.class);
     }
 
-    /*
     public UtentiAutorizzatiDAO getUtentiAutorizzatiDAO() {
         return (UtentiAutorizzatiDAO) getDAO(UtentiAutorizzati.class);
     }
-    */
+
 }
