@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class Login extends SharedCollectionBaseController {
-
+public class Registrazione extends SharedCollectionBaseController{
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
@@ -25,22 +24,23 @@ public class Login extends SharedCollectionBaseController {
     }
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
+
         try {
             TemplateResult res = new TemplateResult(getServletContext());
             //aggiungiamo al template un wrapper che ci permette di chiamare la funzione stripSlashes
             //add to the template a wrapper object that allows to call the stripslashes function
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("loginPath", true);
-            request.setAttribute("page_title", "Login");
+            request.setAttribute("page_title", "Registrazione");
+            request.setAttribute("registrationPath", true);
             request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
-            res.activate("login.ftl.html", request, response);
+            res.activate("registrazione.ftl.html", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
         }
     }
 
-    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+    private void action_register(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -81,7 +81,7 @@ public class Login extends SharedCollectionBaseController {
             throws ServletException {
         try {
             if (request.getParameter("login") != null) {
-                action_login(request, response);
+                action_register(request, response);
             } else {
                 String https_redirect_url = String.valueOf(SecurityLayer.checkHttps(request));
                 request.setAttribute("https-redirect", https_redirect_url);

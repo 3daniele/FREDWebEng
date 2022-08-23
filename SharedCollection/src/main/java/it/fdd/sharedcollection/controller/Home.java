@@ -32,7 +32,6 @@ public class Home extends SharedCollectionBaseController {
         request.setAttribute("session", false);
 
         path = request.getRequestURL().toString();
-
         if (path.equals("http://localhost:8080/SharedCollection_war/") || path.equals("http://localhost:8080/SharedCollection_war/home")){
             request.setAttribute("display", true);
         }else {

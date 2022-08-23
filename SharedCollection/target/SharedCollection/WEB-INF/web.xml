@@ -46,6 +46,10 @@
         <servlet-class>it.fdd.sharedcollection.controller.Login</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Registrazione</servlet-name>
+        <servlet-class>it.fdd.sharedcollection.controller.Registrazione</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Mostra Utenti</servlet-name>
         <servlet-class>it.fdd.sharedcollection.controller.MostraUtenti</servlet-class>
     </servlet>
@@ -56,6 +60,10 @@
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Registrazione</servlet-name>
+        <url-pattern>/register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Mostra Utenti</servlet-name>

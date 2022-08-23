@@ -30,6 +30,7 @@ public class MostraUtenti extends SharedCollectionBaseController {
             //add to the template a wrapper object that allows to call the stripslashes function
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("page_title", "Elenco utenti");
+            request.setAttribute("utentiPath", true);
             request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
             res.activate("lista_utenti.ftl.html", request, response);
         } catch (DataException ex) {

@@ -36,10 +36,27 @@
                             </form>
                         </div>
                         <ul id="nav">
-                            <li class="current-item"><a href="home">Home</a></li>
+                            <#if display??>
+                                <li class="current-item"><a href="home">Home</a></li>
+                            <#else>
+                                <li><a href="home">Home</a></li>
+                            </#if>
                             <li><a href="./podcast.html">Collezioni</a></li>
-                            <li><a href="showUtenti">Utenti</a></li>
-                            <li><a href="login">Login</a></li>
+                            <#if utentiPath??>
+                                <li class="current-item"><a href="showUtenti">Utenti</a></li>
+                            <#else>
+                                <li><a href="showUtenti">Utenti</a></li>
+                            </#if>
+                            <#if loginPath??>
+                                <li class="current-item"><a href="login">Login</a></li>
+                            <#else>
+                                <li><a href="login">Login</a></li>
+                            </#if>
+                            <#if registrationPath??>
+                                <li class="current-item"><a href="register">Registrati</a></li>
+                            <#else>
+                                <li><a href="register">Registrati</a></li>
+                            </#if>
                         </ul>
                     </div>
                 </div>
