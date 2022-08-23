@@ -31,7 +31,7 @@ public class MostraUtenti extends SharedCollectionBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("page_title", "Elenco utenti");
             request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
-            res.activate("write_list.ftl.html", request, response);
+            res.activate("lista_utenti.ftl.html", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
