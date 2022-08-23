@@ -1,0 +1,22 @@
+<h1>My Newspaper</h1>
+<h2>${strip_slashes(article.title)}</h2>
+<p>by ${article.author.name} ${article.author.surname}</p>
+<#if (article.published)>
+<p><i>Published on <a href="issue?n=${article.issue.key}">issue ${article.issue.number}</a>, page ${article.page}</i></p>
+</#if>
+<div>
+    ${strip_slashes(article.text)}
+</div>
+<div class="figures">
+    <#list article.images as image>
+    <div class="figure">
+        <img src="image?imgid=${image.key}" alt="${image.caption!'Image'}"/>
+        <#if image.caption??>
+        <span class="caption">${image.caption}</span>
+        </#if>
+    </div>
+    </#list>
+    
+</div>
+
+

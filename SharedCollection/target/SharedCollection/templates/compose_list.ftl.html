@@ -1,0 +1,11 @@
+<h2>Available issues</h2>
+<#if (issues?size>0)>
+<ul>
+    <#list issues as issue>
+    <li>
+        <b>${issue.number}</b> &nbsp; ${issue.date}&nbsp;<a href="compose?n=${issue.key}">[modify issue]</a>
+    </li>
+    </#list>
+</ul>
+</#if>
+<p><a href="compose?n=0">Create a new issue</a></p>

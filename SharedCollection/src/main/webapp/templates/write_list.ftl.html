@@ -1,0 +1,10 @@
+<h2>Utenti disponibili</h2>
+<#if (utenti?size>0)>
+<ul>
+    <#list utenti as article>
+    <li>
+        ${strip_slashes(article.nome)}&nbsp
+    </li>
+    </#list>
+</ul>
+</#if>

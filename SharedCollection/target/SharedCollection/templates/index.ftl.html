@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Poca - Podcast &amp; Audio Template">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>SharedCollection</title>
+
+    <link rel="icon" href="images/templateimg/core-img/xfavicon.ico.pagespeed.ic.NaLbJJ4AVY.webp">
+
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+<!-- ===== HEADER ===== -->
+<header class="header-area sticky">
+    <div class="main-header-area sticky">
+        <div class="classy-nav-container left breakpoint-on">
+            <nav class="classy-navbar justify-content-between" id="pocaNav">
+                <a class="nav-brand" href="home"><img src="images/templateimg/core-img/logo.png"></a>
+                <div class="classy-navbar-toggler">
+                    <span class="navbarToggler"><span></span><span></span><span></span></span>
+                </div>
+                <div class="classy-menu">
+                    <div class="classycloseIcon">
+                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                    </div>
+                    <div class="classynav">
+                        <div class="top-search-area">
+                            <form action="index.ftl.html" method="post">
+                                <input type="search" name="top-search-bar" class="form-control"
+                                       placeholder="Cerca">
+                            </form>
+                        </div>
+                        <ul id="nav">
+                            <li class="current-item"><a href="home">Home</a></li>
+                            <li><a href="./podcast.html">Collezioni</a></li>
+                            <li><a href="showUtenti">Utenti</a></li>
+                            <li><a href="./contact.html">Contact</a></li>
+                        </ul>
+                        <div class="dropdown text-end">
+                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
+                                     class="rounded-circle">
+                            </a>
+                            <ul class="dropdown-menu text-small">
+                                <li><a class="dropdown-item" href="#">New project...</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<!-- ===== BANNER ===== -->
+<section class="welcome-area">
+    <div class="welcome-slides owl-carousel">
+        <#if display??>
+        <div class="welcome-welcome-slide bg-img bg-overlay"
+             style="background-image:url(images/templateimg/bg-img/1.jpg)">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <div class="welcome-text">
+                            <h2 data-animation="fadeInUp" data-delay="100ms">La collezione del momento</h2>
+                            <h5 data-animation="fadeInUp" data-delay="300ms">La collezione con più mi piace</h5>
+                            <div class="welcome-btn-group">
+                                <a href="#" class="btn poca-btn m-2 ml-0 active" data-animation="fadeInUp"
+                                   data-delay="500ms">Subscribe with iTunes</a>
+                                <a href="#" class="btn poca-btn btn-2 m-2" data-animation="fadeInUp"
+                                   data-delay="700ms">Subscribe with RSS</a>
+                            </div>
+                        </div>
+                        <div class="poca-music-area mt-100 d-flex align-items-center flex-wrap"
+                             data-animation="fadeInUp" data-delay="900ms">
+                            <div class="poca-music-thumbnail">
+                                <img src="images/templateimg/bg-img/4.jpg" alt="">
+                            </div>
+                            <div class="poca-music-content">
+                                <span class="music-published-date">December 9, 2018</span>
+                                <h2>Episode 203 - The Last Blockbuster</h2>
+                                <div class="music-meta-data">
+                                    <p>By <a href="#" class="music-author">Admin</a> | <a href="#"
+                                                                                          class="music-catagory">Tutorials</a>
+                                        | <a href="#"
+                                             class="music-duration">00:02:56</a></p>
+                                </div>
+                                <div class="likes-share-download d-flex align-items-center justify-content-between">
+                                    <a href="#"><i class="fa fa-heart" aria-hidden="true"></i> Like (29)</a>
+                                    <div>
+                                        <a href="#" class="mr-4"><i class="fa fa-share-alt" aria-hidden="true"></i>
+                                            Share(04)</a>
+                                        <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download
+                                            (12)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </#if>
+    </div>
+</section>
+
+<#if !dispaly??>
+<br>
+</#if>
+<section class="poca-latest-epiosodes section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading text-center">
+                    <h2>${page_title!"Untitled page"}</h2>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== COLLEZIONI ===== -->
+    <div class="container">
+        <div class="row">
+            <#if utenti??>
+            <#include content_tpl>
+            </#if>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="#" class="btn poca-btn mt-70">ALTRO</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== BANNER FINALE ===== -->
+<section class="poca-newsletter-area bg-img bg-overlay pt-50"
+         style="background-image:url(images/templateimg/bg-img/15.jpg)">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-lg-12">
+                <div class="newsletter-content mb-50">
+                    <h2>SharedCollection</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer-area section-padding-80-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="single-footer-widget mb-80">
+                    <h4 class="widget-title">About Us</h4>
+                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                    <div class="copywrite-content">
+                        <p>&copy;
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This
+                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by ${defaults.author}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="single-footer-widget mb-80">
+                    <h4 class="widget-title">Categories</h4>
+                    <nav>
+                        <ul class="catagories-nav">
+                            <li><a href="#">
+                                <span class="btn poca-btn-sm">Primary</span>
+                                Entrepreneurship</a></li>
+                            <li><a href="#">Media</a></li>
+                            <li><a href="#">Tech</a></li>
+                            <li><a href="#">Tutorials</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="single-footer-widget mb-80">
+                    <h4 class="widget-title">Lastest Episodes</h4>
+                    <div class="single-latest-episodes">
+                        <p class="episodes-date">December 9, 2018</p>
+                        <a href="#" class="episodes-title">Episode 205 - See Ya In Three!</a>
+                    </div>
+                    <div class="single-latest-episodes">
+                        <p class="episodes-date">December 8, 2018</p>
+                        <a href="#" class="episodes-title">Episode 204 - See Ya In Two!</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="single-footer-widget mb-80">
+                    <h4 class="widget-title">Follow Us</h4>
+                    <div class="footer-social-info">
+                        <a href="#" class="facebook" data-toggle="tooltip" data-placement="top" title="Facebook"><i
+                                class="fa fa-facebook"></i></a>
+                        <a href="#" class="twitter" data-toggle="tooltip" data-placement="top" title="Twitter"><i
+                                class="fa fa-twitter"></i></a>
+                        <a href="#" class="pinterest" data-toggle="tooltip" data-placement="top"
+                           title="Pinterest"><i class="fa fa-pinterest"></i></a>
+                        <a href="#" class="instagram" data-toggle="tooltip" data-placement="top"
+                           title="Instagram"><i class="fa fa-instagram"></i></a>
+                        <a href="#" class="youtube" data-toggle="tooltip" data-placement="top" title="YouTube"><i
+                                class="fa fa-youtube-play"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script src="js/jquery.min.js"></script>
+
+<script src="js/popper.min.js+bootstrap.min.js.pagespeed.jc.eIYvIg2nhw.js"></script>
+
+<script src="js/poca.bundle.js"></script>
+
+<script src="js/default-assets/active.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+
+</body>
+
+</html>

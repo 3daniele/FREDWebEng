@@ -1,0 +1,67 @@
+<h2>Issue #${issue.number}</h2>
+
+<form method="get" action="compose">
+    <div class="container">
+        <input type="hidden" name="n" value="${issue.key!0}"/>
+        <div class="row">
+            <div class="four columns clabel">Number and Date</div>
+            <div class="ten columns">
+                Number: <input class="small" type="text" name="number" value="${issue.number}"/>
+                <br/>Date: <select name="day" class="small" >
+                    <#list days as day>
+                    <option value="${day}"
+                            <#if (day?string=issue.date?string("d"))>
+                            selected="selected"
+                            </#if>
+                            >${day}</option>
+                    </#list>  
+                </select>/<select name="month" class="small" >
+                    <#list months as month>
+                    <option value="${month}"
+                            <#if (month?string=issue.date?string("M"))>
+                            selected="selected"
+                            </#if>
+                            >${month}</option>
+                    </#list> 
+                </select>/<select name="year" class="small" >
+                    <#list years as year>
+                    <option value="${year?c}"
+                            <#if (year?c?string=issue.date?string("y"))>
+                            selected="selected"
+                            </#if>
+                            >${year?c}</option>
+                    </#list> 
+                </select></div>
+            <div class="two columns"><input type="submit" name="update" value="Update"/></div>
+        </div>
+        <#if (unused?size>0)>
+        <div class="row">
+            <div class="four columns clabel">Add article</div>
+            <div class="ten columns"> <select name="aarticle">
+                    <#list unused as article>
+                    <option value="${article.key}">${strip_slashes(article.title)}
+                        by ${article.author.name} ${article.author.surname}
+                    </option>
+                    </#list>            
+                </select>
+                <br/>on page <input class="small" type="text" name="page" value=""/></div>
+            <div class="two columns"><input type="submit" name="add" value="Add"/></div>
+        </div>
+        </#if>
+
+        <#if (used?size>0)>
+        <div class="row">
+            <div class="four columns clabel">Remove article</div>
+            <div class="ten columns"><select name="rarticle">
+                    <#list used as article>
+                    <option value="${article.key}">${strip_slashes(article.title)}
+                        by ${article.author.name} ${article.author.surname}
+                    </option>
+                    </#list>            
+                </select>
+            </div>
+            <div class="two columns"><input type="submit" name="remove" value="Remove"/></div>
+        </div>
+        </#if>
+    </div>
+</form>
