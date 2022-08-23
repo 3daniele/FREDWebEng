@@ -11,6 +11,7 @@ import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Home extends SharedCollectionBaseController {
@@ -25,16 +26,23 @@ public class Home extends SharedCollectionBaseController {
     }
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
+
         TemplateResult res = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("session", false);
+
         path = request.getRequestURL().toString();
+
         if (path.equals("http://localhost:8080/SharedCollection_war/") || path.equals("http://localhost:8080/SharedCollection_war/home")){
             request.setAttribute("display", true);
         }else {
             request.setAttribute("display", false);
         }
-        //aggiungiamo al template un wrapper che ci permette di chiamare la funzione stripSlashes
-        //add to the template a wrapper object that allows to call the stripslashes function
+
+        if (SecurityLayer.checkSession(request) != null) {
+            System.out.println("sessione attiva");
+        }
+
         res.activate("index.ftl.html", request, response);
     }
 
@@ -43,16 +51,11 @@ public class Home extends SharedCollectionBaseController {
             throws ServletException {
 
         try {
-
             action_default(request, response);
-
         } catch (NumberFormatException ex) {
             request.setAttribute("message", "Invalid number submitted");
             action_error(request, response);
-        } catch (IOException ex) {
-            request.setAttribute("exception", ex);
-            action_error(request, response);
-        } catch (TemplateManagerException ex) {
+        } catch (IOException | TemplateManagerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
         }

@@ -14,6 +14,7 @@ import java.util.List;
 
 public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     private PreparedStatement sUtenti, sUtenteByID;
+    private PreparedStatement login;
 
     public UtenteDAO_MySQL(DataLayer d) {
         super(d);
@@ -28,6 +29,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             //precompile all the queries uses in this class
             sUtenteByID = connection.prepareStatement("SELECT * FROM Utente WHERE ID=?");
             sUtenti = connection.prepareStatement("SELECT id FROM Utente");
+            login = connection.prepareStatement("SELECT * FROM Utente WHERE email = ? AND password = ?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing newspaper data layer", ex);
         }
@@ -40,7 +42,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
         try {
             sUtenteByID.close();
             sUtenti.close();
-
+            login.close();
         } catch (SQLException ex) {
             //
         }
@@ -122,5 +124,25 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             throw new DataException("Unable to load Utentes", ex);
         }
         return result;
+    }
+
+    @Override
+    public Utente login(String email, String password) throws DataException {
+
+        Utente utente = null;
+
+        try {
+            login.setString(1, email);
+            login.setString(2, password);
+
+            try (ResultSet rs = login.executeQuery()) {
+                if (rs.next()) {
+                    utente = getUtente(rs.getInt("id"));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("User not found", ex);
+        }
+        return utente;
     }
 }

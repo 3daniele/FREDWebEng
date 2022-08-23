@@ -39,24 +39,8 @@
                             <li class="current-item"><a href="home">Home</a></li>
                             <li><a href="./podcast.html">Collezioni</a></li>
                             <li><a href="showUtenti">Utenti</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
+                            <li><a href="login">Login</a></li>
                         </ul>
-                        <div class="dropdown text-end">
-                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
-                                     class="rounded-circle">
-                            </a>
-                            <ul class="dropdown-menu text-small">
-                                <li><a class="dropdown-item" href="#">New project...</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Sign out</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </nav>
@@ -135,15 +119,8 @@
     <div class="container">
         <div class="row">
             <#if utenti??>
-            <#include content_tpl>
+                <#include content_tpl>
             </#if>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center">
-                <a href="#" class="btn poca-btn mt-70">ALTRO</a>
-            </div>
         </div>
     </div>
 </section>

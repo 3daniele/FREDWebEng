@@ -1,0 +1,102 @@
+package it.fdd.sharedcollection.controller;
+
+import it.fdd.framework.data.DataException;
+import it.fdd.framework.result.FailureResult;
+import it.fdd.framework.result.SplitSlashesFmkExt;
+import it.fdd.framework.result.TemplateManagerException;
+import it.fdd.framework.result.TemplateResult;
+import it.fdd.framework.security.SecurityLayer;
+import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
+import it.fdd.sharedcollection.data.model.Utente;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class Login extends SharedCollectionBaseController {
+
+    private void action_error(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getAttribute("exception") != null) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        } else {
+            (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
+        }
+    }
+
+    private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
+
+        try {
+            TemplateResult res = new TemplateResult(getServletContext());
+            //aggiungiamo al template un wrapper che ci permette di chiamare la funzione stripSlashes
+            //add to the template a wrapper object that allows to call the stripslashes function
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("page_title", "Login");
+            request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+            res.activate("login.ftl.html", request, response);
+        } catch (DataException ex) {
+            request.setAttribute("message", "Data access exception: " + ex.getMessage());
+            action_error(request, response);
+        }
+    }
+
+    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        if (!email.isEmpty() && !password.isEmpty()) {
+
+            Utente utente = null;
+            int userID = 0;
+
+            try {
+                utente = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().login(email, password);
+            } catch (DataException ex) {
+                request.setAttribute("message", "Data access exception: " + ex.getMessage());
+                action_error(request, response);
+            }
+
+            if (utente != null) {
+                userID = utente.getKey();
+                SecurityLayer.createSession(request, email, userID);
+            } else {
+                request.setAttribute("message", "Email e/o password errati");
+                action_error(request, response);
+            }
+
+            //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
+            if (request.getParameter("referrer") != null) {
+                response.sendRedirect(request.getParameter("referrer"));
+            } else {
+                response.sendRedirect("home");
+            }
+        } else {
+            request.setAttribute("exception", new Exception("Login failed"));
+            action_error(request, response);
+        }
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException {
+        try {
+            if (request.getParameter("login") != null) {
+                action_login(request, response);
+            } else {
+                String https_redirect_url = String.valueOf(SecurityLayer.checkHttps(request));
+                request.setAttribute("https-redirect", https_redirect_url);
+                action_default(request, response);
+            }
+        } catch (IOException | DataException | TemplateManagerException ex) {
+            request.setAttribute("exception", ex);
+            action_error(request, response);
+        }
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     */
+    public String getServletInfo() {
+        return "Short description";
+    }
+}
