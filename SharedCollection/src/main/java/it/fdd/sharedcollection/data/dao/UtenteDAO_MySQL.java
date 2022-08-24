@@ -1,19 +1,22 @@
 package it.fdd.sharedcollection.data.dao;
 
-import it.fdd.framework.data.DAO;
-import it.fdd.framework.data.DataException;
-import it.fdd.framework.data.DataLayer;
+import it.fdd.framework.data.*;
+import it.fdd.sharedcollection.data.model.Artista;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.proxy.UtenteProxy;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     private PreparedStatement sUtenti, sUtenteByID;
+    private PreparedStatement iUtente;
+
+    private PreparedStatement uUtente;
     private PreparedStatement login;
 
     public UtenteDAO_MySQL(DataLayer d) {
@@ -30,6 +33,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             sUtenteByID = connection.prepareStatement("SELECT * FROM Utente WHERE ID=?");
             sUtenti = connection.prepareStatement("SELECT id FROM Utente");
             login = connection.prepareStatement("SELECT * FROM Utente WHERE email = ? AND password = ?");
+            iUtente = connection.prepareStatement("INSERT INTO utente (nickname,email,password,nome,cognome) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing newspaper data layer", ex);
         }
@@ -43,6 +48,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             sUtenteByID.close();
             sUtenti.close();
             login.close();
+            iUtente.close();
+            uUtente.close();
         } catch (SQLException ex) {
             //
         }
@@ -50,12 +57,12 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     }
 
     //metodi "factory" che permettono di creare
-//e inizializzare opportune implementazioni
-//delle interfacce del modello dati, nascondendo
-//all'utente tutti i particolari
-//factory methods to create and initialize
-//suitable implementations of the data model interfaces,
-//hiding all the implementation details
+    //e inizializzare opportune implementazioni
+    //delle interfacce del modello dati, nascondendo
+    //all'utente tutti i particolari
+    //factory methods to create and initialize
+    //suitable implementations of the data model interfaces,
+    //hiding all the implementation details
     @Override
     public UtenteProxy createUtente() {
         return new UtenteProxy(getDataLayer());
@@ -142,6 +149,57 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             }
         } catch (SQLException ex) {
             throw new DataException("User not found", ex);
+        }
+        return utente;
+    }
+
+    public Utente storeUtente(Utente utente) throws DataException {
+        try {
+            if (utente.getKey() != null && utente.getKey() > 0) {
+
+                // non facciamo nulla se l'oggetto è un proxy e indica di non aver subito modifiche
+                if (utente instanceof DataItemProxy && !((DataItemProxy) utente).isModified()) {
+                    return null;
+                }
+
+                // update
+                uUtente.setString(1, utente.getNome());
+                uUtente.setString(2, utente.getCognome());
+                uUtente.setString(3, utente.getPassword());
+                //uUtente.setInt(4, utente.getKey());
+
+                if (uUtente.executeUpdate() == 0) {
+                    throw new OptimisticLockException(utente);
+                }
+
+            } else {
+                // insert
+                iUtente.setString(1, utente.getNickname());
+                iUtente.setString(2, utente.getEmail());
+                iUtente.setString(3, utente.getPassword());
+                iUtente.setString(4, utente.getNome());
+                iUtente.setString(5, utente.getCognome());
+
+
+                if (iUtente.executeUpdate() == 1) {
+                    // get della chiave generata
+                    try (ResultSet keys = iUtente.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            // update chiave
+                            utente.setKey(key);
+                            // inserimento nella cache
+                            dataLayer.getCache().add(Utente.class, utente);
+                        }
+                    }
+                }
+            }
+            // reset attributo dirty
+            if (utente instanceof DataItemProxy) {
+                ((DataItemProxy) utente).setModified(false);
+            }
+        } catch (SQLException | OptimisticLockException ex) {
+            throw new DataException("Impossibile salvare l'utente", ex);
         }
         return utente;
     }

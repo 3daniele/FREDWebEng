@@ -15,4 +15,6 @@ public interface UtenteDAO {
 
     Utente login(String email, String password) throws DataException;
 
+    Utente storeUtente(Utente utente) throws  DataException;
+
 }

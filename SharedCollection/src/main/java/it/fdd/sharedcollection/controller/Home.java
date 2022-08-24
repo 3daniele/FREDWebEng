@@ -40,6 +40,7 @@ public class Home extends SharedCollectionBaseController {
 
         if (SecurityLayer.checkSession(request) != null) {
             System.out.println("sessione attiva");
+            request.setAttribute("email",SecurityLayer.);
         }
 
         res.activate("index.ftl.html", request, response);

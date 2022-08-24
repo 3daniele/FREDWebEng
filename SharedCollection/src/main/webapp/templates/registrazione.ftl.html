@@ -1,5 +1,19 @@
 <div class="container-fluid h-custom">
   <div class="row d-flex justify-content-center align-items-center h-100">
+    <#if dataC??>
+    <div class="row">
+      <div class="alert alert-danger col-12" role="alert">
+        Compila tutti i dati
+      </div>
+    </div>
+    </#if>
+    <#if passwordC??>
+  <div class="row">
+    <div class="alert alert-danger col-12" role="alert">
+      La due password non corrispondono
+    </div>
+  </div>
+    </#if>
     <div class="col-md-8 col-lg-6">
       <form method="POST" action="register">
         <!-- Username input -->

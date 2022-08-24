@@ -7,6 +7,7 @@ import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
+import it.fdd.sharedcollection.data.impl.UtenteImpl;
 import it.fdd.sharedcollection.data.model.Utente;
 
 import javax.servlet.ServletException;
@@ -42,14 +43,44 @@ public class Registrazione extends SharedCollectionBaseController{
 
     private void action_register(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
 
+        String username = request.getParameter("username");
         String email = request.getParameter("email");
+        String nome = request.getParameter("nome");
+        String cognome = request.getParameter("cognome");
         String password = request.getParameter("password");
+        String password2 = request.getParameter("password2");
 
-        if (!email.isEmpty() && !password.isEmpty()) {
+        if(username.isEmpty() || email.isEmpty() || password.isEmpty() || password2.isEmpty()){
+            request.setAttribute("dataC", "true");
+        }else{
+            request.setAttribute("dataC", "false");
+        }
 
-            Utente utente = null;
+        if(!password.equals(password2)){
+            request.setAttribute("passwordC", "true");
+        }else {
+            request.setAttribute("passwordC", "false");
+        }
+
+        if(!username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !password2.isEmpty() && password.equals(password2)){
+
+            Utente utente = new UtenteImpl();
+            utente.setCognome(cognome);
+            utente.setEmail(email);
+            utente.setNome(nome);
+            utente.setPassword(password);
+            utente.setNickname(username);
+
             int userID = 0;
 
+            try{
+                utente = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().storeUtente(utente);
+            }catch (DataException ex){
+                request.setAttribute("message", "Data access exception: " + ex.getMessage());
+                action_error(request, response);
+            }
+
+            //una volta registrato effettuiamo il login
             try {
                 utente = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().login(email, password);
             } catch (DataException ex) {
@@ -80,7 +111,7 @@ public class Registrazione extends SharedCollectionBaseController{
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
         try {
-            if (request.getParameter("login") != null) {
+            if (request.getParameter("register") != null) {
                 action_register(request, response);
             } else {
                 String https_redirect_url = String.valueOf(SecurityLayer.checkHttps(request));
