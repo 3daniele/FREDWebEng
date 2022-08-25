@@ -30,6 +30,7 @@ public class Home extends SharedCollectionBaseController {
         TemplateResult res = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("session", false);
+        HttpSession sessione = request.getSession(true);
 
         path = request.getRequestURL().toString();
         if (path.equals("http://localhost:8080/SharedCollection_war/") || path.equals("http://localhost:8080/SharedCollection_war/home")){
@@ -39,8 +40,9 @@ public class Home extends SharedCollectionBaseController {
         }
 
         if (SecurityLayer.checkSession(request) != null) {
-            System.out.println("sessione attiva");
-            request.setAttribute("email",SecurityLayer.);
+           request.setAttribute("session", true);
+           request.setAttribute("username",sessione.getAttribute("username"));
+           request.setAttribute("email",sessione.getAttribute("email"));
         }
 
         res.activate("index.ftl.html", request, response);

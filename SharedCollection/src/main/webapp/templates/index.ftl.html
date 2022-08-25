@@ -47,6 +47,15 @@
                             <#else>
                                 <li><a href="showUtenti">Utenti</a></li>
                             </#if>
+                         <#if session>
+                        <li class="cn-dropdown-item has-down"><a href="#">${username}</a>
+                        <ul class="dropdown">
+                        <li><a href=".">${email}</a></li>
+                        <li><a href="logout">Logout</a></li>
+                    </ul>
+                    <span class="dd-trigger"></span></li>
+
+                    <#else>
                             <#if loginPath??>
                                 <li class="current-item"><a href="login">Login</a></li>
                             <#else>
@@ -57,6 +66,7 @@
                             <#else>
                                 <li><a href="register">Registrati</a></li>
                             </#if>
+                         </#if>
                         </ul>
                     </div>
                 </div>

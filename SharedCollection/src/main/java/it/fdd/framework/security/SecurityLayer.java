@@ -32,40 +32,15 @@ public class SecurityLayer {
         if (s.getAttribute("userid") == null) {
             check = false;
             //check sull'ip del client
-            //check if the client ip chaged
-        } else if ((s.getAttribute("ip") == null) || !((String) s.getAttribute("ip")).equals(r.getRemoteHost())) {
-            check = false;
-            //check sulle date
-            //check if the session is timed out
+            //check if the client ip chage
         } else {
-            //inizio sessione
-            //session start timestamp
-            Calendar begin = (Calendar) s.getAttribute("inizio-sessione");
-            //ultima azione
-            //last action timestamp
-            Calendar last = (Calendar) s.getAttribute("ultima-azione");
-            //data/ora correnti
-            //current timestamp
-            Calendar now = Calendar.getInstance();
-            if (begin == null) {
+            if(s.getAttribute("email") == null)
+            {
                 check = false;
-            } else {
-                //secondi trascorsi dall'inizio della sessione
-                //seconds from the session start
-                long secondsfrombegin = (now.getTimeInMillis() - begin.getTimeInMillis()) / 1000;
-                //dopo tre ore la sessione scade
-                //after three hours the session is invalidated
-                if (secondsfrombegin > 3 * 60 * 60) {
+            }
+            else {
+                if(s.getAttribute("username") == null){
                     check = false;
-                } else if (last != null) {
-                    //secondi trascorsi dall'ultima azione
-                    //seconds from the last valid action
-                    long secondsfromlast = (now.getTimeInMillis() - last.getTimeInMillis()) / 1000;
-                    //dopo trenta minuti dall'ultima operazione la sessione è invalidata
-                    //after 30 minutes since the last action the session is invalidated
-                    if (secondsfromlast > 30 * 60) {
-                        check = false;
-                    }
                 }
             }
         }
@@ -73,18 +48,14 @@ public class SecurityLayer {
             s.invalidate();
             return null;
         } else {
-            //reimpostiamo la data/ora dell'ultima azione
-            //if che checks are ok, update the last action timestamp
-            s.setAttribute("ultima-azione", Calendar.getInstance());
             return s;
         }
     }
 
-    public static HttpSession createSession(HttpServletRequest request, String username, int userid) {
+    public static HttpSession createSession(HttpServletRequest request, String username, int userid,String email) {
         HttpSession s = request.getSession(true);
         s.setAttribute("username", username);
-        s.setAttribute("ip", request.getRemoteHost());
-        s.setAttribute("inizio-sessione", Calendar.getInstance());
+        s.setAttribute("email", email);
         s.setAttribute("userid", userid);
         return s;
     }

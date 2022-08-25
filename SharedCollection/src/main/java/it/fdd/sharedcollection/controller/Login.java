@@ -29,15 +29,23 @@ public class Login extends SharedCollectionBaseController {
             TemplateResult res = new TemplateResult(getServletContext());
             //aggiungiamo al template un wrapper che ci permette di chiamare la funzione stripSlashes
             //add to the template a wrapper object that allows to call the stripslashes function
+
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("loginPath", true);
             request.setAttribute("page_title", "Login");
             request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+            request.setAttribute("session", false);
+            if (SecurityLayer.checkSession(request) != null) {
+                request.setAttribute("session", true);
+                response.sendRedirect("home");
+            }
+
             res.activate("login.ftl.html", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
         }
+
     }
 
     private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
@@ -59,7 +67,7 @@ public class Login extends SharedCollectionBaseController {
 
             if (utente != null) {
                 userID = utente.getKey();
-                SecurityLayer.createSession(request, email, userID);
+                SecurityLayer.createSession(request, utente.getNickname(), userID,email);
             } else {
                 request.setAttribute("message", "Email e/o password errati");
                 action_error(request, response);

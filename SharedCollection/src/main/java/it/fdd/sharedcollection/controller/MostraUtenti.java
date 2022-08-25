@@ -11,6 +11,7 @@ import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class MostraUtenti extends SharedCollectionBaseController {
@@ -26,12 +27,19 @@ public class MostraUtenti extends SharedCollectionBaseController {
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
         try {
             TemplateResult res = new TemplateResult(getServletContext());
+            HttpSession sessione = request.getSession(true);
             //aggiungiamo al template un wrapper che ci permette di chiamare la funzione stripSlashes
             //add to the template a wrapper object that allows to call the stripslashes function
+            request.setAttribute("session", false);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("page_title", "Elenco utenti");
             request.setAttribute("utentiPath", true);
             request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+            if (SecurityLayer.checkSession(request) != null) {
+                request.setAttribute("session", true);
+                request.setAttribute("username",sessione.getAttribute("username"));
+                request.setAttribute("email",sessione.getAttribute("email"));
+            }
             res.activate("lista_utenti.ftl.html", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
