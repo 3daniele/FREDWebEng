@@ -46,7 +46,7 @@ Last Update: Dec 14, 2018
   [Font Family: 'HK Grotesk']
 --------------------------------------------- */
 /* Import Fonts & All CSS */
-/*@import url(default-assets/hkgrotesk-fonts.css);*/
+@import url(default-assets/hkgrotesk-fonts.css);
 @import url(bootstrap.min.css);
 /*@import url(animate.css);*/
 @import url(default-assets/classy-nav.css);
@@ -455,7 +455,7 @@ ul {
 .top-search-area {
   margin: 0 30px;
   padding-right: 30px;
-  border-right: 1px solid rgba(255, 255, 255, 0.2); }
+}
   @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .top-search-area {
       margin: 0 15px;

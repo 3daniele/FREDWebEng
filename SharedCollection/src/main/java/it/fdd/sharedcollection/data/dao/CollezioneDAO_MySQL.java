@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     private PreparedStatement sCollezioneByID;
-    private PreparedStatement sCollezioni, sCollezioniByUtente;
+    private PreparedStatement sCollezioni, sCollezioniByUtente, sCollezioniPubbliche;
     private PreparedStatement iCollezione, uCollezione, dCollezione;
 
     public CollezioneDAO_MySQL(DataLayer d) {
@@ -25,6 +25,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sCollezioneByID = connection.prepareStatement("SELECT * FROM collezione WHERE id=?");
             sCollezioni = connection.prepareStatement("SELECT * FROM collezione");
             sCollezioniByUtente = connection.prepareStatement("SELECT * FROM collezione WHERE utente=?");
+            sCollezioniPubbliche = connection.prepareStatement("SELECT * FROM collezione");
 
             iCollezione = connection.prepareStatement("INSERT INTO collezione (nome,condivisione,dataDiCreazione,utente) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uCollezione = connection.prepareStatement("UPDATE collezione SET nome=?,condivisione=?,dataDiCreazione=?,utente=? WHERE ID=?");
@@ -42,6 +43,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sCollezioneByID.close();
             sCollezioni.close();
             sCollezioniByUtente.close();
+            sCollezioniPubbliche.close();
 
             iCollezione.close();
             uCollezione.close();
@@ -121,6 +123,21 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load Collezione by Utente", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Collezione> getCollezioniPubbliche() throws DataException {
+        List<Collezione> result = new ArrayList();
+
+        try (ResultSet rs = sCollezioniPubbliche.executeQuery()) {
+            while (rs.next()) {
+                //result.add((Collezione) getCollezione(rs.getInt("id")));
+                System.out.println(rs.getInt("id"));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Collezioni", ex);
         }
         return result;
     }

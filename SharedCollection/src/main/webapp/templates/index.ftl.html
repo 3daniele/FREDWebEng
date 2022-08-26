@@ -29,12 +29,6 @@
                         <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                     </div>
                     <div class="classynav">
-                        <div class="top-search-area">
-                            <form action="index.ftl.html" method="post">
-                                <input type="search" name="top-search-bar" class="form-control"
-                                       placeholder="Cerca">
-                            </form>
-                        </div>
                         <ul id="nav">
                             <#if display??>
                                 <li class="current-item"><a href="home">Home</a></li>
@@ -47,13 +41,14 @@
                             <#else>
                                 <li><a href="showUtenti">Utenti</a></li>
                             </#if>
-                         <#if session>
-                        <li class="cn-dropdown-item has-down"><a href="#">${username}</a>
+                    <#if session>
+                        <li class="cn-dropdown-item"><a href="#">${username}</a>
                         <ul class="dropdown">
-                        <li><a href=".">${email}</a></li>
-                        <li><a href="logout">Logout</a></li>
-                    </ul>
-                    <span class="dd-trigger"></span></li>
+                            <li><a href=".">${email}</a></li>
+                            <li><a href="logout">Logout</a></li>
+                        </ul>
+                        <span class="dd-trigger"></span>
+                        </li>
 
                     <#else>
                             <#if loginPath??>
@@ -66,8 +61,14 @@
                             <#else>
                                 <li><a href="register">Registrati</a></li>
                             </#if>
-                         </#if>
+                    </#if>
                         </ul>
+                    <div class="top-search-area">
+                    <form action="home" method="post">
+                        <input type="search" name="top-search-bar" class="form-control"
+                        placeholder="Cerca">
+                    </form>
+                    </div>
                     </div>
                 </div>
             </nav>
@@ -148,6 +149,32 @@
             <#if utenti??>
                 <#include content_tpl>
             </#if>
+            <#if (collezioni_home?size>0)>
+                <#list collezioni_home as collezione>
+    <div class="col-12 col-md-4 single_gallery_item entre wow fadeInUp animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; position: absolute; left: 0%; top: 0px;">
+        <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
+            <div class="poca-music-thumbnail">
+                <img src="images/bg-img/5.jpg" alt="">
+            </div>
+            <div class="poca-music-content text-center">
+                <span class="music-published-date mb-2">${collezione.dataDiCreazione}</span>
+                <h2>${collezione.nome}</h2>
+                <div class="music-meta-data">
+                    <p>By <a href="#" class="music-author">Admin</a> | <a href="#" class="music-catagory">Tutorials</a> | <a href="#" class="music-duration">00:02:56</a></p>
+                </div>
+                <div class="likes-share-download d-flex align-items-center justify-content-between">
+                    <a href="#"><i class="fa fa-heart" aria-hidden="true"></i> Like (29)</a>
+                    <div>
+                        <a href="#" class="mr-4"><i class="fa fa-share-alt" aria-hidden="true"></i>
+                            Share(04)</a>
+                        <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download (12)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                </#list>
+            </#if>
         </div>
     </div>
 </section>
@@ -170,38 +197,15 @@
 <footer class="footer-area section-padding-80-0">
     <div class="container">
         <div class="row">
-            <div class="col-12 col-sm-6 col-lg-3">
+            <div class="col-12 col-sm-12 col-lg-6">
                 <div class="single-footer-widget mb-80">
-                    <h4 class="widget-title">About Us</h4>
-                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
-                    <div class="copywrite-content">
-                        <p>&copy;
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script>
-                            All rights reserved | This
-                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by ${defaults.author}
-                        </p>
-                    </div>
+                    <h4 class="widget-title">Chi siamo?</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae nibh nec libero tincidunt dapibus vel eget arcu. Nam dignissim euismod lacus. Fusce dapibus, mi vel laoreet sollicitudin, arcu massa ullamcorper augue, in molestie nibh odio vel magna.</p>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-lg-3">
                 <div class="single-footer-widget mb-80">
-                    <h4 class="widget-title">Categories</h4>
-                    <nav>
-                        <ul class="catagories-nav">
-                            <li><a href="#">
-                                <span class="btn poca-btn-sm">Primary</span>
-                                Entrepreneurship</a></li>
-                            <li><a href="#">Media</a></li>
-                            <li><a href="#">Tech</a></li>
-                            <li><a href="#">Tutorials</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-footer-widget mb-80">
-                    <h4 class="widget-title">Lastest Episodes</h4>
+                    <h4 class="widget-title">Ultime collezioni:</h4>
                     <div class="single-latest-episodes">
                         <p class="episodes-date">December 9, 2018</p>
                         <a href="#" class="episodes-title">Episode 205 - See Ya In Three!</a>
@@ -227,6 +231,14 @@
                         <a href="#" class="youtube" data-toggle="tooltip" data-placement="top" title="YouTube"><i
                                 class="fa fa-youtube-play"></i></a>
                     </div>
+                    <div class="copywrite-content">
+                        <p>&copy;
+                            Copyright
+                            <script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This
+                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by ${defaults.author}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -236,13 +248,11 @@
 
 <script src="js/jquery.min.js"></script>
 
-<script src="js/popper.min.js+bootstrap.min.js.pagespeed.jc.eIYvIg2nhw.js"></script>
+<!-- <script src="js/popper.min.js+bootstrap.min.js.pagespeed.jc.eIYvIg2nhw.js"></script> -->
 
 <script src="js/poca.bundle.js"></script>
 
 <script src="js/default-assets/active.js"></script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
 
 </body>
 

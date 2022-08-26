@@ -142,8 +142,8 @@ body {
   /* Down Arrow Icon for Megamenu */
   @font-face {
     font-family: 'classyfonts';
-    src: url("../../fonts/classy.eot?fftrrv");
-    src: url("../../fonts/classy.eot?fftrrv#iefix") format("embedded-opentype"), url("../../fonts/classy.ttf?fftrrv") format("truetype"), url("../../fonts/classy.woff?fftrrv") format("woff"), url("../../fonts/classy.svg?fftrrv#classyfonts") format("svg");
+    src: url("https://preview.colorlib.com/theme/poca/fonts/classy.eot?fftrrv");
+    src: url("https://preview.colorlib.com/theme/poca/fonts/classy.eot?fftrrv#iefix") format("embedded-opentype"), url("https://preview.colorlib.com/theme/poca/fonts/classy.ttf?fftrrv") format("truetype"), url("https://preview.colorlib.com/theme/poca/fonts/classy.woff?fftrrv") format("woff"), url("https://preview.colorlib.com/theme/poca/fonts/classy.svg?fftrrv#classyfonts") format("svg");
     font-weight: normal;
     font-style: normal;
   }

@@ -12,11 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-<<<<<<< HEAD
-      <module name="SharedCollection" options="-endorseddirs &quot;$PROJECT_DIR$/target/endorsed&quot;" />
-=======
-      <module name="SharedCollection" options="-endorseddirs /Users/danieledd/Developer/FREDWebEng/SharedCollection/target/endorsed" />
->>>>>>> a8081647f9b65e233985969189f04e639cee7315
+      <module name="SharedCollection" options="-endorseddirs $PROJECT_DIR$/target/endorsed" />
     </option>
   </component>
 </project>

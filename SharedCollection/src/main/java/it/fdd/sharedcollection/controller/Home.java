@@ -29,6 +29,7 @@ public class Home extends SharedCollectionBaseController {
 
         TemplateResult res = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("page_title", "Homepage");
         request.setAttribute("session", false);
         HttpSession sessione = request.getSession(true);
 
@@ -43,6 +44,13 @@ public class Home extends SharedCollectionBaseController {
            request.setAttribute("session", true);
            request.setAttribute("username",sessione.getAttribute("username"));
            request.setAttribute("email",sessione.getAttribute("email"));
+        }
+
+        try {
+            request.setAttribute("collezioni_home", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche());
+        } catch (DataException ex) {
+            request.setAttribute("message", "Data access exception: " + ex.getMessage());
+            action_error(request, response);
         }
 
         res.activate("index.ftl.html", request, response);
