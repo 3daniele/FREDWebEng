@@ -2,7 +2,7 @@ package it.fdd.sharedcollection.data.model;
 
 import it.fdd.framework.data.DataItem;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface Collezione extends DataItem<Integer> {
 
@@ -12,7 +12,7 @@ public interface Collezione extends DataItem<Integer> {
 
     String getCondivisione();
 
-    Date getDataCreazione();
+    LocalDate getDataCreazione();
 
     void setUtente(Utente utente);
 
@@ -20,5 +20,5 @@ public interface Collezione extends DataItem<Integer> {
 
     void setCondivisione(String condivisione);
 
-    void setDataCreazione(Date dataCreazione);
+    void setDataCreazione(LocalDate dataCreazione);
 }

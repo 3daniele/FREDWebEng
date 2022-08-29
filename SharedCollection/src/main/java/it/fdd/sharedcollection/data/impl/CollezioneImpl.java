@@ -4,14 +4,16 @@ import it.fdd.framework.data.DataItemImpl;
 import it.fdd.sharedcollection.data.model.Collezione;
 import it.fdd.sharedcollection.data.model.Utente;
 
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 public class CollezioneImpl extends DataItemImpl<Integer> implements Collezione {
 
     private Utente utente;
     private String nome;
     private String condivisione;
-    private Date dataCreazione;
+    private LocalDate dataCreazione;
 
     public CollezioneImpl() {
         super();
@@ -37,7 +39,7 @@ public class CollezioneImpl extends DataItemImpl<Integer> implements Collezione 
     }
 
     @Override
-    public Date getDataCreazione() {
+    public LocalDate getDataCreazione() {
         return this.dataCreazione;
     }
 
@@ -57,7 +59,7 @@ public class CollezioneImpl extends DataItemImpl<Integer> implements Collezione 
     }
 
     @Override
-    public void setDataCreazione(Date dataCreazione) {
+    public void setDataCreazione(LocalDate dataCreazione) {
         this.dataCreazione = dataCreazione;
     }
 }

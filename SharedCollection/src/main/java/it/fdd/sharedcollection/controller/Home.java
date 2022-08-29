@@ -7,12 +7,15 @@ import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
+import it.fdd.sharedcollection.data.model.Collezione;
+import it.fdd.sharedcollection.data.model.Utente;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class Home extends SharedCollectionBaseController {
     private String path="";
@@ -47,13 +50,17 @@ public class Home extends SharedCollectionBaseController {
         }
 
         try {
-            request.setAttribute("collezioni_home", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche());
+            List<Collezione> lista = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche();
+            request.setAttribute("collezioni_home", lista);
+            request.setAttribute("ultima_collezione", lista.get(lista.size()-1));
+            List<Utente> listaUtenti = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti();
+            request.setAttribute("utenti",listaUtenti);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
         }
 
-        res.activate("index.ftl.html", request, response);
+        res.activate("collezioni_pubbliche.ftl.html", request, response);
     }
 
     @Override

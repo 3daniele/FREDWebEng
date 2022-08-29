@@ -7,7 +7,7 @@ import it.fdd.sharedcollection.data.dao.UtenteDAO;
 import it.fdd.sharedcollection.data.impl.CollezioneImpl;
 import it.fdd.sharedcollection.data.model.Utente;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,7 +58,7 @@ public class CollezioneProxy extends CollezioneImpl implements DataItemProxy {
     }
 
     @Override
-    public void setDataCreazione(Date data) {
+    public void setDataCreazione(LocalDate data) {
         super.setDataCreazione(data);
         this.modified = true;
     }

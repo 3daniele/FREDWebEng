@@ -2,9 +2,11 @@ package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.*;
 import it.fdd.sharedcollection.data.model.Collezione;
+import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.proxy.CollezioneProxy;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sCollezioneByID = connection.prepareStatement("SELECT * FROM collezione WHERE id=?");
             sCollezioni = connection.prepareStatement("SELECT * FROM collezione");
             sCollezioniByUtente = connection.prepareStatement("SELECT * FROM collezione WHERE utente=?");
-            sCollezioniPubbliche = connection.prepareStatement("SELECT * FROM collezione");
+            sCollezioniPubbliche = connection.prepareStatement("SELECT * FROM collezione WHERE condivisione='pubblica' LIMIT 6");
 
             iCollezione = connection.prepareStatement("INSERT INTO collezione (nome,condivisione,dataDiCreazione,utente) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uCollezione = connection.prepareStatement("UPDATE collezione SET nome=?,condivisione=?,dataDiCreazione=?,utente=? WHERE ID=?");
@@ -65,10 +67,9 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
         try {
             a.setKey(rs.getInt("id"));
             a.setNome(rs.getString("nome"));
-            //bisogna prendere direttamente l'utente dall'id
-            //a.setUtente(rs.getInt("utente"));
-            a.setCondivisione(rs.getString("condivisone"));
-            a.setDataCreazione(rs.getDate("dataCreazione"));
+            a.setUtenteKey(rs.getInt("utente"));
+            a.setCondivisione(rs.getString("condivisione"));
+            a.setDataCreazione(LocalDate.parse(rs.getDate("dataDiCreazione").toString()));
         } catch (SQLException ex) {
             throw new DataException("Unable to create Collezione object form ResultSet", ex);
         }
@@ -133,8 +134,8 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
 
         try (ResultSet rs = sCollezioniPubbliche.executeQuery()) {
             while (rs.next()) {
-                //result.add((Collezione) getCollezione(rs.getInt("id")));
-                System.out.println(rs.getInt("id"));
+                result.add((Collezione) getCollezione(rs.getInt("id")));
+                System.out.println(rs.getDate("dataDiCreazione"));
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load Collezioni", ex);
@@ -151,7 +152,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
                 }
                 uCollezione.setString(1, collezione.getNome());
                 uCollezione.setString(2, collezione.getCondivisione());
-                uCollezione.setDate(3,(Date) collezione.getDataCreazione());
+                uCollezione.setDate(3, java.sql.Date.valueOf(collezione.getDataCreazione()));
                 uCollezione.setInt(4, collezione.getUtente().getKey());
                 uCollezione.setInt(5, collezione.getKey());
 
@@ -161,7 +162,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             } else {
                 iCollezione.setString(1, collezione.getNome());
                 iCollezione.setString(2, collezione.getCondivisione());
-                iCollezione.setDate(3, (Date) collezione.getDataCreazione());
+                iCollezione.setDate(3, java.sql.Date.valueOf(collezione.getDataCreazione()));
                 iCollezione.setInt(4, collezione.getUtente().getKey());
 
                 if (iCollezione.executeUpdate() == 1) {

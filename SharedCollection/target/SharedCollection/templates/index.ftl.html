@@ -31,52 +31,52 @@
                     <div class="classynav">
                         <ul id="nav">
                             <#if display??>
-                                <li class="current-item"><a href="home">Home</a></li>
+                            <li class="current-item"><a href="home">Home</a></li>
                             <#else>
-                                <li><a href="home">Home</a></li>
-                            </#if>
-                            <li><a href="./podcast.html">Collezioni</a></li>
-                            <#if utentiPath??>
-                                <li class="current-item"><a href="showUtenti">Utenti</a></li>
-                            <#else>
-                                <li><a href="showUtenti">Utenti</a></li>
-                            </#if>
+                            <li><a href="home">Home</a></li>
+                        </#if>
+                        <li><a href="./podcast.html">Collezioni</a></li>
+                        <#if utentiPath??>
+                        <li class="current-item"><a href="showUtenti">Utenti</a></li>
+                        <#else>
+                        <li><a href="showUtenti">Utenti</a></li>
+                    </#if>
                     <#if session>
-                        <li class="cn-dropdown-item"><a href="#">${username}</a>
+                    <li class="cn-dropdown-item"><a href="#">${username}</a>
                         <ul class="dropdown">
                             <li><a href=".">${email}</a></li>
                             <li><a href="logout">Logout</a></li>
                         </ul>
                         <span class="dd-trigger"></span>
-                        </li>
+                    </li>
 
                     <#else>
-                            <#if loginPath??>
-                                <li class="current-item"><a href="login">Login</a></li>
-                            <#else>
-                                <li><a href="login">Login</a></li>
-                            </#if>
-                            <#if registrationPath??>
-                                <li class="current-item"><a href="register">Registrati</a></li>
-                            <#else>
-                                <li><a href="register">Registrati</a></li>
-                            </#if>
-                    </#if>
-                        </ul>
-                    <div class="top-search-area">
-                    <form action="home" method="post">
-                        <input type="search" name="top-search-bar" class="form-control"
-                        placeholder="Cerca">
-                    </form>
-                    </div>
-                    </div>
-                </div>
-            </nav>
+                    <#if loginPath??>
+                    <li class="current-item"><a href="login">Login</a></li>
+                    <#else>
+                    <li><a href="login">Login</a></li>
+                </#if>
+                <#if registrationPath??>
+                <li class="current-item"><a href="register">Registrati</a></li>
+                <#else>
+                <li><a href="register">Registrati</a></li>
+            </#if>
+        </#if>
+        </ul>
+        <div class="top-search-area">
+            <form action="home" method="post">
+                <input type="search" name="top-search-bar" class="form-control"
+                       placeholder="Cerca">
+            </form>
         </div>
+    </div>
+    </div>
+    </nav>
+    </div>
     </div>
 </header>
 
-<!-- ===== BANNER ===== -->
+<!-- ===== CAROSELLO ===== -->
 <section class="welcome-area">
     <div class="welcome-slides owl-carousel">
         <#if display??>
@@ -87,36 +87,23 @@
                     <div class="col-12">
                         <div class="welcome-text">
                             <h2 data-animation="fadeInUp" data-delay="100ms">La collezione del momento</h2>
-                            <h5 data-animation="fadeInUp" data-delay="300ms">La collezione con più mi piace</h5>
-                            <div class="welcome-btn-group">
-                                <a href="#" class="btn poca-btn m-2 ml-0 active" data-animation="fadeInUp"
-                                   data-delay="500ms">Subscribe with iTunes</a>
-                                <a href="#" class="btn poca-btn btn-2 m-2" data-animation="fadeInUp"
-                                   data-delay="700ms">Subscribe with RSS</a>
-                            </div>
                         </div>
                         <div class="poca-music-area mt-100 d-flex align-items-center flex-wrap"
                              data-animation="fadeInUp" data-delay="900ms">
                             <div class="poca-music-thumbnail">
-                                <img src="images/templateimg/bg-img/4.jpg" alt="">
+                                <img src="images/templateimg/bg-img/27.jpg" alt="">
                             </div>
                             <div class="poca-music-content">
-                                <span class="music-published-date">December 9, 2018</span>
-                                <h2>Episode 203 - The Last Blockbuster</h2>
+                                <span class="music-published-date">${ultima_collezione.dataCreazione}</span>
+                                <h2>${ultima_collezione.nome}</h2>
                                 <div class="music-meta-data">
-                                    <p>By <a href="#" class="music-author">Admin</a> | <a href="#"
-                                                                                          class="music-catagory">Tutorials</a>
-                                        | <a href="#"
-                                             class="music-duration">00:02:56</a></p>
-                                </div>
-                                <div class="likes-share-download d-flex align-items-center justify-content-between">
-                                    <a href="#"><i class="fa fa-heart" aria-hidden="true"></i> Like (29)</a>
-                                    <div>
-                                        <a href="#" class="mr-4"><i class="fa fa-share-alt" aria-hidden="true"></i>
-                                            Share(04)</a>
-                                        <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download
-                                            (12)</a>
-                                    </div>
+                                    <p>By <a href="#" class="music-author">
+                                        <#list utenti as utente>
+                                            <#if (utente.key=ultima_collezione.utente.key)>
+                                                ${utente.nickname}
+                                        </#if>
+                                        </#list>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -146,35 +133,7 @@
     <!-- ===== COLLEZIONI ===== -->
     <div class="container">
         <div class="row">
-            <#if utenti??>
-                <#include content_tpl>
-            </#if>
-            <#if (collezioni_home?size>0)>
-                <#list collezioni_home as collezione>
-    <div class="col-12 col-md-4 single_gallery_item entre wow fadeInUp animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; position: absolute; left: 0%; top: 0px;">
-        <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
-            <div class="poca-music-thumbnail">
-                <img src="images/bg-img/5.jpg" alt="">
-            </div>
-            <div class="poca-music-content text-center">
-                <span class="music-published-date mb-2">${collezione.dataDiCreazione}</span>
-                <h2>${collezione.nome}</h2>
-                <div class="music-meta-data">
-                    <p>By <a href="#" class="music-author">Admin</a> | <a href="#" class="music-catagory">Tutorials</a> | <a href="#" class="music-duration">00:02:56</a></p>
-                </div>
-                <div class="likes-share-download d-flex align-items-center justify-content-between">
-                    <a href="#"><i class="fa fa-heart" aria-hidden="true"></i> Like (29)</a>
-                    <div>
-                        <a href="#" class="mr-4"><i class="fa fa-share-alt" aria-hidden="true"></i>
-                            Share(04)</a>
-                        <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download (12)</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-                </#list>
-            </#if>
+            <#include content_tpl>
         </div>
     </div>
 </section>
@@ -197,23 +156,29 @@
 <footer class="footer-area section-padding-80-0">
     <div class="container">
         <div class="row">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="single-footer-widget mb-80">
+                    <h4 class="widget-title">Guarda anche:</h4>
+                    <div class="single-latest-episodes">
+                        <a href="home" class="episodes-title">Home</a>
+                    </div>
+                    <div class="single-latest-episodes">
+                        <a href="showUtenti" class="episodes-title">Utenti</a>
+                    </div>
+                    <div class="single-latest-episodes">
+                        <a href="login" class="episodes-title">Login</a>
+                    </div>
+                    <div class="single-latest-episodes">
+                        <a href="register" class="episodes-title">Registrati</a>
+                    </div>
+                </div>
+            </div>
             <div class="col-12 col-sm-12 col-lg-6">
                 <div class="single-footer-widget mb-80">
                     <h4 class="widget-title">Chi siamo?</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae nibh nec libero tincidunt dapibus vel eget arcu. Nam dignissim euismod lacus. Fusce dapibus, mi vel laoreet sollicitudin, arcu massa ullamcorper augue, in molestie nibh odio vel magna.</p>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-footer-widget mb-80">
-                    <h4 class="widget-title">Ultime collezioni:</h4>
-                    <div class="single-latest-episodes">
-                        <p class="episodes-date">December 9, 2018</p>
-                        <a href="#" class="episodes-title">Episode 205 - See Ya In Three!</a>
-                    </div>
-                    <div class="single-latest-episodes">
-                        <p class="episodes-date">December 8, 2018</p>
-                        <a href="#" class="episodes-title">Episode 204 - See Ya In Two!</a>
-                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae nibh nec libero tincidunt
+                        dapibus vel eget arcu. Nam dignissim euismod lacus. Fusce dapibus, mi vel laoreet sollicitudin,
+                        arcu massa ullamcorper augue, in molestie nibh odio vel magna.</p>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-lg-3">
