@@ -53,10 +53,12 @@ public class MostraUtenti extends SharedCollectionBaseController {
 
         request.setAttribute("page_title", "Mostra Utente");
 
-        int utente_key;
+        int letter_key;
         try {
-            if (request.getParameter("k") != null) {
-                utente_key = SecurityLayer.checkNumeric(request.getParameter("k"));
+            if (request.getParameter("filter") != null) {
+                letter_key = SecurityLayer.checkNumeric(request.getParameter("filter"));
+                request.setAttribute("filter",letter_key);
+                action_default(request,response);
             } else {
                 action_default(request, response);
             }
