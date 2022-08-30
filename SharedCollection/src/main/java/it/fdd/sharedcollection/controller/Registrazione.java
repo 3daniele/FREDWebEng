@@ -30,10 +30,10 @@ public class Registrazione extends SharedCollectionBaseController{
             TemplateResult res = new TemplateResult(getServletContext());
             //aggiungiamo al template un wrapper che ci permette di chiamare la funzione stripSlashes
             //add to the template a wrapper object that allows to call the stripslashes function
-            request.setAttribute("session", false);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("page_title", "Registrazione");
             request.setAttribute("registrationPath", true);
+
             if (SecurityLayer.checkSession(request) != null) {
                 request.setAttribute("session", true);
                 response.sendRedirect("home");

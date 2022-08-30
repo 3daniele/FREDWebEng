@@ -57,6 +57,10 @@
         <servlet-name>Logout</servlet-name>
         <servlet-class>it.fdd.sharedcollection.controller.Logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Collezioni</servlet-name>
+        <servlet-class>it.fdd.sharedcollection.controller.Collezioni</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -76,6 +80,10 @@
     <servlet-mapping>
         <servlet-name>Mostra Utenti</servlet-name>
         <url-pattern>/showUtenti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Collezioni</servlet-name>
+        <url-pattern>/collezioni</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

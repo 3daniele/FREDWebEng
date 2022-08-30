@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzatiDAO {
-    private PreparedStatement sUtentiAutorizzatiByID;
+    private PreparedStatement sUtentiAutorizzatiByID, sUtentiAutorizzatiByUser;
     private PreparedStatement sUtentiAutorizzati;
     private PreparedStatement iUtentiAutorizzati, uUtentiAutorizzati, dUtentiAutorizzati;
 
@@ -26,6 +26,7 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
             sUtentiAutorizzatiByID = connection.prepareStatement("SELECT * FROM UtentiAutorizzati WHERE id = ?");
+            sUtentiAutorizzatiByUser = connection.prepareStatement("SELECT * FROM UtentiAutorizzati WHERE utente = ?");
             sUtentiAutorizzati = connection.prepareStatement("SELECT id AS ID FROM UtentiAutorizzati");
             iUtentiAutorizzati = connection.prepareStatement("INSERT INTO UtentiAutorizzati (utente, collezione) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
             uUtentiAutorizzati = connection.prepareStatement("UPDATE UtentiAutorizzati SET utente = ?, collezione = ? WHERE id = ?");
@@ -40,6 +41,7 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
     public void destroy() throws DataException {
         try {
             sUtentiAutorizzatiByID.close();
+            sUtentiAutorizzatiByUser.close();
             sUtentiAutorizzati.close();
             iUtentiAutorizzati.close();
             uUtentiAutorizzati.close();
@@ -60,8 +62,8 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
         UtentiAutorizzatiProxy utentiAutorizzati = createUtentiAutorizzati();
         try {
             utentiAutorizzati.setKey(rs.getInt("id"));
-            utentiAutorizzati.setUtenteKey(rs.getInt("disco"));
-            utentiAutorizzati.setCollezioneKey(rs.getInt("canzone"));
+            utentiAutorizzati.setCollezioneKey(rs.getInt("collezione"));
+            utentiAutorizzati.setUtenteKey(rs.getInt("utente"));
         } catch (SQLException ex) {
             throw new DataException("Impossibile creare l'oggetto UtentiAutotizzati dal ResultSet", ex);
         }
@@ -102,6 +104,24 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
         try (ResultSet rs = sUtentiAutorizzati.executeQuery()) {
             while (rs.next()) {
                 result.add((UtentiAutorizzati) getUtentiAutorizzati(rs.getInt("ID")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare la lista degli utenti autorizzati", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public List<UtentiAutorizzati> getUtentiAutorizzatiByUser(int user_key) throws DataException {
+
+        List<UtentiAutorizzati> result = new ArrayList<>();
+
+        try {
+            sUtentiAutorizzatiByUser.setInt(1, user_key);
+            try (ResultSet rs = sUtentiAutorizzatiByUser.executeQuery()) {
+                while (rs.next()) {
+                    result.add((UtentiAutorizzati) getUtentiAutorizzati(rs.getInt("id")));
+                }
             }
         } catch (SQLException ex) {
             throw new DataException("Impossibile caricare la lista degli utenti autorizzati", ex);

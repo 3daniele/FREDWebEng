@@ -3,6 +3,7 @@ package it.fdd.sharedcollection.data.dao;
 import it.fdd.framework.data.*;
 import it.fdd.sharedcollection.data.model.Collezione;
 import it.fdd.sharedcollection.data.model.Utente;
+import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
 import it.fdd.sharedcollection.data.proxy.CollezioneProxy;
 
 import java.sql.*;
@@ -99,7 +100,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
 
     @Override
     public List<Collezione> getCollezioni() throws DataException {
-        List<Collezione> result = new ArrayList();
+        List<Collezione> result = new ArrayList<>();
 
         try (ResultSet rs = sCollezioni.executeQuery()) {
             while (rs.next()) {
@@ -113,7 +114,8 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
 
     @Override
     public List<Collezione> getCollezioniByUtente(int utente_key) throws DataException {
-        List<Collezione> result = new ArrayList();
+
+        List<Collezione> result = new ArrayList<>();
 
         try {
             sCollezioniByUtente.setInt(1, utente_key);
@@ -129,8 +131,28 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     }
 
     @Override
+    public List<Collezione> getCollezioniCondivise(List<UtentiAutorizzati> utenti) throws DataException {
+
+        List<Collezione> result = new ArrayList<>();
+
+        try {
+            for (UtentiAutorizzati utente : utenti) {
+                sCollezioneByID.setInt(1, utente.getCollezione().getKey());
+                try (ResultSet rs = sCollezioneByID.executeQuery()) {
+                    while (rs.next()) {
+                        result.add((Collezione) getCollezione(rs.getInt("id")));
+                    }
+            }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Collezione by Utente", ex);
+        }
+        return result;
+    }
+
+    @Override
     public List<Collezione> getCollezioniPubbliche() throws DataException {
-        List<Collezione> result = new ArrayList();
+        List<Collezione> result = new ArrayList<>();
 
         try (ResultSet rs = sCollezioniPubbliche.executeQuery()) {
             while (rs.next()) {

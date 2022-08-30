@@ -34,7 +34,7 @@ public class Login extends SharedCollectionBaseController {
             request.setAttribute("loginPath", true);
             request.setAttribute("page_title", "Login");
             request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
-            request.setAttribute("session", false);
+
             if (SecurityLayer.checkSession(request) != null) {
                 request.setAttribute("session", true);
                 response.sendRedirect("home");
