@@ -135,7 +135,6 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
         try (ResultSet rs = sCollezioniPubbliche.executeQuery()) {
             while (rs.next()) {
                 result.add((Collezione) getCollezione(rs.getInt("id")));
-                System.out.println(rs.getDate("dataDiCreazione"));
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load Collezioni", ex);

@@ -2,6 +2,7 @@ package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.*;
 import it.fdd.sharedcollection.data.model.Artista;
+import it.fdd.sharedcollection.data.model.Disco;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.proxy.UtenteProxy;
 
@@ -19,6 +20,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     private PreparedStatement uUtente;
     private PreparedStatement login;
 
+    private PreparedStatement sCollezioni, sNCollezioni, sDischi, sNDischi, sNBrani;
+
     public UtenteDAO_MySQL(DataLayer d) {
         super(d);
     }
@@ -35,6 +38,12 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             login = connection.prepareStatement("SELECT * FROM Utente WHERE email = ? AND password = ?");
             iUtente = connection.prepareStatement("INSERT INTO utente (nickname,email,password,nome,cognome) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
+
+            sCollezioni = connection.prepareStatement("SELECT *FROM Collezione WHERE utente = ?");
+            sNCollezioni = connection.prepareStatement("SELECT COUNT(id) AS c FROM Collezione WHERE utente = ? ");
+            sDischi = connection.prepareStatement("SELECT *FROM ListaDischi WHERE collezione = ?");
+            sNDischi = connection.prepareStatement("SELECT COUNT(id) AS c FROM ListaDischi WHERE collezione = ?");
+            sNBrani = connection.prepareStatement("SELECT COUNT(id) AS c FROM ListaBrani WHERE disco = ?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing newspaper data layer", ex);
         }
@@ -50,6 +59,11 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             login.close();
             iUtente.close();
             uUtente.close();
+            sCollezioni.close();
+            sNCollezioni.close();
+            sDischi.close();
+            sNDischi.close();
+            sNBrani.close();
         } catch (SQLException ex) {
             //
         }
@@ -151,6 +165,84 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             throw new DataException("User not found", ex);
         }
         return utente;
+    }
+
+    @Override
+    public List<Integer> getUtenteInfo(int utente_key) throws DataException {
+        List<Integer> numeri = new ArrayList<>();
+        List<Integer> id_collezini = new ArrayList<>();
+        List<Integer> id_dischi = new ArrayList<>();
+
+        //conto le collezioni
+        try {
+            sNCollezioni.setInt(1, utente_key);
+            try (ResultSet rs = sNCollezioni.executeQuery()) {
+                if (rs.next()) {
+                    numeri.add(rs.getInt("c"));//numero collezioni
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("User not found", ex);
+        }
+
+        //Prendo gli id delle colelzioni
+        try {
+            sCollezioni.setInt(1, utente_key);
+            try (ResultSet rs = sCollezioni.executeQuery()) {
+                while (rs.next()) {
+                    id_collezini.add(rs.getInt("id"));//id collezioni
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("User not found", ex);
+        }
+
+        //conto i dischi
+        int sum = 0;
+        for (Integer id : id_collezini) {
+            try {
+                sNDischi.setInt(1, id);
+                try (ResultSet rs = sNDischi.executeQuery()) {
+                    if (rs.next()) {
+                        sum += rs.getInt("c"); //numero dischi
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("User not found", ex);
+            }
+
+            //prendo gli id dei dischi
+            try {
+                sDischi.setInt(1, id);
+                try (ResultSet rs = sDischi.executeQuery()) {
+                    while (rs.next()) {
+                        id_dischi.add(rs.getInt("disco")); //id dischi
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("User not found", ex);
+            }
+        }
+        numeri.add(sum);
+
+        sum = 0;
+
+        for (Integer id : id_dischi) {
+            try {
+                sNBrani.setInt(1, id);
+                try (ResultSet rs = sNBrani.executeQuery()) {
+                    while (rs.next()) {
+                        sum = sum + rs.getInt("c"); //numero brani
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("User not found", ex);
+            }
+        }
+        numeri.add(sum);
+
+
+        return numeri;
     }
 
     public Utente storeUtente(Utente utente) throws DataException {

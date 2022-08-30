@@ -13,6 +13,8 @@ public interface UtenteDAO {
 
     List<Utente> getUtenti() throws DataException;
 
+    List<Integer> getUtenteInfo(int utente_key) throws DataException;
+
     Utente login(String email, String password) throws DataException;
 
     Utente storeUtente(Utente utente) throws  DataException;
