@@ -7,7 +7,7 @@
     </context-param>
     <context-param>
         <param-name>view.outline_template</param-name>
-        <param-value>index.ftl.html</param-value>
+        <param-value>index.ftl</param-value>
     </context-param>
     <context-param>
         <param-name>view.date_format</param-name>
@@ -35,7 +35,7 @@
     </context-param>
     <context-param>
         <param-name>view.error_template</param-name>
-        <param-value>error.ftl.html</param-value>
+        <param-value>error.ftl</param-value>
     </context-param>
     <servlet>
         <servlet-name>Home</servlet-name>
