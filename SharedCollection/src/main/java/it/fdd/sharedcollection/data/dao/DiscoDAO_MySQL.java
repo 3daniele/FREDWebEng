@@ -6,6 +6,7 @@ import it.fdd.framework.data.DataItemProxy;
 import it.fdd.framework.data.DataLayer;
 import it.fdd.framework.data.OptimisticLockException;
 import it.fdd.sharedcollection.data.model.Disco;
+import it.fdd.sharedcollection.data.model.ListaDischi;
 import it.fdd.sharedcollection.data.proxy.DiscoProxy;
 
 import java.sql.PreparedStatement;

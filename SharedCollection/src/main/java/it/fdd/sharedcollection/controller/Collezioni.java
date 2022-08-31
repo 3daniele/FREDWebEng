@@ -7,18 +7,18 @@ import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
-import it.fdd.sharedcollection.data.model.Collezione;
-import it.fdd.sharedcollection.data.model.Utente;
+import it.fdd.sharedcollection.data.model.ListaDischi;
+import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Home extends SharedCollectionBaseController {
-    private String path="";
+public class Collezioni extends SharedCollectionBaseController {
 
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
@@ -29,42 +29,39 @@ public class Home extends SharedCollectionBaseController {
     }
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
-
-        TemplateResult res = new TemplateResult(getServletContext());
-        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        request.setAttribute("page_title", "Homepage");
-        HttpSession sessione = request.getSession(true);
-
-        path = request.getRequestURL().toString();
-        if (path.equals("http://localhost:8080/SharedCollection_war/") || path.equals("http://localhost:8080/SharedCollection_war/home")){
-            request.setAttribute("display", true);
-        }else {
-            request.setAttribute("display", false);
-        }
-
-        if (SecurityLayer.checkSession(request) != null) {
-           request.setAttribute("session", true);
-           request.setAttribute("username",sessione.getAttribute("username"));
-           request.setAttribute("email",sessione.getAttribute("email"));
-        }
-
         try {
-            List<Collezione> lista = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche();
-            request.setAttribute("collezioni_home", lista);
-            request.setAttribute("ultima_collezione", lista.get(lista.size()-1));
-            List<Utente> listaUtenti = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti();
-            request.setAttribute("utenti",listaUtenti);
+            TemplateResult res = new TemplateResult(getServletContext());
+            HttpSession sessione = request.getSession(true);
+
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("page_title", "Collezioni");
+            request.setAttribute("collezioniPath", true);
+            request.setAttribute("collezioniPubbliche", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche());
+            request.setAttribute("dischi", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListeDischi());
+
+            if (SecurityLayer.checkSession(request) != null) {
+                int userID = (int) sessione.getAttribute("userid");
+                List<UtentiAutorizzati> users = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByUser(userID);
+
+                request.setAttribute("session", true);
+                request.setAttribute("username",sessione.getAttribute("username"));
+                request.setAttribute("email",sessione.getAttribute("email"));
+                request.setAttribute("userid", sessione.getAttribute("userid"));
+                request.setAttribute("collezioniPersonali", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByUtente(userID));
+                request.setAttribute("collezioniCondivise", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniCondivise(users));
+            }
+            res.activate("collezioni.ftl.html", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
         }
-
-        res.activate("collezioni_pubbliche.ftl.html", request, response);
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
+
+        request.setAttribute("page_title", "Collezioni");
 
         try {
             action_default(request, response);
@@ -84,6 +81,6 @@ public class Home extends SharedCollectionBaseController {
      */
     @Override
     public String getServletInfo() {
-        return "Write Article servlet";
-    }// </editor-fold>
+        return "Servlet collezioni";
+    }
 }

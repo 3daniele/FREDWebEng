@@ -30,11 +30,11 @@ public class MostraUtenti extends SharedCollectionBaseController {
             HttpSession sessione = request.getSession(true);
             //aggiungiamo al template un wrapper che ci permette di chiamare la funzione stripSlashes
             //add to the template a wrapper object that allows to call the stripslashes function
-            request.setAttribute("session", false);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("page_title", "Elenco utenti");
             request.setAttribute("utentiPath", true);
             request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+
             if (SecurityLayer.checkSession(request) != null) {
                 request.setAttribute("session", true);
                 request.setAttribute("username",sessione.getAttribute("username"));

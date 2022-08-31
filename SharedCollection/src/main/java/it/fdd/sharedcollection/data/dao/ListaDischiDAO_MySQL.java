@@ -26,7 +26,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
             sListaDischiByID = connection.prepareStatement("SELECT * FROM listaDischi WHERE id = ?");
-            sListeDischi = connection.prepareStatement("SELECT id AS listaDischiID FROM listaDischi");
+            sListeDischi = connection.prepareStatement("SELECT * FROM listaDischi");
             iListaDischi = connection.prepareStatement("INSERT INTO listaDischi (collezione, disco, numeroCopie,stato,formato,barcode,imgCopertina,imgFronte,imgRetro,imgLibretto) VALUES(?, ?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uListaDischi = connection.prepareStatement("UPDATE listaDischi SET collezione=?,disco = ?, numeroCopie = ?, stato=?,formato=?,barcode=?,imgCopertina=?,imgFronte=?,imgRetro=?,imgLibretto=? WHERE id = ?");
             dListaDischi = connection.prepareStatement("DELETE FROM listaDischi WHERE id = ?");
@@ -58,8 +58,8 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
         ListaDischiProxy listaDischi = createListaDischi();
         try {
             listaDischi.setKey(rs.getInt("id"));
-            //listaDischi.setCollezione(rs.getInt("collezione"));
-            //listaDischi.setDisco(rs.getInt("disco"));
+            listaDischi.setCollezioneKey(rs.getInt("collezione"));
+            listaDischi.setDiscoKey(rs.getInt("disco"));
             listaDischi.setNumeroCopie(rs.getInt("numeroCopie"));
             listaDischi.setStato(rs.getString("stato"));
             listaDischi.setFormato(rs.getString("formato"));
@@ -107,7 +107,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
 
         try (ResultSet rs = sListeDischi.executeQuery()) {
             while (rs.next()) {
-                result.add((ListaDischi) getListaDischi(rs.getInt("listaDischiID")));
+                result.add((ListaDischi) getListaDischi(rs.getInt("id")));
             }
         } catch (SQLException ex) {
             throw new DataException("Impossibile caricare la lista dei dischi", ex);

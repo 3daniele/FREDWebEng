@@ -35,13 +35,17 @@
                             <#else>
                             <li><a href="home">Home</a></li>
                         </#if>
-                        <li><a href="./podcast.html">Collezioni</a></li>
-                        <#if utentiPath??>
-                        <li class="current-item"><a href="showUtenti">Utenti</a></li>
+                        <#if collezioniPath??>
+                            <li class="current-item"><a href="collezioni">Collezioni</a></li>
                         <#else>
-                        <li><a href="showUtenti">Utenti</a></li>
-                    </#if>
-                    <#if session>
+                            <li><a href="collezioni">Collezioni</a></li>
+                        </#if>
+                        <#if utentiPath??>
+                            <li class="current-item"><a href="showUtenti">Utenti</a></li>
+                        <#else>
+                            <li><a href="showUtenti">Utenti</a></li>
+                        </#if>
+                    <#if session??>
                     <li class="cn-dropdown-item"><a href="#">${username}</a>
                         <ul class="dropdown">
                             <li><a href=".">${email}</a></li>
