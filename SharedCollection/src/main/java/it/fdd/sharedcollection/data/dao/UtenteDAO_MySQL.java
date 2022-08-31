@@ -177,7 +177,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
         try {
             sNCollezioni.setInt(1, utente_key);
             try (ResultSet rs = sNCollezioni.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     numeri.add(rs.getInt("c"));//numero collezioni
                 }
             }
@@ -203,7 +203,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             try {
                 sNDischi.setInt(1, id);
                 try (ResultSet rs = sNDischi.executeQuery()) {
-                    if (rs.next()) {
+                    while (rs.next()) {
                         sum += rs.getInt("c"); //numero dischi
                     }
                 }
