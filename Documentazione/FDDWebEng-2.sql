@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Creato il: Ago 25, 2022 alle 14:34
+-- Host: localhost:3306
+-- Creato il: Ago 31, 2022 alle 16:37
 -- Versione del server: 5.7.34
 -- Versione PHP: 7.4.21
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `FDDWebEng`
 --
-CREATE DATABASE IF NOT EXISTS `FDDWebEng` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `FDDWebEng`;
 
 -- --------------------------------------------------------
 
@@ -29,13 +27,12 @@ USE `FDDWebEng`;
 -- Struttura della tabella `Artista`
 --
 
-CREATE TABLE IF NOT EXISTS `Artista` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Artista` (
+  `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `cognome` varchar(100) NOT NULL,
-  `nomeDArte` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `nomeDArte` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Artista`
@@ -52,12 +49,11 @@ INSERT INTO `Artista` (`id`, `nome`, `cognome`, `nomeDArte`) VALUES
 -- Struttura della tabella `Canzone`
 --
 
-CREATE TABLE IF NOT EXISTS `Canzone` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Canzone` (
+  `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `durata` time NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+  `durata` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Canzone`
@@ -97,15 +93,13 @@ INSERT INTO `Canzone` (`id`, `nome`, `durata`) VALUES
 -- Struttura della tabella `Collezione`
 --
 
-CREATE TABLE IF NOT EXISTS `Collezione` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Collezione` (
+  `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `condivisione` enum('pubblica','privata','condivisa') NOT NULL DEFAULT 'privata',
   `dataDiCreazione` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `utente` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `utente` (`utente`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `utente` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Collezione`
@@ -121,13 +115,12 @@ INSERT INTO `Collezione` (`id`, `nome`, `condivisione`, `dataDiCreazione`, `uten
 -- Struttura della tabella `Disco`
 --
 
-CREATE TABLE IF NOT EXISTS `Disco` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Disco` (
+  `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `etichetta` varchar(50) NOT NULL,
-  `anno` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `anno` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Disco`
@@ -145,11 +138,10 @@ INSERT INTO `Disco` (`id`, `nome`, `etichetta`, `anno`) VALUES
 -- Struttura della tabella `Genere`
 --
 
-CREATE TABLE IF NOT EXISTS `Genere` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
+CREATE TABLE `Genere` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Genere`
@@ -289,15 +281,12 @@ INSERT INTO `Genere` (`id`, `nome`) VALUES
 -- Struttura della tabella `ListaArtisti`
 --
 
-CREATE TABLE IF NOT EXISTS `ListaArtisti` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ListaArtisti` (
+  `id` int(11) NOT NULL,
   `artista` int(11) NOT NULL,
   `canzone` int(11) NOT NULL,
-  `ruolo` enum('Compositore','Musicista','Entrambi') NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `artista` (`artista`),
-  KEY `canzone` (`canzone`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+  `ruolo` enum('Compositore','Musicista','Entrambi') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `ListaArtisti`
@@ -337,14 +326,11 @@ INSERT INTO `ListaArtisti` (`id`, `artista`, `canzone`, `ruolo`) VALUES
 -- Struttura della tabella `ListaBrani`
 --
 
-CREATE TABLE IF NOT EXISTS `ListaBrani` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ListaBrani` (
+  `id` int(11) NOT NULL,
   `disco` int(11) NOT NULL,
-  `canzone` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `canzone` (`canzone`),
-  KEY `disco` (`disco`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+  `canzone` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `ListaBrani`
@@ -384,8 +370,8 @@ INSERT INTO `ListaBrani` (`id`, `disco`, `canzone`) VALUES
 -- Struttura della tabella `ListaDischi`
 --
 
-CREATE TABLE IF NOT EXISTS `ListaDischi` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ListaDischi` (
+  `id` int(11) NOT NULL,
   `collezione` int(11) NOT NULL,
   `disco` int(11) NOT NULL,
   `numeroCopie` int(11) NOT NULL,
@@ -395,12 +381,8 @@ CREATE TABLE IF NOT EXISTS `ListaDischi` (
   `imgCopertina` text,
   `imgFronte` text,
   `imgRetro` text,
-  `imgLibretto` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `barcode` (`barcode`),
-  KEY `collezione` (`collezione`),
-  KEY `disco` (`disco`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `imgLibretto` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `ListaDischi`
@@ -418,14 +400,11 @@ INSERT INTO `ListaDischi` (`id`, `collezione`, `disco`, `numeroCopie`, `Stato`, 
 -- Struttura della tabella `ListaGeneri`
 --
 
-CREATE TABLE IF NOT EXISTS `ListaGeneri` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ListaGeneri` (
+  `id` int(11) NOT NULL,
   `canzone` int(11) NOT NULL,
-  `genere` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `canzone` (`canzone`),
-  KEY `genere` (`genere`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+  `genere` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `ListaGeneri`
@@ -465,16 +444,14 @@ INSERT INTO `ListaGeneri` (`id`, `canzone`, `genere`) VALUES
 -- Struttura della tabella `Utente`
 --
 
-CREATE TABLE IF NOT EXISTS `Utente` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Utente` (
+  `id` int(11) NOT NULL,
   `nickname` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(500) NOT NULL,
   `nome` varchar(50) DEFAULT NULL,
-  `cognome` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nickname` (`nickname`,`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  `cognome` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Utente`
@@ -490,14 +467,11 @@ INSERT INTO `Utente` (`id`, `nickname`, `email`, `password`, `nome`, `cognome`) 
 -- Struttura della tabella `UtentiAutorizzati`
 --
 
-CREATE TABLE IF NOT EXISTS `UtentiAutorizzati` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `UtentiAutorizzati` (
+  `id` int(11) NOT NULL,
   `collezione` int(11) NOT NULL,
-  `utente` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `collezione` (`collezione`),
-  KEY `utente` (`utente`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `utente` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `UtentiAutorizzati`
@@ -505,6 +479,159 @@ CREATE TABLE IF NOT EXISTS `UtentiAutorizzati` (
 
 INSERT INTO `UtentiAutorizzati` (`id`, `collezione`, `utente`) VALUES
 (3, 3, 1);
+
+--
+-- Indici per le tabelle scaricate
+--
+
+--
+-- Indici per le tabelle `Artista`
+--
+ALTER TABLE `Artista`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `Canzone`
+--
+ALTER TABLE `Canzone`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `Collezione`
+--
+ALTER TABLE `Collezione`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `utente` (`utente`);
+
+--
+-- Indici per le tabelle `Disco`
+--
+ALTER TABLE `Disco`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `Genere`
+--
+ALTER TABLE `Genere`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `ListaArtisti`
+--
+ALTER TABLE `ListaArtisti`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `artista` (`artista`),
+  ADD KEY `canzone` (`canzone`);
+
+--
+-- Indici per le tabelle `ListaBrani`
+--
+ALTER TABLE `ListaBrani`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `canzone` (`canzone`),
+  ADD KEY `disco` (`disco`);
+
+--
+-- Indici per le tabelle `ListaDischi`
+--
+ALTER TABLE `ListaDischi`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `barcode` (`barcode`),
+  ADD KEY `collezione` (`collezione`),
+  ADD KEY `disco` (`disco`);
+
+--
+-- Indici per le tabelle `ListaGeneri`
+--
+ALTER TABLE `ListaGeneri`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `canzone` (`canzone`),
+  ADD KEY `genere` (`genere`);
+
+--
+-- Indici per le tabelle `Utente`
+--
+ALTER TABLE `Utente`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nickname` (`nickname`,`email`);
+
+--
+-- Indici per le tabelle `UtentiAutorizzati`
+--
+ALTER TABLE `UtentiAutorizzati`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `collezione` (`collezione`),
+  ADD KEY `utente` (`utente`);
+
+--
+-- AUTO_INCREMENT per le tabelle scaricate
+--
+
+--
+-- AUTO_INCREMENT per la tabella `Artista`
+--
+ALTER TABLE `Artista`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT per la tabella `Canzone`
+--
+ALTER TABLE `Canzone`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT per la tabella `Collezione`
+--
+ALTER TABLE `Collezione`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT per la tabella `Disco`
+--
+ALTER TABLE `Disco`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT per la tabella `Genere`
+--
+ALTER TABLE `Genere`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+
+--
+-- AUTO_INCREMENT per la tabella `ListaArtisti`
+--
+ALTER TABLE `ListaArtisti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT per la tabella `ListaBrani`
+--
+ALTER TABLE `ListaBrani`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT per la tabella `ListaDischi`
+--
+ALTER TABLE `ListaDischi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT per la tabella `ListaGeneri`
+--
+ALTER TABLE `ListaGeneri`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT per la tabella `Utente`
+--
+ALTER TABLE `Utente`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT per la tabella `UtentiAutorizzati`
+--
+ALTER TABLE `UtentiAutorizzati`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Limiti per le tabelle scaricate

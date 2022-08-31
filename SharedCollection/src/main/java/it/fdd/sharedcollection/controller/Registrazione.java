@@ -9,6 +9,7 @@ import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.impl.UtenteImpl;
 import it.fdd.sharedcollection.data.model.Utente;
+import it.fdd.sharedcollection.utility.BCrypt;
 import it.fdd.sharedcollection.utility.EmailTypes;
 import it.fdd.sharedcollection.utility.UtilityMethods;
 
@@ -16,8 +17,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 
-public class Registrazione extends SharedCollectionBaseController{
+public class Registrazione extends SharedCollectionBaseController {
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
@@ -41,7 +43,7 @@ public class Registrazione extends SharedCollectionBaseController{
                 response.sendRedirect("home");
             }
 
-            request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+            request.setAttribute("utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
             res.activate("registrazione.ftl.html", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
@@ -57,71 +59,111 @@ public class Registrazione extends SharedCollectionBaseController{
         String cognome = request.getParameter("cognome");
         String password = request.getParameter("password");
         String password2 = request.getParameter("password2");
-
-        if(username.isEmpty() || email.isEmpty() || password.isEmpty() || password2.isEmpty()){
-            request.setAttribute("dataC", "true");
-        }else{
-            request.setAttribute("dataC", "false");
-        }
-
-        if(!password.equals(password2)){
-            request.setAttribute("passwordC", "true");
-        }else {
-            request.setAttribute("passwordC", "false");
-        }
-
-        if(!username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !password2.isEmpty() && password.equals(password2)){
-
-            Utente utente = new UtenteImpl();
-            utente.setCognome(cognome);
-            utente.setEmail(email);
-            utente.setNome(nome);
-            utente.setPassword(password);
-            utente.setNickname(username);
-
-            int userID = 0;
+        String error_msg = "";
+        boolean valid = true;
 
 
+        if (!username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !password2.isEmpty() && password.equals(password2)) {
 
-            try{
-                utente = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().storeUtente(utente);
-                UtilityMethods.sendEmailWithCodes(this.getServletContext().getRealPath("/WEB-INF/links.txt") , utente, "Conferma la tua email cliccando sul link in basso", EmailTypes.CONFIRM_EMAIL);
-                // redirect
-                if (request.getParameter("referrer") != null) {
-                    response.sendRedirect(request.getParameter("referrer"));
-                }
-            }catch (DataException ex){
-                request.setAttribute("message", "Data access exception: " + ex.getMessage());
+
+            // Sanitizzo tutti i campi e controllo se i campi sono validi
+            username = SecurityLayer.removeSpecialChars(username);
+            if (!SecurityLayer.isEmailValid(email)) {
+                request.setAttribute("exception", new Exception("Registrazione failed"));
                 action_error(request, response);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+                valid = false;
             }
-
-            //una volta registrato effettuiamo il login
+            if (!password.equals(password2)) {
+                request.setAttribute("exception", new Exception("Registrazione failed"));
+                action_error(request, response);
+                valid = false;
+            }
+            // Controllo se l'email e l'username sono presenti nel DB
             try {
-                utente = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().login(email, password);
+
+                Utente exists_email = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(email);
+                System.out.println(exists_email.getEmail());
+                try {
+                    Utente exists_username = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenteByUsername(username);
+                    if (exists_email != null || exists_username != null) {
+
+                        valid = false;
+                    }
+                    if (valid) {
+
+                        Utente utente = new UtenteImpl();
+                        utente.setCognome(cognome);
+                        utente.setEmail(email);
+                        utente.setNome(nome);
+                        utente.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+                        utente.setNickname(username);
+
+                        System.out.println(utente.getPassword());
+
+                        int userID = 0;
+
+
+                        try {
+                            utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().storeUtente(utente);
+                            System.out.println(utente.getPassword());
+                            UtilityMethods.sendEmailWithCodes(this.getServletContext().getRealPath("/WEB-INF/links.txt"), utente, "Conferma la tua email cliccando sul link in basso", EmailTypes.CONFIRM_EMAIL);
+
+                        } catch (DataException ex) {
+                            request.setAttribute("message", "Data access exception: " + ex.getMessage());
+                            action_error(request, response);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        System.out.println(utente.getPassword());
+                        //una volta registrato effettuiamo il login
+                        try {
+                            String my_pass = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getPassword(utente.getEmail());
+                            if (BCrypt.checkpw(password, my_pass)) {
+                                if (my_pass == null) {
+                                    // Email non trovata
+                                    request.setAttribute("error", "Credenziali non corrette.");
+                                    action_default(request, response);
+                                }
+                                utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(utente.getEmail());
+                            }
+                        } catch (DataException ex) {
+                            request.setAttribute("message", "Data access exception: " + ex.getMessage());
+                            action_error(request, response);
+                        } catch (ServletException e) {
+                            throw new RuntimeException(e);
+                        } catch (TemplateManagerException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        if (utente != null) {
+                            userID = utente.getKey();
+                            SecurityLayer.createSession(request, utente.getNickname(), userID, email);
+
+                        } else {
+                            request.setAttribute("message", "Email e/o password errati");
+                            action_error(request, response);
+                        }
+
+                        //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
+                        if (request.getParameter("referrer") != null) {
+                            response.sendRedirect(request.getParameter("referrer"));
+                        } else {
+                            response.sendRedirect("home");
+                        }
+                    }
+                } catch (DataException ex) {
+                    request.setAttribute("message", "Data access exception: " + ex.getMessage());
+                    response.sendRedirect("home");
+                }
             } catch (DataException ex) {
                 request.setAttribute("message", "Data access exception: " + ex.getMessage());
-                action_error(request, response);
-            }
-
-            if (utente != null) {
-                userID = utente.getKey();
-                SecurityLayer.createSession(request, utente.getNickname(), userID, email);
-            } else {
-                request.setAttribute("message", "Email e/o password errati");
-                action_error(request, response);
-            }
-
-            //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
-            if (request.getParameter("referrer") != null) {
-                response.sendRedirect(request.getParameter("referrer"));
-            } else {
                 response.sendRedirect("home");
             }
+
+
         } else {
-            request.setAttribute("exception", new Exception("Login failed"));
-            action_error(request, response);
+            request.setAttribute("exception", new Exception(error_msg));
+            response.sendRedirect("home");
 
         }
     }

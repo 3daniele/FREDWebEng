@@ -4,6 +4,7 @@ import it.fdd.framework.data.*;
 import it.fdd.sharedcollection.data.model.Artista;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.proxy.UtenteProxy;
+import it.fdd.sharedcollection.utility.BCrypt;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
     private PreparedStatement uUtente;
     private PreparedStatement login;
-
+    private PreparedStatement getUtenteByUsername;
+    private PreparedStatement loginUtente;
 
     public UtenteDAO_MySQL(DataLayer d) {
         super(d);
@@ -33,10 +35,12 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             //precompile all the queries uses in this class
             sUtenteByID = connection.prepareStatement("SELECT * FROM Utente WHERE ID=?");
             sUtenti = connection.prepareStatement("SELECT id FROM Utente");
+
             login = connection.prepareStatement("SELECT * FROM Utente WHERE email = ? AND password = ?");
             iUtente = connection.prepareStatement("INSERT INTO utente (nickname,email,password,nome,cognome) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
-
+            getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE nickname = ?");
+            loginUtente = connection.prepareStatement("SELECT id, password FROM Utente WHERE email = ?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing newspaper data layer", ex);
         }
@@ -52,6 +56,9 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             login.close();
             iUtente.close();
             uUtente.close();
+            loginUtente.close();
+            getUtenteByUsername.close();
+
 
         } catch (SQLException ex) {
             //
@@ -141,6 +148,13 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
         Utente utente = null;
 
+
+
+
+       System.out.println("PROVA");
+
+       System.out.println(password);
+        System.out.println(email);
         try {
             login.setString(1, email);
             login.setString(2, password);
@@ -155,6 +169,22 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
         }
         return utente;
     }
+    public String getPassword(String email) throws DataException {
+        String pass = null;
+
+        try {
+            loginUtente.setString(1, email);
+            try (ResultSet rs = loginUtente.executeQuery()) {
+                if (rs.next()) {
+                    pass = rs.getString("password");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load password utente by email", ex);
+        }
+        return pass;
+    }
+
 
     public Utente storeUtente(Utente utente) throws DataException {
         try {
@@ -203,6 +233,40 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             }
         } catch (SQLException | OptimisticLockException ex) {
             throw new DataException("Impossibile salvare l'utente", ex);
+        }
+        return utente;
+    }
+
+    @Override
+    public Utente getUtente(String email) throws DataException {
+        Utente utente = null;
+
+        try {
+            loginUtente.setString(1, email);
+            try (ResultSet rs = loginUtente.executeQuery()) {
+                if (rs.next()) {
+                    utente = getUtente(rs.getInt("id"));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load utente by email", ex);
+        }
+        return utente;
+    }
+
+    @Override
+    public Utente getUtenteByUsername(String username) throws DataException {
+        Utente utente = null;
+
+        try {
+            getUtenteByUsername.setString(1, username);
+            try (ResultSet rs = getUtenteByUsername.executeQuery()) {
+                if (rs.next()) {
+                    utente = getUtente(rs.getInt("id"));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load utente by usernme", ex);
         }
         return utente;
     }

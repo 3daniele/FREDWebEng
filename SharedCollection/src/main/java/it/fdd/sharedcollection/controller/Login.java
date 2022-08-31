@@ -8,6 +8,7 @@ import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.model.Utente;
+import it.fdd.sharedcollection.utility.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +49,7 @@ public class Login extends SharedCollectionBaseController {
 
     }
 
-    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, ServletException, TemplateManagerException {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -58,12 +59,26 @@ public class Login extends SharedCollectionBaseController {
             Utente utente = null;
             int userID = 0;
 
+            System.out.println(password);
             try {
-                utente = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().login(email, password);
-            } catch (DataException ex) {
-                request.setAttribute("message", "Data access exception: " + ex.getMessage());
-                action_error(request, response);
+            String my_pass = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getPassword(email);
+            System.out.println(my_pass);
+            if (my_pass == null) {
+                // Email non trovata
+                System.out.println("EMAIL SBAGLIATAA");
+                request.setAttribute("error", "Credenziali non corrette.");
+                action_default(request, response);
             }
+            if(BCrypt.checkpw(password, my_pass)) {
+
+                try {
+                    utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(email);
+
+                } catch (DataException ex) {
+                    request.setAttribute("message", "Data access exception: " + ex.getMessage());
+                    action_error(request, response);
+                }
+
 
             if (utente != null) {
                 userID = utente.getKey();
@@ -79,10 +94,19 @@ public class Login extends SharedCollectionBaseController {
             } else {
                 response.sendRedirect("home");
             }
-        } else {
+        }else
+            {
+                request.setAttribute("exception", new Exception("Login failed"));
+                action_error(request, response);
+            }
+            }catch (DataException ex) {
+                request.setAttribute("message", "Data access exception: " + ex.getMessage());
+                action_error(request, response);
+            } }else {
             request.setAttribute("exception", new Exception("Login failed"));
             action_error(request, response);
         }
+
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
