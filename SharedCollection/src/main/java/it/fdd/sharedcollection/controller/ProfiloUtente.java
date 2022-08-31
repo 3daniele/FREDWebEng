@@ -41,7 +41,7 @@ public class ProfiloUtente extends SharedCollectionBaseController{
                 request.setAttribute("email",sessione.getAttribute("email"));
             }
 
-            res.activate("profilo_utente.ftl.html", request, response);
+            res.activate("profilo_utente.ftl", request, response);
     }
 
     @Override

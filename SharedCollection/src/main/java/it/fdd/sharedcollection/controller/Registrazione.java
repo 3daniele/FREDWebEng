@@ -40,7 +40,7 @@ public class Registrazione extends SharedCollectionBaseController{
             }
 
             request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
-            res.activate("registrazione.ftl.html", request, response);
+            res.activate("registrazione.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);

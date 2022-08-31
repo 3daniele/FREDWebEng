@@ -40,7 +40,7 @@ public class MostraUtenti extends SharedCollectionBaseController {
                 request.setAttribute("username",sessione.getAttribute("username"));
                 request.setAttribute("email",sessione.getAttribute("email"));
             }
-            res.activate("lista_utenti.ftl.html", request, response);
+            res.activate("lista_utenti.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);

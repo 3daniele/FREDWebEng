@@ -40,7 +40,7 @@ public class Login extends SharedCollectionBaseController {
                 response.sendRedirect("home");
             }
 
-            res.activate("login.ftl.html", request, response);
+            res.activate("login.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);

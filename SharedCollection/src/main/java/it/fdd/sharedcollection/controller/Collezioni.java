@@ -50,7 +50,7 @@ public class Collezioni extends SharedCollectionBaseController {
                 request.setAttribute("collezioniPersonali", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByUtente(userID));
                 request.setAttribute("collezioniCondivise", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniCondivise(users));
             }
-            res.activate("collezioni.ftl.html", request, response);
+            res.activate("collezioni.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);

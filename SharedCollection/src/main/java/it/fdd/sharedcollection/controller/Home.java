@@ -59,7 +59,7 @@ public class Home extends SharedCollectionBaseController {
             action_error(request, response);
         }
 
-        res.activate("collezioni_pubbliche.ftl.html", request, response);
+        res.activate("collezioni_pubbliche.ftl", request, response);
     }
 
     @Override
