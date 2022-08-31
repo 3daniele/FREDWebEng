@@ -19,6 +19,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     private PreparedStatement uUtente;
     private PreparedStatement login;
 
+
     public UtenteDAO_MySQL(DataLayer d) {
         super(d);
     }
@@ -35,6 +36,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             login = connection.prepareStatement("SELECT * FROM Utente WHERE email = ? AND password = ?");
             iUtente = connection.prepareStatement("INSERT INTO utente (nickname,email,password,nome,cognome) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
+
         } catch (SQLException ex) {
             throw new DataException("Error initializing newspaper data layer", ex);
         }
@@ -50,6 +52,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             login.close();
             iUtente.close();
             uUtente.close();
+
         } catch (SQLException ex) {
             //
         }
@@ -203,4 +206,5 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
         }
         return utente;
     }
+
 }

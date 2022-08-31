@@ -12,6 +12,7 @@ public interface Utente extends DataItem<Integer> {
 
     String getNome();
 
+
     String getCognome();
 
     void setNickname(String nickname);

@@ -1,7 +1,13 @@
 package it.fdd.framework.security;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Calendar;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 public class SecurityLayer {
 
+    private static final String STATIC_KEY = "StaticKey";
     //--------- SESSION SECURITY ------------
     //questa funzione esegue una serie di controlli di sicurezza
     //sulla sessione corrente. Se la sessione non è valida, la cancella
@@ -139,6 +146,19 @@ public class SecurityLayer {
                 throw new ServletException("Cannot redirect to https!");
             }
         }
+    }
+    public static String encrypt(String phrase, String key) throws Exception {
+        DESKeySpec desKeySpec = new DESKeySpec(key.getBytes(StandardCharsets.UTF_8));
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("DES");
+        SecretKey secretKey = secretKeyFactory.generateSecret(desKeySpec);
+        byte[] dataBytes = phrase.getBytes(StandardCharsets.UTF_8);
+        Cipher cipher = Cipher.getInstance("DES");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        return Base64.getEncoder().encodeToString(cipher.doFinal(dataBytes));
+    }
+
+    public static String getStaticEncrypyionKey() {
+        return SecurityLayer.STATIC_KEY;
     }
 
 }

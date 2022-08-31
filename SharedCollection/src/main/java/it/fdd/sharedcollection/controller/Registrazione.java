@@ -9,6 +9,8 @@ import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.impl.UtenteImpl;
 import it.fdd.sharedcollection.data.model.Utente;
+import it.fdd.sharedcollection.utility.EmailTypes;
+import it.fdd.sharedcollection.utility.UtilityMethods;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -79,11 +81,20 @@ public class Registrazione extends SharedCollectionBaseController{
 
             int userID = 0;
 
+
+
             try{
                 utente = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().storeUtente(utente);
+                UtilityMethods.sendEmailWithCodes(this.getServletContext().getRealPath("/WEB-INF/links.txt") , utente, "Conferma la tua email cliccando sul link in basso", EmailTypes.CONFIRM_EMAIL);
+                // redirect
+                if (request.getParameter("referrer") != null) {
+                    response.sendRedirect(request.getParameter("referrer"));
+                }
             }catch (DataException ex){
                 request.setAttribute("message", "Data access exception: " + ex.getMessage());
                 action_error(request, response);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
 
             //una volta registrato effettuiamo il login
@@ -111,6 +122,7 @@ public class Registrazione extends SharedCollectionBaseController{
         } else {
             request.setAttribute("exception", new Exception("Login failed"));
             action_error(request, response);
+
         }
     }
 

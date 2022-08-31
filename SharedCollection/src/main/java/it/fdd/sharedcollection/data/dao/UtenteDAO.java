@@ -17,4 +17,5 @@ public interface UtenteDAO {
 
     Utente storeUtente(Utente utente) throws  DataException;
 
+
 }
