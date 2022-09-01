@@ -19,6 +19,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
     private PreparedStatement uUtente;
     private PreparedStatement login;
+    private PreparedStatement getUtenteByUsername;
+    private PreparedStatement loginUtente;
 
     private PreparedStatement sCollezioni, sNCollezioni, sDischi, sNDischi, sNBrani;
 
@@ -38,12 +40,15 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             login = connection.prepareStatement("SELECT * FROM Utente WHERE email = ? AND password = ?");
             iUtente = connection.prepareStatement("INSERT INTO utente (nickname,email,password,nome,cognome) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
+            getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE nickname = ?");
+            loginUtente = connection.prepareStatement("SELECT id, password FROM Utente WHERE email = ?");
 
             sCollezioni = connection.prepareStatement("SELECT *FROM Collezione WHERE utente = ?");
             sNCollezioni = connection.prepareStatement("SELECT COUNT(id) AS c FROM Collezione WHERE utente = ? ");
             sDischi = connection.prepareStatement("SELECT *FROM ListaDischi WHERE collezione = ?");
             sNDischi = connection.prepareStatement("SELECT COUNT(id) AS c FROM ListaDischi WHERE collezione = ?");
             sNBrani = connection.prepareStatement("SELECT COUNT(id) AS c FROM ListaBrani WHERE disco = ?");
+
         } catch (SQLException ex) {
             throw new DataException("Error initializing newspaper data layer", ex);
         }
@@ -59,6 +64,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             login.close();
             iUtente.close();
             uUtente.close();
+            loginUtente.close();
+            getUtenteByUsername.close();
             sCollezioni.close();
             sNCollezioni.close();
             sDischi.close();
@@ -244,7 +251,55 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
         return numeri;
     }
+    @Override
+    public Utente getUtente(String email) throws DataException {
+        Utente utente = null;
+      
+        try {
+            loginUtente.setString(1, email);
+            try (ResultSet rs = loginUtente.executeQuery()) {
+                if (rs.next()) {
+                    utente = getUtente(rs.getInt("id"));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load utente by email", ex);
+        }
+        return utente;
+    }
+    public String getPassword(String email) throws DataException {
+        String pass = null;
 
+        try {
+            loginUtente.setString(1, email);
+            try (ResultSet rs = loginUtente.executeQuery()) {
+                if (rs.next()) {
+                    pass = rs.getString("password");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load password utente by email", ex);
+        }
+        return pass;
+    }
+
+
+    @Override
+    public Utente getUtenteByUsername(String username) throws DataException {
+        Utente utente = null;
+
+        try {
+            getUtenteByUsername.setString(1, username);
+            try (ResultSet rs = getUtenteByUsername.executeQuery()) {
+                if (rs.next()) {
+                    utente = getUtente(rs.getInt("id"));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load utente by usernme", ex);
+        }
+        return utente;
+    }
     public Utente storeUtente(Utente utente) throws DataException {
         try {
             if (utente.getKey() != null && utente.getKey() > 0) {
@@ -295,4 +350,6 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
         }
         return utente;
     }
+
+
 }

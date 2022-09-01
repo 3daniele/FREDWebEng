@@ -48,7 +48,7 @@ public class Login extends SharedCollectionBaseController {
 
     }
 
-    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, ServletException, TemplateManagerException {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -59,30 +59,50 @@ public class Login extends SharedCollectionBaseController {
             int userID = 0;
 
             try {
-                utente = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().login(email, password);
-            } catch (DataException ex) {
+                String my_pass = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getPassword(email);
+
+                if (my_pass == null) {
+                    request.setAttribute("error", "Credenziali non corrette.");
+                    action_default(request, response);
+                }
+                if(it.fdd.sharedcollection.utility.BCrypt.checkpw(password, my_pass)) {
+
+                    try {
+                        utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(email);
+
+                    } catch (DataException ex) {
+                        request.setAttribute("message", "Data access exception: " + ex.getMessage());
+                        action_error(request, response);
+                    }
+
+
+                    if (utente != null) {
+                        userID = utente.getKey();
+                        SecurityLayer.createSession(request, utente.getNickname(), userID,email);
+                    } else {
+                        request.setAttribute("message", "Email e/o password errati");
+                        action_error(request, response);
+                    }
+
+                    //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
+                    if (request.getParameter("referrer") != null) {
+                        response.sendRedirect(request.getParameter("referrer"));
+                    } else {
+                        response.sendRedirect("home");
+                    }
+                }else
+                {
+                    request.setAttribute("exception", new Exception("Login failed"));
+                    action_error(request, response);
+                }
+            }catch (DataException ex) {
                 request.setAttribute("message", "Data access exception: " + ex.getMessage());
                 action_error(request, response);
-            }
-
-            if (utente != null) {
-                userID = utente.getKey();
-                SecurityLayer.createSession(request, utente.getNickname(), userID,email);
-            } else {
-                request.setAttribute("message", "Email e/o password errati");
-                action_error(request, response);
-            }
-
-            //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
-            if (request.getParameter("referrer") != null) {
-                response.sendRedirect(request.getParameter("referrer"));
-            } else {
-                response.sendRedirect("home");
-            }
-        } else {
+            } }else {
             request.setAttribute("exception", new Exception("Login failed"));
             action_error(request, response);
         }
+
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
