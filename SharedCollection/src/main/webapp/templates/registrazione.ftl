@@ -7,10 +7,11 @@
       </div>
     </div>
     </#if>
-    <#if passwordC??>
+    <#if exception??>
   <div class="row">
     <div class="alert alert-danger col-12" role="alert">
-      La due password non corrispondono
+
+   ${exception}
     </div>
   </div>
     </#if>

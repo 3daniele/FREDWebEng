@@ -50,7 +50,7 @@ public class UtilityMethods {
                     return;
             }
 
-            writer.write("[ " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + " ] Sended to " + me.getEmail() + ":");
+            writer.write("[ " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + " ]  " + me.getEmail() + ":");
             writer.newLine();
             writer.write("--------------------------------- Sharedcollection Web Site ----------------------------------");
             writer.newLine();

@@ -254,7 +254,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     @Override
     public Utente getUtente(String email) throws DataException {
         Utente utente = null;
-      
+
         try {
             loginUtente.setString(1, email);
             try (ResultSet rs = loginUtente.executeQuery()) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Creato il: Ago 25, 2022 alle 14:34
+-- Creato il: Set 01, 2022 alle 13:24
 -- Versione del server: 5.7.34
 -- Versione PHP: 7.4.21
 
@@ -469,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `Utente` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(500) NOT NULL,
   `nome` varchar(50) DEFAULT NULL,
   `cognome` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -481,8 +481,8 @@ CREATE TABLE IF NOT EXISTS `Utente` (
 --
 
 INSERT INTO `Utente` (`id`, `nickname`, `email`, `password`, `nome`, `cognome`) VALUES
-(1, 'user', 'utente@utente.it', 'utenteutente', 'Utente', 'Utente'),
-(2, 'gestore', 'gestore@gestore.it', 'gestoregestore', 'Gestore', 'Gestore');
+(1, 'user', 'utente@utente.it', '$2a$12$bvRMGZxAa0r4mW/8yCH1HOq9kfuNYWLjlBwc5SR/beauhTV4P5zz2', 'Utente', 'Utente'),
+(2, 'gestore', 'gestore@gestore.it', '$2a$12$WarrbFzzniyiEv26H2gZVe.RTFStpAHdGuyBA.EiYj2ANS.vDxsoi', 'Gestore', 'Gestore');
 
 -- --------------------------------------------------------
 

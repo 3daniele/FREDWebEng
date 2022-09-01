@@ -74,7 +74,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("a")>
+            <#if utente.nickname?lower_case?starts_with("a") >
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -86,7 +86,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("b")>
+            <#if utente.nickname?lower_case?starts_with("b")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -98,7 +98,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("c")>
+            <#if utente.nickname?lower_case?starts_with("c")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -110,7 +110,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("d")>
+            <#if utente.nickname?lower_case?starts_with("d")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -122,7 +122,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("e")>
+            <#if utente.nickname?lower_case?starts_with("e")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -134,7 +134,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("f")>
+            <#if utente.nickname?lower_case?starts_with("f")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -146,7 +146,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("g")>
+            <#if utente.nickname?lower_case?starts_with("g")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -158,7 +158,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("h")>
+            <#if utente.nickname?lower_case?starts_with("h")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -170,7 +170,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("i")>
+            <#if utente.nickname?lower_case?starts_with("i")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -182,7 +182,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("j")>
+            <#if utente.nickname?lower_case?starts_with("j")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -194,7 +194,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("k")>
+            <#if utente.nickname?lower_case?starts_with("k")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -206,7 +206,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("l")>
+            <#if utente.nickname?lower_case?starts_with("l")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -218,7 +218,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("m")>
+            <#if utente.nickname?lower_case?starts_with("m")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -230,7 +230,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("n")>
+            <#if utente.nickname?lower_case?starts_with("n")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -242,7 +242,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("o")>
+            <#if utente.nickname?lower_case?starts_with("o")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -254,7 +254,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("p")>
+            <#if utente.nickname?lower_case?starts_with("p")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -266,7 +266,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("q")>
+            <#if utente.nickname?lower_case?starts_with("q")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -278,7 +278,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("r")>
+            <#if utente.nickname?lower_case?starts_with("r")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -290,7 +290,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("s")>
+            <#if utente.nickname?lower_case?starts_with("s")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -302,7 +302,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("t")>
+            <#if utente.nickname?lower_case?starts_with("t")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -314,7 +314,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("u")>
+            <#if utente.nickname?lower_case?starts_with("u")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -326,7 +326,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("v")>
+            <#if utente.nickname?lower_case?starts_with("v")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -338,7 +338,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("w")>
+            <#if utente.nickname?lower_case?starts_with("w")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -350,7 +350,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("x")>
+            <#if utente.nickname?lower_case?starts_with("x")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -362,7 +362,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("y")>
+            <#if utente.nickname?lower_case?starts_with("y")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -374,7 +374,7 @@
     <ul>
         <#list utenti as utente>
         <li>
-            <#if utente.nickname?starts_with("z")>
+            <#if utente.nickname?lower_case?starts_with("z")>
             <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
         </#if>
         </li>
@@ -388,7 +388,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("a")>
+        <#if utente.nickname?lower_case?starts_with("a")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -401,7 +401,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("b")>
+        <#if utente.nickname?lower_case?starts_with("b")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -414,7 +414,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("c")>
+        <#if utente.nickname?lower_case?starts_with("c")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -427,7 +427,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("d")>
+        <#if utente.nickname?lower_case?starts_with("d")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -440,7 +440,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("e")>
+        <#if utente.nickname?lower_case?starts_with("e")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -453,7 +453,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("f")>
+        <#if utente.nickname?lower_case?starts_with("f")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -466,7 +466,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("g")>
+        <#if utente.nickname?lower_case?starts_with("g")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -479,7 +479,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("h")>
+        <#if utente.nickname?lower_case?starts_with("h")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -492,7 +492,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("i")>
+        <#if utente.nickname?lower_case?starts_with("i")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -505,7 +505,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("j")>
+        <#if utente.nickname?lower_case?starts_with("j")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -518,7 +518,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("k")>
+        <#if utente.nickname?lower_case?starts_with("k")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -531,7 +531,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("l")>
+        <#if utente.nickname?lower_case?starts_with("l")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -544,7 +544,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("m")>
+        <#if utente.nickname?lower_case?starts_with("m")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -557,7 +557,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("n")>
+        <#if utente.nickname?lower_case?starts_with("n")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -570,7 +570,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("o")>
+        <#if utente.nickname?lower_case?starts_with("o")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -583,7 +583,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("p")>
+        <#if utente.nickname?lower_case?starts_with("p")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -596,7 +596,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("q")>
+        <#if utente.nickname?lower_case?starts_with("q")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -609,7 +609,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("r")>
+        <#if utente.nickname?lower_case?starts_with("r")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -622,7 +622,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("s")>
+        <#if utente.nickname?lower_case?starts_with("s")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -635,7 +635,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("t")>
+        <#if utente.nickname?lower_case?starts_with("t")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -648,7 +648,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("u")>
+        <#if utente.nickname?lower_case?starts_with("u")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -661,7 +661,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("v")>
+        <#if utente.nickname?lower_case?starts_with("v")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -674,7 +674,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("w")>
+        <#if utente.nickname?lower_case?starts_with("w")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -687,7 +687,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("x")>
+        <#if utente.nickname?lower_case?starts_with("x")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -700,7 +700,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("y")>
+        <#if utente.nickname?lower_case?starts_with("y")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -713,7 +713,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("z")>
+        <#if utente.nickname?lower_case?starts_with("z")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -727,7 +727,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("a")>
+        <#if utente.nickname?lower_case?starts_with("a")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -739,7 +739,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("b")>
+        <#if utente.nickname?lower_case?starts_with("b")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -751,7 +751,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("c")>
+        <#if utente.nickname?lower_case?starts_with("c")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -763,7 +763,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("d")>
+        <#if utente.nickname?lower_case?starts_with("d")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -775,7 +775,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("e")>
+        <#if utente.nickname?lower_case?starts_with("e")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -787,7 +787,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("f")>
+        <#if utente.nickname?lower_case?starts_with("f")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -799,7 +799,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("g")>
+        <#if utente.nickname?lower_case?starts_with("g")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -811,7 +811,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("h")>
+        <#if utente.nickname?lower_case?starts_with("h")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -823,7 +823,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("i")>
+        <#if utente.nickname?lower_case?starts_with("i")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -835,7 +835,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("j")>
+        <#if utente.nickname?lower_case?starts_with("j")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -847,7 +847,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("k")>
+        <#if utente.nickname?lower_case?starts_with("k")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -859,7 +859,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("l")>
+        <#if utente.nickname?lower_case?starts_with("l")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -871,7 +871,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("m")>
+        <#if utente.nickname?lower_case?starts_with("m")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -883,7 +883,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("n")>
+        <#if utente.nickname?lower_case?starts_with("n")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -895,7 +895,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("o")>
+        <#if utente.nickname?lower_case?starts_with("o")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -907,7 +907,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("p")>
+        <#if utente.nickname?lower_case?starts_with("p")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -919,7 +919,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("q")>
+        <#if utente.nickname?lower_case?starts_with("q")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -931,7 +931,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("r")>
+        <#if utente.nickname?lower_case?starts_with("r")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -943,7 +943,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("s")>
+        <#if utente.nickname?lower_case?starts_with("s")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -955,7 +955,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("t")>
+        <#if utente.nickname?lower_case?starts_with("t")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -967,7 +967,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("u")>
+        <#if utente.nickname?lower_case?starts_with("u")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -979,7 +979,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("v")>
+        <#if utente.nickname?lower_case?starts_with("v")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -991,7 +991,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("w")>
+        <#if utente.nickname?lower_case?starts_with("w")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -1003,7 +1003,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("x")>
+        <#if utente.nickname?lower_case?starts_with("x")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -1015,7 +1015,7 @@
 <ul>
     <#list utenti as utente>
     <li>
-        <#if utente.nickname?starts_with("y")>
+        <#if utente.nickname?lower_case?starts_with("y")>
         <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
     </#if>
     </li>
@@ -1026,7 +1026,7 @@
 <hr>
 <#list utenti as utente>
 <li>
-    <#if utente.nickname?starts_with("z")>
+    <#if utente.nickname?lower_case?starts_with("z")>
     <h6><a href="utente?id=${utente.key}">${utente.nickname}</a></h6>
 </#if>
 </li>
