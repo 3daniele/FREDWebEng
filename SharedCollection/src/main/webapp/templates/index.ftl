@@ -48,7 +48,7 @@
                     <#if session??>
                     <li class="cn-dropdown-item"><a href="#">${username}</a>
                         <ul class="dropdown">
-                            <li><a href=".">${email}</a></li>
+                            <li><a href="utente?id=${userid}">${email}</a></li>
                             <li><a href="logout">Logout</a></li>
                         </ul>
                         <span class="dd-trigger"></span>

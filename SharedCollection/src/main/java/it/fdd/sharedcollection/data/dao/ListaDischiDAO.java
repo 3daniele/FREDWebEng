@@ -13,6 +13,7 @@ public interface ListaDischiDAO {
 
     List<ListaDischi> getListeDischi() throws DataException;
 
+    List<ListaDischi> getDischiByCollezione(int collezione_key) throws DataException;
     void storeListaDischi(ListaDischi listaDischi) throws DataException;
 
 }

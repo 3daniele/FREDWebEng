@@ -16,6 +16,8 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
     private PreparedStatement sUtentiAutorizzati;
     private PreparedStatement iUtentiAutorizzati, uUtentiAutorizzati, dUtentiAutorizzati;
 
+    private PreparedStatement sUtentiAutorizzatiByCollezioneID;
+
     public UtentiAutorizzatiDAO_MySQL(DataLayer d) {
         super(d);
     }
@@ -28,6 +30,7 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
             sUtentiAutorizzatiByID = connection.prepareStatement("SELECT * FROM UtentiAutorizzati WHERE id = ?");
             sUtentiAutorizzatiByUser = connection.prepareStatement("SELECT * FROM UtentiAutorizzati WHERE utente = ?");
             sUtentiAutorizzati = connection.prepareStatement("SELECT id AS ID FROM UtentiAutorizzati");
+            sUtentiAutorizzatiByCollezioneID = connection.prepareStatement("SELECT utente FROM UtentiAutorizzati WHERE collezione = ?");
             iUtentiAutorizzati = connection.prepareStatement("INSERT INTO UtentiAutorizzati (utente, collezione) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
             uUtentiAutorizzati = connection.prepareStatement("UPDATE UtentiAutorizzati SET utente = ?, collezione = ? WHERE id = ?");
             dUtentiAutorizzati = connection.prepareStatement("DELETE FROM UtentiAutorizzati WHERE id = ?");
@@ -43,6 +46,7 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
             sUtentiAutorizzatiByID.close();
             sUtentiAutorizzatiByUser.close();
             sUtentiAutorizzati.close();
+            sUtentiAutorizzatiByCollezioneID.close();
             iUtentiAutorizzati.close();
             uUtentiAutorizzati.close();
             dUtentiAutorizzati.close();
@@ -121,6 +125,24 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
             try (ResultSet rs = sUtentiAutorizzatiByUser.executeQuery()) {
                 while (rs.next()) {
                     result.add((UtentiAutorizzati) getUtentiAutorizzati(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare la lista degli utenti autorizzati", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Integer> getUtentiAutorizzatiByCollezione(int collezione_key) throws DataException {
+
+        List<Integer> result = new ArrayList<>();
+
+        try {
+            sUtentiAutorizzatiByCollezioneID.setInt(1, collezione_key);
+            try (ResultSet rs = sUtentiAutorizzatiByCollezioneID.executeQuery()) {
+                while (rs.next()) {
+                    result.add(rs.getInt("utente"));
                 }
             }
         } catch (SQLException ex) {

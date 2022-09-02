@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
     private PreparedStatement sListaDischiByID;
-    private PreparedStatement sListeDischi;
+    private PreparedStatement sListeDischi, sDischiByCollezione;
     private PreparedStatement iListaDischi, uListaDischi, dListaDischi;
 
     public ListaDischiDAO_MySQL(DataLayer d) {
@@ -27,6 +27,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
             // precompilazione di tutte le query utilizzate nella classe
             sListaDischiByID = connection.prepareStatement("SELECT * FROM listaDischi WHERE id = ?");
             sListeDischi = connection.prepareStatement("SELECT * FROM listaDischi");
+            sDischiByCollezione = connection.prepareStatement("SELECT *FROM ListaDischi WHERE collezione=?");
             iListaDischi = connection.prepareStatement("INSERT INTO listaDischi (collezione, disco, numeroCopie,stato,formato,barcode,imgCopertina,imgFronte,imgRetro,imgLibretto) VALUES(?, ?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uListaDischi = connection.prepareStatement("UPDATE listaDischi SET collezione=?,disco = ?, numeroCopie = ?, stato=?,formato=?,barcode=?,imgCopertina=?,imgFronte=?,imgRetro=?,imgLibretto=? WHERE id = ?");
             dListaDischi = connection.prepareStatement("DELETE FROM listaDischi WHERE id = ?");
@@ -40,6 +41,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
         try {
             sListaDischiByID.close();
             sListeDischi.close();
+            sDischiByCollezione.close();
             iListaDischi.close();
             uListaDischi.close();
             dListaDischi.close();
@@ -99,6 +101,25 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
         }
         return listaDischi;
     }
+
+    @Override
+    public List<ListaDischi> getDischiByCollezione(int collezione_key) throws DataException {
+
+        List<ListaDischi> result = new ArrayList<>();
+        try {
+            sDischiByCollezione.setInt(1, collezione_key);
+
+            try (ResultSet rs = sDischiByCollezione.executeQuery()) {
+                while (rs.next()) {
+                    result.add((ListaDischi) getListaDischi(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare la lista dei dischi", ex);
+        }
+        return result;
+    }
+
 
     @Override
     public List<ListaDischi> getListeDischi() throws DataException {

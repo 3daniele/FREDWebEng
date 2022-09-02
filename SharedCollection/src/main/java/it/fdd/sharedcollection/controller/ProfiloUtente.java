@@ -38,6 +38,7 @@ public class ProfiloUtente extends SharedCollectionBaseController{
                 request.setAttribute("session", true);
                 request.setAttribute("username",sessione.getAttribute("username"));
                 request.setAttribute("email",sessione.getAttribute("email"));
+                request.setAttribute("userid", sessione.getAttribute("userid"));
             }
 
             res.activate("profilo_utente.ftl", request, response);

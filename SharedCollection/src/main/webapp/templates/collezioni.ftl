@@ -18,7 +18,7 @@
                 <tbody>
                 <#list collezioniPersonali as collezione>
                 <#assign n++>
-                <tr>
+                <tr style="cursor:pointer" onclick="location.href='collezione?numero=${collezione.key}'">
                     <th scope="row">${n}</th>
                     <td>${strip_slashes(collezione.nome)}&nbsp</td>
                     <td>
@@ -37,6 +37,7 @@
                     <td>${strip_slashes(collezione.condivisione)}&nbsp</td>
                     <td>${strip_slashes(collezione.utente.nickname)}&nbsp</td>
                     <td>${strip_slashes(collezione.dataCreazione)}&nbsp</td>
+                    <td><a href="modificaCollezione?numero=${collezione.key}" class="btn btn-outline-danger" role="button">Modifica</a></td>
                 </tr>
                 </#list>
                 </tbody>
@@ -61,7 +62,7 @@
                 <tbody>
                     <#list collezioniCondivise as collezione>
                         <#assign n++>
-                        <tr>
+                        <tr style="cursor:pointer" onclick="location.href='collezione?numero=${collezione.key}'">
                             <th scope="row">${n}</th>
                             <td>${strip_slashes(collezione.nome)}&nbsp</td>
                             <td>
@@ -104,7 +105,7 @@
             <tbody>
                 <#list collezioniPubbliche as collezione>
                     <#assign n++>
-                    <tr>
+                    <tr style="cursor:pointer" onclick="location.href='collezione?numero=${collezione.key}'">
                         <th scope="row">${n}</th>
                         <td>${strip_slashes(collezione.nome)}&nbsp</td>
                         <td>
