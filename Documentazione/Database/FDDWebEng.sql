@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Creato il: Set 01, 2022 alle 13:24
--- Versione del server: 5.7.34
--- Versione PHP: 7.4.21
+-- Generation Time: Sep 05, 2022 at 08:48 AM
+-- Server version: 5.7.34
+-- PHP Version: 7.4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -26,7 +26,7 @@ USE `FDDWebEng`;
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Artista`
+-- Table structure for table `Artista`
 --
 
 CREATE TABLE IF NOT EXISTS `Artista` (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `Artista` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `Artista`
+-- Dumping data for table `Artista`
 --
 
 INSERT INTO `Artista` (`id`, `nome`, `cognome`, `nomeDArte`) VALUES
@@ -49,7 +49,7 @@ INSERT INTO `Artista` (`id`, `nome`, `cognome`, `nomeDArte`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Canzone`
+-- Table structure for table `Canzone`
 --
 
 CREATE TABLE IF NOT EXISTS `Canzone` (
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `Canzone` (
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `Canzone`
+-- Dumping data for table `Canzone`
 --
 
 INSERT INTO `Canzone` (`id`, `nome`, `durata`) VALUES
@@ -94,7 +94,7 @@ INSERT INTO `Canzone` (`id`, `nome`, `durata`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Collezione`
+-- Table structure for table `Collezione`
 --
 
 CREATE TABLE IF NOT EXISTS `Collezione` (
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `Collezione` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `Collezione`
+-- Dumping data for table `Collezione`
 --
 
 INSERT INTO `Collezione` (`id`, `nome`, `condivisione`, `dataDiCreazione`, `utente`) VALUES
@@ -118,7 +118,7 @@ INSERT INTO `Collezione` (`id`, `nome`, `condivisione`, `dataDiCreazione`, `uten
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Disco`
+-- Table structure for table `Disco`
 --
 
 CREATE TABLE IF NOT EXISTS `Disco` (
@@ -126,23 +126,25 @@ CREATE TABLE IF NOT EXISTS `Disco` (
   `nome` varchar(100) NOT NULL,
   `etichetta` varchar(50) NOT NULL,
   `anno` date NOT NULL,
-  PRIMARY KEY (`id`)
+  `artista` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artista` (`artista`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `Disco`
+-- Dumping data for table `Disco`
 --
 
-INSERT INTO `Disco` (`id`, `nome`, `etichetta`, `anno`) VALUES
-(1, 'Disponibile anche in mogano', 'Sony Music', '2019-03-29'),
-(2, 'Dalla terra a Marte', 'Sony Music', '2022-02-18'),
-(3, 'Dentista Croazia', 'Sony Music', '2022-08-24'),
-(4, 'Giovani Wannabe', 'Sony Music', '2022-06-15');
+INSERT INTO `Disco` (`id`, `nome`, `etichetta`, `anno`, `artista`) VALUES
+(1, 'Disponibile anche in mogano', 'Sony Music', '2019-03-29', 1),
+(2, 'Dalla terra a Marte', 'Sony Music', '2022-02-18', 1),
+(3, 'Dentista Croazia', 'Sony Music', '2022-08-24', 3),
+(4, 'Giovani Wannabe', 'Sony Music', '2022-06-15', 3);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Genere`
+-- Table structure for table `Genere`
 --
 
 CREATE TABLE IF NOT EXISTS `Genere` (
@@ -152,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `Genere` (
 ) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `Genere`
+-- Dumping data for table `Genere`
 --
 
 INSERT INTO `Genere` (`id`, `nome`) VALUES
@@ -286,7 +288,7 @@ INSERT INTO `Genere` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `ListaArtisti`
+-- Table structure for table `ListaArtisti`
 --
 
 CREATE TABLE IF NOT EXISTS `ListaArtisti` (
@@ -297,10 +299,10 @@ CREATE TABLE IF NOT EXISTS `ListaArtisti` (
   PRIMARY KEY (`id`),
   KEY `artista` (`artista`),
   KEY `canzone` (`canzone`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `ListaArtisti`
+-- Dumping data for table `ListaArtisti`
 --
 
 INSERT INTO `ListaArtisti` (`id`, `artista`, `canzone`, `ruolo`) VALUES
@@ -334,7 +336,7 @@ INSERT INTO `ListaArtisti` (`id`, `artista`, `canzone`, `ruolo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `ListaBrani`
+-- Table structure for table `ListaBrani`
 --
 
 CREATE TABLE IF NOT EXISTS `ListaBrani` (
@@ -347,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `ListaBrani` (
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `ListaBrani`
+-- Dumping data for table `ListaBrani`
 --
 
 INSERT INTO `ListaBrani` (`id`, `disco`, `canzone`) VALUES
@@ -381,7 +383,7 @@ INSERT INTO `ListaBrani` (`id`, `disco`, `canzone`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `ListaDischi`
+-- Table structure for table `ListaDischi`
 --
 
 CREATE TABLE IF NOT EXISTS `ListaDischi` (
@@ -403,7 +405,7 @@ CREATE TABLE IF NOT EXISTS `ListaDischi` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `ListaDischi`
+-- Dumping data for table `ListaDischi`
 --
 
 INSERT INTO `ListaDischi` (`id`, `collezione`, `disco`, `numeroCopie`, `Stato`, `formato`, `barcode`, `imgCopertina`, `imgFronte`, `imgRetro`, `imgLibretto`) VALUES
@@ -415,7 +417,7 @@ INSERT INTO `ListaDischi` (`id`, `collezione`, `disco`, `numeroCopie`, `Stato`, 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `ListaGeneri`
+-- Table structure for table `ListaGeneri`
 --
 
 CREATE TABLE IF NOT EXISTS `ListaGeneri` (
@@ -428,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `ListaGeneri` (
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `ListaGeneri`
+-- Dumping data for table `ListaGeneri`
 --
 
 INSERT INTO `ListaGeneri` (`id`, `canzone`, `genere`) VALUES
@@ -462,7 +464,7 @@ INSERT INTO `ListaGeneri` (`id`, `canzone`, `genere`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `Utente`
+-- Table structure for table `Utente`
 --
 
 CREATE TABLE IF NOT EXISTS `Utente` (
@@ -474,10 +476,10 @@ CREATE TABLE IF NOT EXISTS `Utente` (
   `cognome` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`nickname`,`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `Utente`
+-- Dumping data for table `Utente`
 --
 
 INSERT INTO `Utente` (`id`, `nickname`, `email`, `password`, `nome`, `cognome`) VALUES
@@ -487,7 +489,7 @@ INSERT INTO `Utente` (`id`, `nickname`, `email`, `password`, `nome`, `cognome`) 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `UtentiAutorizzati`
+-- Table structure for table `UtentiAutorizzati`
 --
 
 CREATE TABLE IF NOT EXISTS `UtentiAutorizzati` (
@@ -500,52 +502,58 @@ CREATE TABLE IF NOT EXISTS `UtentiAutorizzati` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `UtentiAutorizzati`
+-- Dumping data for table `UtentiAutorizzati`
 --
 
 INSERT INTO `UtentiAutorizzati` (`id`, `collezione`, `utente`) VALUES
 (3, 3, 1);
 
 --
--- Limiti per le tabelle scaricate
+-- Constraints for dumped tables
 --
 
 --
--- Limiti per la tabella `Collezione`
+-- Constraints for table `Collezione`
 --
 ALTER TABLE `Collezione`
   ADD CONSTRAINT `collezione_ibfk_1` FOREIGN KEY (`utente`) REFERENCES `Utente` (`id`);
 
 --
--- Limiti per la tabella `ListaArtisti`
+-- Constraints for table `Disco`
+--
+ALTER TABLE `Disco`
+  ADD CONSTRAINT `disco_ibfk_1` FOREIGN KEY (`artista`) REFERENCES `Artista` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ListaArtisti`
 --
 ALTER TABLE `ListaArtisti`
   ADD CONSTRAINT `listaartisti_ibfk_1` FOREIGN KEY (`artista`) REFERENCES `Artista` (`id`),
   ADD CONSTRAINT `listaartisti_ibfk_2` FOREIGN KEY (`canzone`) REFERENCES `Canzone` (`id`);
 
 --
--- Limiti per la tabella `ListaBrani`
+-- Constraints for table `ListaBrani`
 --
 ALTER TABLE `ListaBrani`
   ADD CONSTRAINT `listabrani_ibfk_1` FOREIGN KEY (`canzone`) REFERENCES `Canzone` (`id`),
   ADD CONSTRAINT `listabrani_ibfk_2` FOREIGN KEY (`disco`) REFERENCES `Disco` (`id`);
 
 --
--- Limiti per la tabella `ListaDischi`
+-- Constraints for table `ListaDischi`
 --
 ALTER TABLE `ListaDischi`
   ADD CONSTRAINT `listadischi_ibfk_1` FOREIGN KEY (`collezione`) REFERENCES `Collezione` (`id`),
   ADD CONSTRAINT `listadischi_ibfk_2` FOREIGN KEY (`disco`) REFERENCES `Disco` (`id`);
 
 --
--- Limiti per la tabella `ListaGeneri`
+-- Constraints for table `ListaGeneri`
 --
 ALTER TABLE `ListaGeneri`
   ADD CONSTRAINT `listageneri_ibfk_1` FOREIGN KEY (`canzone`) REFERENCES `Canzone` (`id`),
   ADD CONSTRAINT `listageneri_ibfk_2` FOREIGN KEY (`genere`) REFERENCES `Genere` (`id`);
 
 --
--- Limiti per la tabella `UtentiAutorizzati`
+-- Constraints for table `UtentiAutorizzati`
 --
 ALTER TABLE `UtentiAutorizzati`
   ADD CONSTRAINT `utentiautorizzati_ibfk_1` FOREIGN KEY (`collezione`) REFERENCES `Collezione` (`id`),
