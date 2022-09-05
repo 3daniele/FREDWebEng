@@ -69,6 +69,10 @@
         <servlet-name>Collezione</servlet-name>
         <servlet-class>it.fdd.sharedcollection.controller.ViewCollezione</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Disco</servlet-name>
+        <servlet-class>it.fdd.sharedcollection.controller.BraniDisco</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -100,6 +104,10 @@
     <servlet-mapping>
         <servlet-name>Collezione</servlet-name>
         <url-pattern>/collezione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Disco</servlet-name>
+        <url-pattern>/disco</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

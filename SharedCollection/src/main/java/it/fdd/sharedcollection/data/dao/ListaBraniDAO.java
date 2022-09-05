@@ -13,6 +13,8 @@ public interface ListaBraniDAO {
 
     List<ListaBrani> getListeBrani() throws DataException;
 
+    List<ListaBrani> getListeBrani(int disco_key) throws DataException;
+
     void storeListaBrani(ListaBrani listaBrani) throws DataException;
 
 }

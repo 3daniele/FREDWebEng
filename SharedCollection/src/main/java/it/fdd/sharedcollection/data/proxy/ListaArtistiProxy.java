@@ -5,7 +5,7 @@ import it.fdd.framework.data.DataItemProxy;
 import it.fdd.framework.data.DataLayer;
 import it.fdd.sharedcollection.data.dao.ArtistaDAO;
 import it.fdd.sharedcollection.data.dao.CanzoneDAO;
-import it.fdd.sharedcollection.data.impl.ListaArtitistiImpl;
+import it.fdd.sharedcollection.data.impl.ListaArtistiImpl;
 import it.fdd.sharedcollection.data.model.Artista;
 import it.fdd.sharedcollection.data.model.Canzone;
 
@@ -13,21 +13,27 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class ListaArtistiProxy extends ListaArtitistiImpl implements DataItemProxy {
-    private boolean modified;
+public class ListaArtistiProxy extends ListaArtistiImpl implements DataItemProxy {
+    protected boolean modified;
 
-    private int key_artista = 0;
+    protected int key_artista = 0;
 
-    private int key_canzone = 0;
+    protected int key_canzone = 0;
 
-
-    private final DataLayer dataLayer;
+    protected DataLayer dataLayer;
 
     public ListaArtistiProxy(DataLayer dataLayer) {
+        super();
         this.dataLayer = dataLayer;
         this.modified = false;
         this.key_artista = 0;
         this.key_canzone = 0;
+    }
+
+    @Override
+    public void setKey(Integer key) {
+        super.setKey(key);
+        this.modified = true;
     }
 
     @Override

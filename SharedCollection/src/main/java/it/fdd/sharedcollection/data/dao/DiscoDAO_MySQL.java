@@ -34,8 +34,8 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
             // precompilazione di tutte le query utilizzate nella classe
             sDiscoByID = connection.prepareStatement("SELECT * FROM Disco WHERE id = ?");
             sDischi = connection.prepareStatement("SELECT id AS discoID FROM Disco");
-            iDisco = connection.prepareStatement("INSERT INTO Disco (nome, etichetta, anno) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            uDisco = connection.prepareStatement("UPDATE Disco SET nome = ?, etichetta = ?, anno = ? WHERE id = ?");
+            iDisco = connection.prepareStatement("INSERT INTO Disco (nome, etichetta, anno, artista) VALUES(?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);
+            uDisco = connection.prepareStatement("UPDATE Disco SET nome = ?, etichetta = ?, anno = ?, artista = ? WHERE id = ?");
             dDisco = connection.prepareStatement("DELETE FROM Disco WHERE id = ?");
         } catch (SQLException ex) {
             throw new DataException("Errore nell'inizializzazione del DataLayer", ex);
@@ -70,6 +70,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
             disco.setNome(rs.getString("nome"));
             disco.setEtichetta(rs.getString("etichetta"));
             disco.setAnno(rs.getDate("anno"));
+            disco.setArtistaKey(rs.getInt("artista"));
         } catch (SQLException ex) {
             throw new DataException("Impossibile creare l'oggetto Disco dal ResultSet", ex);
         }
@@ -132,6 +133,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
                 uDisco.setString(1, disco.getNome());
                 uDisco.setString(2, disco.getEtichetta());
                 uDisco.setDate(3, (Date) disco.getAnno());
+                uDisco.setInt(4, disco.getArtista().getKey());
 
                 if (uDisco.executeUpdate() == 0) {
                     throw new OptimisticLockException(disco);
@@ -141,6 +143,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
                 iDisco.setString(1, disco.getNome());
                 iDisco.setString(2, disco.getEtichetta());
                 iDisco.setDate(3, (Date) disco.getAnno());
+                iDisco.setInt(4, disco.getArtista().getKey());
 
                 if (iDisco.executeUpdate() == 1) {
                     // get della chiave generata

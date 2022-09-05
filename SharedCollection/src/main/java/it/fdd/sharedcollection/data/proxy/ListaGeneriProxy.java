@@ -24,10 +24,17 @@ public class ListaGeneriProxy extends ListaGeneriImpl implements DataItemProxy {
     private final DataLayer dataLayer;
 
     public ListaGeneriProxy(DataLayer dataLayer) {
+        super();
         this.dataLayer = dataLayer;
         this.modified = false;
         this.key_genere = 0;
         this.key_canzone = 0;
+    }
+
+    @Override
+    public void setKey(Integer key) {
+        super.setKey(key);
+        this.modified = true;
     }
 
     @Override

@@ -15,9 +15,8 @@ import java.util.List;
 
 public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
 
-    private PreparedStatement sGenereByID;
+    private PreparedStatement sGenereByID, sGenereByCanzone;
     private PreparedStatement sGenere;
-
 
     private PreparedStatement iLista;
     private PreparedStatement uLista;
@@ -34,9 +33,9 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
         try {
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
-            sGenere = connection.prepareStatement("SELECT * FROM ListaGeneri WHERE id = ?");
-            sGenereByID = connection.prepareStatement("SELECT id as ListaGeneri_id FROM ListaGeneri WHERE id = ?");
-
+            sGenereByID = connection.prepareStatement("SELECT * FROM ListaGeneri WHERE id = ?");
+            sGenere = connection.prepareStatement("SELECT id as ListaGeneri_id FROM ListaGeneri WHERE id = ?");
+            sGenereByCanzone = connection.prepareStatement("SELECT * FROM ListaGeneri WHERE canzone = ?");
             iLista = connection.prepareStatement(" INSERT INTO ListaGeneri ( genere,canzone) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             uLista = connection.prepareStatement("UPDATE ListaGeneri SET   genere = ?, canzone = ? WHERE id = ?");
             dLista = connection.prepareStatement("DELETE FROM ListaGeneri WHERE id = ?");
@@ -50,6 +49,7 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
     public void destroy() throws DataException {
         try {
             sGenereByID.close();
+            sGenereByCanzone.close();
             sGenere.close();
             iLista.close();
             uLista.close();
@@ -60,12 +60,12 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
         super.destroy();
     }
     @Override
-    public ListaGeneri createListaGenere() {
+    public ListaGeneriProxy createListaGenere() {
         return new ListaGeneriProxy(getDataLayer());
     }
 
-    private  ListaGeneri createListaGenere(ResultSet rs) throws DataException {
-        ListaGeneriProxy listaGenere = (ListaGeneriProxy) createListaGenere();
+    private  ListaGeneriProxy createListaGenere(ResultSet rs) throws DataException {
+        ListaGeneriProxy listaGenere = createListaGenere();
         try {
             listaGenere.setKey(rs.getInt("id"));
             listaGenere.setGenereKey(rs.getInt("genere"));
@@ -82,7 +82,7 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
         ListaGeneri listaGeneri = null;
 
         // controllo se l'oggetto è presente nella cache
-        if (dataLayer.getCache().has(ListaArtisti.class, genere_key)) {
+        if (dataLayer.getCache().has(ListaGeneri.class, genere_key)) {
             listaGeneri = dataLayer.getCache().get(ListaGeneri.class, genere_key);
         } else {
             // altrimenti caricamento dal database
@@ -118,7 +118,21 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
 
     @Override
     public List<ListaGeneri> getListaGeneriByCanzone(int canzone_key) throws DataException {
-        return null;
+
+        List<ListaGeneri> result = new ArrayList<>();
+
+        try {
+            sGenereByCanzone.setInt(1, canzone_key);
+            try (ResultSet rs = sGenereByCanzone.executeQuery()) {
+                while (rs.next()) {
+                    result.add((ListaGeneri) getGenere(rs.getInt("id")));
+                }
+            }
+        }
+         catch (SQLException ex) {
+            throw new DataException("Impossibile caricare ", ex);
+        }
+        return result;
     }
 
     @Override

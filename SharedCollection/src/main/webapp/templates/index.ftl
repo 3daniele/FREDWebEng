@@ -167,14 +167,20 @@
                         <a href="home" class="episodes-title">Home</a>
                     </div>
                     <div class="single-latest-episodes">
+                        <a href="collezioni" class="episodes-title">Collezioni</a>
+                    </div>
+                    <div class="single-latest-episodes">
                         <a href="showUtenti" class="episodes-title">Utenti</a>
                     </div>
-                    <div class="single-latest-episodes">
-                        <a href="login" class="episodes-title">Login</a>
-                    </div>
-                    <div class="single-latest-episodes">
-                        <a href="register" class="episodes-title">Registrati</a>
-                    </div>
+                    <#if session??>
+                        <#else>
+                            <div class="single-latest-episodes">
+                                <a href="login" class="episodes-title">Login</a>
+                            </div>
+                            <div class="single-latest-episodes">
+                                <a href="register" class="episodes-title">Registrati</a>
+                            </div>
+                    </#if>
                 </div>
             </div>
             <div class="col-12 col-sm-12 col-lg-6">

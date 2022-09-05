@@ -14,7 +14,7 @@ import java.util.List;
 public class ListaBraniDAO_MySQL extends DAO implements ListaBraniDAO {
 
     private PreparedStatement sListaBraniByID;
-    private PreparedStatement sListeBrani;
+    private PreparedStatement sListeBrani, sListeBraniByDisco;
     private PreparedStatement iListaBrani, uListaBrani, dListaBrani;
 
     public ListaBraniDAO_MySQL(DataLayer d) {
@@ -28,6 +28,7 @@ public class ListaBraniDAO_MySQL extends DAO implements ListaBraniDAO {
             // precompilazione di tutte le query utilizzate nella classe
             sListaBraniByID = connection.prepareStatement("SELECT * FROM ListaBrani WHERE id = ?");
             sListeBrani = connection.prepareStatement("SELECT id AS listaBraniID FROM ListaBrani");
+            sListeBraniByDisco = connection.prepareStatement("SELECT * FROM ListaBrani WHERE disco = ? ORDER BY id");
             iListaBrani = connection.prepareStatement("INSERT INTO ListaBrani (disco, canzone) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
             uListaBrani = connection.prepareStatement("UPDATE ListaBrani SET disco = ?, canzone = ? WHERE id = ?");
             dListaBrani = connection.prepareStatement("DELETE FROM ListaBrani WHERE id = ?");
@@ -41,6 +42,7 @@ public class ListaBraniDAO_MySQL extends DAO implements ListaBraniDAO {
     public void destroy() throws DataException {
         try {
             sListaBraniByID.close();
+            sListeBraniByDisco.close();
             sListeBrani.close();
             iListaBrani.close();
             uListaBrani.close();
@@ -103,6 +105,24 @@ public class ListaBraniDAO_MySQL extends DAO implements ListaBraniDAO {
         try (ResultSet rs = sListeBrani.executeQuery()) {
             while (rs.next()) {
                 result.add((ListaBrani) getListaBrani(rs.getInt("listaBraniID")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare la lista dei brani", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ListaBrani> getListeBrani(int disco_key) throws DataException {
+
+        List<ListaBrani> result = new ArrayList<>();
+
+        try {
+            sListeBraniByDisco.setInt(1, disco_key);
+            try (ResultSet rs = sListeBraniByDisco.executeQuery()) {
+                while (rs.next()) {
+                    result.add((ListaBrani) getListaBrani(rs.getInt("id")));
+                }
             }
         } catch (SQLException ex) {
             throw new DataException("Impossibile caricare la lista dei brani", ex);

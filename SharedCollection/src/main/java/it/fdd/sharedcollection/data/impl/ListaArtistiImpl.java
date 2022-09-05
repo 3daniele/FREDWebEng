@@ -5,13 +5,13 @@ import it.fdd.sharedcollection.data.model.Artista;
 import it.fdd.sharedcollection.data.model.Canzone;
 import it.fdd.sharedcollection.data.model.ListaArtisti;
 
-public class ListaArtitistiImpl extends DataItemImpl<Integer> implements ListaArtisti {
+public class ListaArtistiImpl extends DataItemImpl<Integer> implements ListaArtisti {
 
     private Artista artista;
     private Canzone canzone;
     private String ruolo;
 
-    public ListaArtitistiImpl() {
+    public ListaArtistiImpl() {
         super();
         this.artista = null;
         this.canzone = null;

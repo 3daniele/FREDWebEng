@@ -1,8 +1,6 @@
 package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.*;
-import it.fdd.sharedcollection.data.model.Canzone;
-import it.fdd.sharedcollection.data.model.Genere;
 import it.fdd.sharedcollection.data.model.ListaArtisti;
 import it.fdd.sharedcollection.data.proxy.ListaArtistiProxy;
 
@@ -14,9 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
-    private PreparedStatement sArtistaByID;
+    private PreparedStatement sArtistaByID, sArtistaByCanzone;
     private PreparedStatement sArtista;
-
 
     private PreparedStatement iLista;
     private PreparedStatement uLista;
@@ -33,10 +30,10 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
         try {
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
-            sArtista = connection.prepareStatement("SELECT * FROM ListaArtista WHERE id = ?");
-            sArtistaByID = connection.prepareStatement("SELECT id as ListaArtisti_id FROM ListaArtista WHERE id = ?");
-
-            iLista = connection.prepareStatement(" INSERT INTO ListaArtista (ruolo, artista,canzone) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            sArtistaByID = connection.prepareStatement("SELECT * FROM ListaArtisti WHERE id = ?");
+            sArtista = connection.prepareStatement("SELECT id as ListaArtisti_id FROM ListaArtisti WHERE id = ?");
+            sArtistaByCanzone = connection.prepareStatement("SELECT * FROM ListaArtisti WHERE canzone = ?");
+            iLista = connection.prepareStatement(" INSERT INTO ListaArtisti (ruolo, artista,canzone) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uLista = connection.prepareStatement("UPDATE ListaArtisti SET ruolo = ?, artista = ?, canzone = ? WHERE id = ?");
             dLista = connection.prepareStatement("DELETE FROM ListaArtisti WHERE id = ?");
         } catch (SQLException ex) {
@@ -49,6 +46,7 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
     public void destroy() throws DataException {
         try {
             sArtistaByID.close();
+            sArtistaByCanzone.close();
             sArtista.close();
             iLista.close();
             uLista.close();
@@ -81,7 +79,7 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
     @Override
     public ListaArtisti getArtista(int key) throws DataException {
 
-       ListaArtisti listaArtisti = null;
+        ListaArtisti listaArtisti = null;
 
         // controllo se l'oggetto è presente nella cache
         if (dataLayer.getCache().has(ListaArtisti.class, key)) {
@@ -121,17 +119,27 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
     }
 
 
-
     public List<ListaArtisti> getListaCanzoniByArtista(int artista_key) throws DataException {
 
         return null;
     }
 
 
-
     public List<ListaArtisti> getListaArtistiByCanzone(int canzone_key) throws DataException {
 
-        return null;
+        List<ListaArtisti> result = new ArrayList<>();
+
+        try {
+            sArtistaByCanzone.setInt(1, canzone_key);
+            try (ResultSet rs = sArtistaByCanzone.executeQuery()) {
+                while (rs.next()) {
+                    result.add((ListaArtisti) getArtista(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare ", ex);
+        }
+        return result;
     }
 
     @Override
@@ -153,7 +161,6 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
     public List<ListaArtisti> getListaCanzoniByRuolo(int ruolo_key) throws DataException {
         return null;
     }
-
 
 
     @Override
