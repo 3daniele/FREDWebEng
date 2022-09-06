@@ -12,6 +12,7 @@ import it.fdd.sharedcollection.data.model.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +51,18 @@ public class BraniDisco extends SharedCollectionBaseController {
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         TemplateResult res = new TemplateResult(getServletContext());
+        HttpSession sessione = request.getSession(true);
 
         request.setAttribute("page_title", "Lista Brani");
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("collezioniPath", true);
+
+        if (SecurityLayer.checkSession(request) != null) {
+            request.setAttribute("session", true);
+            request.setAttribute("username",sessione.getAttribute("username"));
+            request.setAttribute("email",sessione.getAttribute("email"));
+            request.setAttribute("userid", sessione.getAttribute("userid"));
+        }
 
         try {
             Integer disco_key = (Integer) request.getAttribute("discoID");
