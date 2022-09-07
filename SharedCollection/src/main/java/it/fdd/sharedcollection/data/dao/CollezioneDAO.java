@@ -20,5 +20,7 @@ public interface CollezioneDAO {
 
     List<Collezione> getCollezioniCondivise(List<UtentiAutorizzati> utenti) throws DataException;
 
+    Collezione getLast() throws DataException;
+
     void storeCollezione(Collezione collezione) throws DataException;
 }

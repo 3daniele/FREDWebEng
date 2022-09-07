@@ -46,13 +46,9 @@ Last Update: Dec 14, 2018
   [Font Family: 'HK Grotesk']
 --------------------------------------------- */
 /* Import Fonts & All CSS */
-@import url(default-assets/hkgrotesk-fonts.css);
 @import url(bootstrap.min.css);
-/*@import url(animate.css);*/
 @import url(default-assets/classy-nav.css);
 @import url(owl.carousel.min.css);
-/*@import url(magnific-popup.css); */
-/*@import url(default-assets/audioplayer.css); */
 @import url(font-awesome.min.css);
 /* :: 1.0 Reboot CSS */
 * {
@@ -1579,4 +1575,3 @@ ul {
     height: 110px;
     padding: 15px; }
 
-/*# sourceMappingURL=style.css.map */

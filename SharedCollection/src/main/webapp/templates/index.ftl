@@ -9,7 +9,7 @@
 
     <title>SharedCollection</title>
 
-    <link rel="icon" href="images/templateimg/core-img/xfavicon.ico.pagespeed.ic.NaLbJJ4AVY.webp">
+    <link rel="icon" href="images/templateimg/core-img/favicon.ico">
 
     <link rel="stylesheet" href="style/style.css">
 </head>
@@ -48,7 +48,8 @@
                     <#if session??>
                     <li class="cn-dropdown-item"><a href="#">${username}</a>
                         <ul class="dropdown">
-                            <li><a href="utente?id=${userid}">${email}</a></li>
+                            <li><a href="utente?id=${userid}">Profilo</a></li>
+                            <li><a href="newCollezione">Nuova Collezione</a></li>
                             <li><a href="logout">Logout</a></li>
                         </ul>
                         <span class="dd-trigger"></span>
@@ -93,7 +94,8 @@
                             <h2 data-animation="fadeInUp" data-delay="100ms">La collezione del momento</h2>
                         </div>
                         <div class="poca-music-area mt-100 d-flex align-items-center flex-wrap"
-                             data-animation="fadeInUp">
+                             data-animation="fadeInUp" style="cursor:pointer"
+                             onclick="location.href='collezione?numero=${ultima_collezione.key}'">
                             <div class="poca-music-thumbnail">
                                 <img src="images/templateimg/bg-img/27.jpg" alt="">
                             </div>
@@ -101,7 +103,7 @@
                                 <span class="music-published-date">${ultima_collezione.dataCreazione}</span>
                                 <h2>${ultima_collezione.nome}</h2>
                                 <div class="music-meta-data">
-                                    <p>By <a href="#" class="music-author">
+                                    <p>By <a href="utente?id=${ultima_collezione.utente.key}" class="music-author">
                                         <#list utenti as utente>
                                             <#if (utente.key=ultima_collezione.utente.key)>
                                                 ${utente.nickname}
@@ -223,7 +225,7 @@
 
 <script src="js/jquery.min.js"></script>
 
-<!-- <script src="js/popper.min.js+bootstrap.min.js.pagespeed.jc.eIYvIg2nhw.js"></script> -->
+<script src="js/bootstrap.min.js"></script>
 
 <script src="js/poca.bundle.js"></script>
 

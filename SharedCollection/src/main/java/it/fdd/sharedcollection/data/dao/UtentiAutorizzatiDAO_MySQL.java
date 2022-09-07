@@ -180,17 +180,8 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
                 }
             } else {
                 // insert
-                if (utentiAutorizzati.getUtente() != null) {
-                    iUtentiAutorizzati.setInt(1, utentiAutorizzati.getUtente().getKey());
-                } else {
-                    iUtentiAutorizzati.setNull(1, java.sql.Types.INTEGER);
-                }
-
-                if (utentiAutorizzati.getCollezione() != null) {
-                    iUtentiAutorizzati.setInt(2, utentiAutorizzati.getCollezione().getKey());
-                } else {
-                    iUtentiAutorizzati.setNull(2, java.sql.Types.INTEGER);
-                }
+                iUtentiAutorizzati.setInt(1, utentiAutorizzati.getUtente().getKey());
+                iUtentiAutorizzati.setInt(2, utentiAutorizzati.getCollezione().getKey());
 
                 if (iUtentiAutorizzati.executeUpdate() == 1) {
                     // get della chiave generata

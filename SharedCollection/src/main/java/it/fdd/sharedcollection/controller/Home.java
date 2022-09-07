@@ -52,7 +52,7 @@ public class Home extends SharedCollectionBaseController {
         try {
             List<Collezione> lista = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche();
             request.setAttribute("collezioni_home", lista);
-            request.setAttribute("ultima_collezione", lista.get(lista.size()-1));
+            request.setAttribute("ultima_collezione", lista.get(0));
             List<Utente> listaUtenti = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti();
             request.setAttribute("utenti",listaUtenti);
         } catch (DataException ex) {

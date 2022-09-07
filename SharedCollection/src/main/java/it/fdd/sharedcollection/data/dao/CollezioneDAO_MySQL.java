@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     private PreparedStatement sCollezioneByID;
-    private PreparedStatement sCollezioni, sCollezioniByUtente, sCollezioniPubbliche;
+    private PreparedStatement sCollezioni, sCollezioniByUtente, sCollezioniPubbliche, sLastCollezione;
     private PreparedStatement iCollezione, uCollezione, dCollezione;
 
     public CollezioneDAO_MySQL(DataLayer d) {
@@ -28,9 +28,10 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sCollezioneByID = connection.prepareStatement("SELECT * FROM collezione WHERE id=?");
             sCollezioni = connection.prepareStatement("SELECT * FROM collezione");
             sCollezioniByUtente = connection.prepareStatement("SELECT * FROM collezione WHERE utente=?");
-            sCollezioniPubbliche = connection.prepareStatement("SELECT * FROM collezione WHERE condivisione='pubblica' LIMIT 6");
+            sCollezioniPubbliche = connection.prepareStatement("SELECT * FROM collezione WHERE condivisione='pubblica' ORDER BY id DESC LIMIT 6");
+            sLastCollezione = connection.prepareStatement("SELECT * FROM collezione ORDER BY id DESC LIMIT 1");
 
-            iCollezione = connection.prepareStatement("INSERT INTO collezione (nome,condivisione,dataDiCreazione,utente) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            iCollezione = connection.prepareStatement("INSERT INTO collezione (nome,condivisione,utente) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uCollezione = connection.prepareStatement("UPDATE collezione SET nome=?,condivisione=?,dataDiCreazione=?,utente=? WHERE ID=?");
             dCollezione = connection.prepareStatement("DELETE FROM collezione WHERE ID=?");
 
@@ -47,6 +48,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sCollezioni.close();
             sCollezioniByUtente.close();
             sCollezioniPubbliche.close();
+            sLastCollezione.close();
 
             iCollezione.close();
             uCollezione.close();
@@ -131,6 +133,20 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     }
 
     @Override
+    public Collezione getLast() throws DataException{
+
+        Collezione result = null;
+            try (ResultSet rs = sLastCollezione.executeQuery()) {
+                while (rs.next()) {
+                    result = ((Collezione) getCollezione(rs.getInt("id")));
+                }
+            }catch (SQLException ex) {
+            throw new DataException("Unable to load last Collezione", ex);
+        }
+        return result;
+    }
+
+    @Override
     public List<Collezione> getCollezioniCondivise(List<UtentiAutorizzati> utenti) throws DataException {
 
         List<Collezione> result = new ArrayList<>();
@@ -183,8 +199,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             } else {
                 iCollezione.setString(1, collezione.getNome());
                 iCollezione.setString(2, collezione.getCondivisione());
-                iCollezione.setDate(3, java.sql.Date.valueOf(collezione.getDataCreazione()));
-                iCollezione.setInt(4, collezione.getUtente().getKey());
+                iCollezione.setInt(3, collezione.getUtente().getKey());
 
                 if (iCollezione.executeUpdate() == 1) {
                     try (ResultSet keys = iCollezione.getGeneratedKeys()) {

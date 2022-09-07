@@ -1,7 +1,16 @@
 <div class="table-responsive">
     <#if session??>
         <br>
-        <h2>Le mie collezioni</h2>
+        <div class="row">
+            <div class="col">
+                <h2>Le mie collezioni</h2>
+            </div>
+            <div class="col text-end">
+                <a href="newCollezione" class="btn btn-outline-success" role="button">Nuova collezione</a>
+            </div>
+
+        </div>
+
         <#if (collezioniPersonali?size>0)>
             <#assign n = 0>
             <table class="table custom-table">
@@ -37,7 +46,7 @@
                     <td>${strip_slashes(collezione.condivisione)}&nbsp</td>
                     <td>${strip_slashes(collezione.utente.nickname)}&nbsp</td>
                     <td>${strip_slashes(collezione.dataCreazione)}&nbsp</td>
-                    <td><a href="modificaCollezione?numero=${collezione.key}" class="btn btn-outline-danger" role="button">Modifica</a></td>
+                    <td class="text-end"><a href="modificaCollezione?numero=${collezione.key}" class="btn btn-outline-danger" role="button">Modifica</a></td>
                 </tr>
                 </#list>
                 </tbody>
