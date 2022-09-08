@@ -1,14 +1,42 @@
 <div class="row">
-    <h3>Lista dischi</h3>
+    <h2>Dettagli collezione</h2>
+    <hr>
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="row">
+                <h3>Artisti:</h3>
+            </div>
+            <hr>
+            <div class="row">
+                Artisti
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="row">
+                <h3>Generi:</h3>
+            </div>
+                <#assign n=0>
+                <#list generi as genere>
+                    <p>${genere.nome}</p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-danger" role="progressbar" aria-label="Danger striped example" style="width: ${percentuali[n]}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">${percentuali[n]}</div>
+                    </div>
+                    <#assign n++>
+                </#list>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <h2>Lista dischi</h2>
     <hr>
 </div>
 <div class="row poca-portfolio">
     <#list dettagliDischi as dettaglio>
         <#list dischi as disco>
             <#if (disco.key = dettaglio.disco.key)>
-                <div class="col-12 col-md-4 single_gallery_item entre wow fadeInUp animated" data-wow-delay="0.2s"
-                     style="visibility: visible; animation-delay: 0.2s; position: absolute; left: 0%; top: 0px; cursor:pointer"
-                     onclick="location.href='disco?numero=${disco.key}'">
+                <div class="col-12 col-md-4 single_gallery_item entre wow fadeInUp" data-wow-delay="0.2s"
+                     style="cursor:pointer" onclick="location.href='disco?numero=${disco.key}&collezione=${collezione_key}'">
                     <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
                         <div class="poca-music-thumbnail">
                             <img src="${dettaglio.imgCopertina}" alt="">
@@ -31,8 +59,4 @@
             </#if>
         </#list>
     </#list>
-</div>
-<hr>
-<div class="row">
-    <h3>Dettagli collezione</h3>
 </div>

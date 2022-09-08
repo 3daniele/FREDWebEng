@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
     private PreparedStatement sListaDischiByID;
-    private PreparedStatement sListeDischi, sDischiByCollezione;
+    private PreparedStatement sListeDischi, sDischiByCollezione, sListaDisco;
     private PreparedStatement iListaDischi, uListaDischi, dListaDischi;
 
     public ListaDischiDAO_MySQL(DataLayer d) {
@@ -27,7 +27,8 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
             // precompilazione di tutte le query utilizzate nella classe
             sListaDischiByID = connection.prepareStatement("SELECT * FROM listaDischi WHERE id = ?");
             sListeDischi = connection.prepareStatement("SELECT * FROM listaDischi");
-            sDischiByCollezione = connection.prepareStatement("SELECT *FROM ListaDischi WHERE collezione=?");
+            sListaDisco = connection.prepareStatement("SELECT * FROM ListaDischi WHERE collezione = ? AND disco = ?");
+            sDischiByCollezione = connection.prepareStatement("SELECT * FROM ListaDischi WHERE collezione=?");
             iListaDischi = connection.prepareStatement("INSERT INTO listaDischi (collezione, disco, numeroCopie,stato,formato,barcode,imgCopertina,imgFronte,imgRetro,imgLibretto) VALUES(?, ?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uListaDischi = connection.prepareStatement("UPDATE listaDischi SET collezione=?,disco = ?, numeroCopie = ?, stato=?,formato=?,barcode=?,imgCopertina=?,imgFronte=?,imgRetro=?,imgLibretto=? WHERE id = ?");
             dListaDischi = connection.prepareStatement("DELETE FROM listaDischi WHERE id = ?");
@@ -42,6 +43,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
             sListaDischiByID.close();
             sListeDischi.close();
             sDischiByCollezione.close();
+            sListaDisco.close();
             iListaDischi.close();
             uListaDischi.close();
             dListaDischi.close();
@@ -103,6 +105,28 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
     }
 
     @Override
+    public ListaDischi getListaDisco(int collezione_key, int disco_key) throws DataException {
+
+        ListaDischi listaDisco = null;
+
+        try {
+            sListaDisco.setInt(1, collezione_key);
+            sListaDisco.setInt(2, disco_key);
+            try (ResultSet rs = sListaDisco.executeQuery()) {
+                if (rs.next()) {
+                    listaDisco = createListaDischi(rs);
+                    // aggiunta nella cache
+                    dataLayer.getCache().add(ListaDischi.class, listaDisco);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare la lista del disco", ex);
+        }
+
+        return listaDisco;
+    }
+
+    @Override
     public List<ListaDischi> getDischiByCollezione(int collezione_key) throws DataException {
 
         List<ListaDischi> result = new ArrayList<>();
@@ -119,7 +143,6 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
         }
         return result;
     }
-
 
     @Override
     public List<ListaDischi> getListeDischi() throws DataException {

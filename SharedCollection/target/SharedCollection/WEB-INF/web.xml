@@ -75,7 +75,7 @@
     </servlet>
     <servlet>
         <servlet-name>Disco</servlet-name>
-        <servlet-class>it.fdd.sharedcollection.controller.BraniDisco</servlet-class>
+        <servlet-class>it.fdd.sharedcollection.controller.InfoDisco</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>

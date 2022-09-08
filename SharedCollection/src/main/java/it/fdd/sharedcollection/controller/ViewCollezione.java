@@ -7,10 +7,7 @@ import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
-import it.fdd.sharedcollection.data.model.Collezione;
-import it.fdd.sharedcollection.data.model.Disco;
-import it.fdd.sharedcollection.data.model.ListaDischi;
-import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
+import it.fdd.sharedcollection.data.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +63,52 @@ public class ViewCollezione extends SharedCollectionBaseController {
 
             request.setAttribute("dettagliDischi", dettagliDischi);
             request.setAttribute("dischi", disco);
+            request.setAttribute("collezione_key", collezione_key);
+
+
+            //Sezione statistiche
+            /* ------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+            List<ListaBrani> listaBrani = new ArrayList<>();
+            for (ListaDischi i: dettagliDischi) {
+                listaBrani.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaBraniDAO().getListeBrani(i.getDisco().getKey()));
+            }
+
+            List<ListaGeneri> listaGeneri = new ArrayList<>();
+            for (ListaBrani i: listaBrani) {
+                listaGeneri.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaGeneriDAO().getListaGeneriByCanzone(i.getCanzone().getKey()));
+            }
+
+            List<Genere> generi = new ArrayList<>();
+            for (ListaGeneri i: listaGeneri) {
+                Genere g =((SharedCollectionDataLayer) request.getAttribute("datalayer")).getGenereDAO().getGenere(i.getGenere().getKey());
+
+                if(!generi.contains(g))
+                    generi.add(g);
+
+            }
+
+            //Mi serve il numero totale dei brani = listaBrani.size()
+            //Devo calcolarmi le occorrenze di ogni singolo genere per ogni canzone
+            List<Integer> occorrenze = new ArrayList<>();
+            int sum=0;
+            for (Genere i: generi) {
+                sum = 0;
+                for (ListaGeneri j: listaGeneri) {
+                    if(i.getKey() == j.getGenere().getKey())
+                        sum++;
+                }
+                occorrenze.add(sum);
+            }
+
+            //Calcolo delle percentuali
+            List<String> percentuali = new ArrayList<>();
+            for (Integer i: occorrenze) {
+                percentuali.add(i*100/listaBrani.size()+"%");
+            }
+
+            request.setAttribute("generi",generi);
+            request.setAttribute("percentuali", percentuali);
+            /* ------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
             res.activate("collezione.ftl", request, response);
         } catch (DataException ex) {
@@ -108,4 +151,5 @@ public class ViewCollezione extends SharedCollectionBaseController {
     public String getServletInfo() {
         return "Servlet collezione";
     }
+
 }

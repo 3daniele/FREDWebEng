@@ -1,6 +1,6 @@
 <#if collezioni_home??>
     <#assign n = 5>
-    <div class="row poca-portfolio">
+    <div class="row poca-portfolio" style="position: relative; height: 1139px;">
         <#list collezioni_home as collezione>
             <div class="col-12 col-md-4 single_gallery_item entre wow fadeInUp animated" data-wow-delay="0.2s"
                  style="visibility: visible; animation-delay: 0.2s; position: absolute; left: 0%; top: 0px; cursor:pointer;"
@@ -13,12 +13,14 @@
                         <span class="music-published-date mb-2">${collezione.dataCreazione}</span>
                         <h2>${collezione.nome}</h2>
                         <div class="music-meta-data">
-                            <p>By <a href="#" class="music-author">
-                                    <#list utenti as utente>
-                                        <#if (utente.key=collezione.utente.key)>
+
+                            <#list utenti as utente>
+                                <#if (utente.key=collezione.utente.key)>
+                                    <p>By <a href="utente?id=${utente.key}" class="music-author">
                                             ${utente.nickname}
-                                        </#if>
-                                    </#list></a>
+                                        </a></p>
+                                </#if>
+                            </#list>
                         </div>
                     </div>
                 </div>
