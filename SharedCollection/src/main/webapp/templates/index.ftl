@@ -138,9 +138,7 @@
 
     <!-- ===== COLLEZIONI ===== -->
     <div class="container">
-        <div class="row">
-            <#include content_tpl>
-        </div>
+        <#include content_tpl>
     </div>
 </section>
 
