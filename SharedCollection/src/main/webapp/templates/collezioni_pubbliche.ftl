@@ -1,10 +1,9 @@
 <#if collezioni_home??>
     <#assign n = 5>
-    <div class="row poca-portfolio" style="position: relative; height: 1139px;">
+    <div class="row poca-portfolio">
         <#list collezioni_home as collezione>
             <div class="col-12 col-md-4 single_gallery_item entre wow fadeInUp animated" data-wow-delay="0.2s"
-                 style="visibility: visible; animation-delay: 0.2s; position: absolute; left: 0%; top: 0px; cursor:pointer;"
-                 onclick="location.href='collezione?numero=${collezione.key}'">
+                 style="cursor:pointer;" onclick="location.href='collezione?numero=${collezione.key}'">
                 <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
                     <div class="poca-music-thumbnail">
                         <img src="images/templateimg/bg-img/${n}.jpg" alt="">

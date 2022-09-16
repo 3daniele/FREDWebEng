@@ -72,7 +72,7 @@ public class ViewCollezione extends SharedCollectionBaseController {
             for (ListaDischi i: dettagliDischi) {
                 listaBrani.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaBraniDAO().getListeBrani(i.getDisco().getKey()));
             }
-
+            //Generi
             List<ListaGeneri> listaGeneri = new ArrayList<>();
             for (ListaBrani i: listaBrani) {
                 listaGeneri.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaGeneriDAO().getListaGeneriByCanzone(i.getCanzone().getKey()));
@@ -109,6 +109,37 @@ public class ViewCollezione extends SharedCollectionBaseController {
             request.setAttribute("generi",generi);
             request.setAttribute("percentuali", percentuali);
             /* ------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+            List<ListaArtisti> listaArtisti = new ArrayList<>();
+            for (ListaBrani i: listaBrani) {
+                listaArtisti.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaArtistiDAO().getListaArtistiByCanzone(i.getCanzone().getKey()));
+            }
+
+            List<Artista> artisti = new ArrayList<>();
+            for (ListaArtisti i: listaArtisti) {
+                Artista a = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtista(i.getArtista().getKey());
+                if (!artisti.contains(a))
+                    artisti.add(a);
+            }
+            List<Integer> occorrenzeArtisti = new ArrayList<>();
+            for (Artista i: artisti){
+                sum = 0;
+                for(ListaArtisti j : listaArtisti){
+                    if(i.getKey() == j.getArtista().getKey()){
+                        sum++;
+                    }
+                }
+                occorrenzeArtisti.add(sum);
+            }
+
+            //Calcolo delle percentuali
+            List<String> percentualiArtisiti = new ArrayList<>();
+            for(Integer i : occorrenzeArtisti){
+                percentualiArtisiti.add(i*100/listaBrani.size()+"%");
+            }
+
+            request.setAttribute("artisti",artisti);
+            request.setAttribute("percentualiA", percentualiArtisiti);
 
             res.activate("collezione.ftl", request, response);
         } catch (DataException ex) {
