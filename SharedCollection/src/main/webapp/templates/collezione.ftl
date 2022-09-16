@@ -4,15 +4,6 @@
     <div class="row">
         <div class="col-12 col-md-6 col-lg-6">
             <div class="row">
-                <h3>Artisti:</h3>
-            </div>
-            <hr>
-            <div class="row">
-                Artisti
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-6">
-            <div class="row">
                 <h3>Generi:</h3>
             </div>
                 <#assign n=0>
@@ -23,6 +14,19 @@
                     </div>
                     <#assign n++>
                 </#list>
+        </div>
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="row">
+                <h3>Artisti:</h3>
+            </div>
+            <#assign n=0>
+            <#list artisti as artista>
+                <p>${artista.nomeArte}</p>
+                <div class="progress mb-2">
+                    <div class="progress-bar bg-success" role="progressbar" aria-label="Danger striped example" style="width: ${percentualiA[n]}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">${percentualiA[n]}</div>
+                </div>
+                <#assign n++>
+            </#list>
         </div>
     </div>
 </div>
