@@ -35,11 +35,11 @@
     <h2>Lista dischi</h2>
     <hr>
 </div>
-<div class="row poca-portfolio">
+<div class="row">
     <#list dettagliDischi as dettaglio>
         <#list dischi as disco>
             <#if (disco.key = dettaglio.disco.key)>
-                <div class="col-12 col-md-4 single_gallery_item entre wow fadeInUp" data-wow-delay="0.2s"
+                <div class="col-12 col-md-4 entre wow fadeInUp" data-wow-delay="0.2s"
                      style="cursor:pointer" onclick="location.href='disco?numero=${disco.key}&collezione=${collezione_key}'">
                     <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
                         <div class="poca-music-thumbnail">
