@@ -3,6 +3,7 @@ package it.fdd.sharedcollection.data.dao;
 import it.fdd.framework.data.DataException;
 import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface UtentiAutorizzatiDAO {

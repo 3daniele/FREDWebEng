@@ -31,53 +31,53 @@
                     <div class="classynav">
                         <ul id="nav">
                             <#if display??>
-                            <li class="current-item"><a href="home">Home</a></li>
+                                <li class="current-item"><a href="home">Home</a></li>
                             <#else>
-                            <li><a href="home">Home</a></li>
-                        </#if>
-                        <#if collezioniPath??>
-                            <li class="current-item"><a href="collezioni">Collezioni</a></li>
-                        <#else>
-                            <li><a href="collezioni">Collezioni</a></li>
-                        </#if>
-                        <#if utentiPath??>
-                            <li class="current-item"><a href="showUtenti">Utenti</a></li>
-                        <#else>
-                            <li><a href="showUtenti">Utenti</a></li>
-                        </#if>
-                    <#if session??>
-                    <li class="cn-dropdown-item"><a href="#">${username}</a>
-                        <ul class="dropdown">
-                            <li><a href="utente?id=${userid}">Profilo</a></li>
-                            <li><a href="newCollezione">Nuova Collezione</a></li>
-                            <li><a href="logout">Logout</a></li>
-                        </ul>
-                        <span class="dd-trigger"></span>
-                    </li>
+                                <li><a href="home">Home</a></li>
+                            </#if>
+                            <#if collezioniPath??>
+                                <li class="current-item"><a href="collezioni">Collezioni</a></li>
+                            <#else>
+                                <li><a href="collezioni">Collezioni</a></li>
+                            </#if>
+                            <#if utentiPath??>
+                                <li class="current-item"><a href="showUtenti">Utenti</a></li>
+                            <#else>
+                                <li><a href="showUtenti">Utenti</a></li>
+                            </#if>
+                            <#if session??>
+                                <li class="cn-dropdown-item"><a href="#">${username}</a>
+                                    <ul class="dropdown">
+                                        <li><a href="utente?id=${userid}">Profilo</a></li>
+                                        <li><a href="newCollezione">Nuova Collezione</a></li>
+                                        <li><a href="logout">Logout</a></li>
+                                    </ul>
+                                    <span class="dd-trigger"></span>
+                                </li>
 
-                    <#else>
-                    <#if loginPath??>
-                    <li class="current-item"><a href="login">Login</a></li>
-                    <#else>
-                    <li><a href="login">Login</a></li>
-                </#if>
-                <#if registrationPath??>
-                <li class="current-item"><a href="register">Registrati</a></li>
-                <#else>
-                <li><a href="register">Registrati</a></li>
-            </#if>
-        </#if>
-        </ul>
-        <div class="top-search-area">
-            <form action="home" method="post">
-                <input type="search" name="top-search-bar" class="form-control"
-                       placeholder="Cerca">
-            </form>
+                            <#else>
+                                <#if loginPath??>
+                                    <li class="current-item"><a href="login">Login</a></li>
+                                <#else>
+                                    <li><a href="login">Login</a></li>
+                                </#if>
+                                <#if registrationPath??>
+                                    <li class="current-item"><a href="register">Registrati</a></li>
+                                <#else>
+                                    <li><a href="register">Registrati</a></li>
+                                </#if>
+                            </#if>
+                        </ul>
+                        <div class="top-search-area">
+                            <form action="home" method="post">
+                                <input type="search" name="top-search-bar" class="form-control"
+                                       placeholder="Cerca">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </nav>
         </div>
-    </div>
-    </div>
-    </nav>
-    </div>
     </div>
 </header>
 
@@ -85,44 +85,44 @@
 <section class="welcome-area">
     <div class="welcome-slides owl-carousel">
         <#if display??>
-        <div class="welcome-welcome-slide bg-img bg-overlay"
-             style="background-image:url(images/templateimg/bg-img/1.jpg)">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <div class="col-12">
-                        <div class="welcome-text">
-                            <h2 data-animation="fadeInUp" data-delay="100ms">La collezione del momento</h2>
-                        </div>
-                        <div class="poca-music-area mt-100 d-flex align-items-center flex-wrap"
-                             data-animation="fadeInUp" style="cursor:pointer"
-                             onclick="location.href='collezione?numero=${ultima_collezione.key}'">
-                            <div class="poca-music-thumbnail">
-                                <img src="images/templateimg/bg-img/27.jpg" alt="">
+            <div class="welcome-welcome-slide bg-img bg-overlay"
+                 style="background-image:url(images/templateimg/bg-img/1.jpg)">
+                <div class="container h-100">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-12">
+                            <div class="welcome-text">
+                                <h2 data-animation="fadeInUp" data-delay="100ms">La collezione del momento</h2>
                             </div>
-                            <div class="poca-music-content">
-                                <span class="music-published-date">${ultima_collezione.dataCreazione}</span>
-                                <h2>${ultima_collezione.nome}</h2>
-                                <div class="music-meta-data">
-                                    <p>By <a href="utente?id=${ultima_collezione.utente.key}" class="music-author">
-                                        <#list utenti as utente>
-                                            <#if (utente.key=ultima_collezione.utente.key)>
-                                                ${utente.nickname}
-                                        </#if>
-                                        </#list>
-                                    </a>
+                            <div class="poca-music-area mt-100 d-flex align-items-center flex-wrap"
+                                 data-animation="fadeInUp" style="cursor:pointer"
+                                 onclick="location.href='collezione?numero=${ultima_collezione.key}'">
+                                <div class="poca-music-thumbnail">
+                                    <img src="images/templateimg/bg-img/27.jpg" alt="">
+                                </div>
+                                <div class="poca-music-content">
+                                    <span class="music-published-date">${ultima_collezione.dataCreazione}</span>
+                                    <h2>${ultima_collezione.nome}</h2>
+                                    <div class="music-meta-data">
+                                        <p>By <a href="utente?id=${ultima_collezione.utente.key}" class="music-author">
+                                                <#list utenti as utente>
+                                                    <#if (utente.key=ultima_collezione.utente.key)>
+                                                        ${utente.nickname}
+                                                    </#if>
+                                                </#list>
+                                            </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </#if>
+        </#if>
     </div>
 </section>
 
 <#if !dispaly??>
-<br>
+    <br>
 </#if>
 <section class="poca-latest-epiosodes section-padding-80">
     <div class="container">
@@ -173,13 +173,13 @@
                         <a href="showUtenti" class="episodes-title">Utenti</a>
                     </div>
                     <#if session??>
-                        <#else>
-                            <div class="single-latest-episodes">
-                                <a href="login" class="episodes-title">Login</a>
-                            </div>
-                            <div class="single-latest-episodes">
-                                <a href="register" class="episodes-title">Registrati</a>
-                            </div>
+                    <#else>
+                        <div class="single-latest-episodes">
+                            <a href="login" class="episodes-title">Login</a>
+                        </div>
+                        <div class="single-latest-episodes">
+                            <a href="register" class="episodes-title">Registrati</a>
+                        </div>
                     </#if>
                 </div>
             </div>
@@ -196,15 +196,15 @@
                     <h4 class="widget-title">Follow Us</h4>
                     <div class="footer-social-info">
                         <a href="#" class="facebook" data-toggle="tooltip" data-placement="top" title="Facebook"><i
-                                class="fa fa-facebook"></i></a>
+                                    class="fa fa-facebook"></i></a>
                         <a href="#" class="twitter" data-toggle="tooltip" data-placement="top" title="Twitter"><i
-                                class="fa fa-twitter"></i></a>
+                                    class="fa fa-twitter"></i></a>
                         <a href="#" class="pinterest" data-toggle="tooltip" data-placement="top"
                            title="Pinterest"><i class="fa fa-pinterest"></i></a>
                         <a href="#" class="instagram" data-toggle="tooltip" data-placement="top"
                            title="Instagram"><i class="fa fa-instagram"></i></a>
                         <a href="#" class="youtube" data-toggle="tooltip" data-placement="top" title="YouTube"><i
-                                class="fa fa-youtube-play"></i></a>
+                                    class="fa fa-youtube-play"></i></a>
                     </div>
                     <div class="copywrite-content">
                         <p>&copy;

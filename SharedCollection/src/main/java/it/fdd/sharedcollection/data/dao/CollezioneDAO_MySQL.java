@@ -32,7 +32,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sLastCollezione = connection.prepareStatement("SELECT * FROM collezione ORDER BY id DESC LIMIT 1");
 
             iCollezione = connection.prepareStatement("INSERT INTO collezione (nome,condivisione,utente) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            uCollezione = connection.prepareStatement("UPDATE collezione SET nome=?,condivisione=?,dataDiCreazione=?,utente=? WHERE ID=?");
+            uCollezione = connection.prepareStatement("UPDATE collezione SET nome=?,condivisione=? WHERE ID=?");
             dCollezione = connection.prepareStatement("DELETE FROM collezione WHERE ID=?");
 
         } catch (SQLException ex) {
@@ -189,9 +189,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
                 }
                 uCollezione.setString(1, collezione.getNome());
                 uCollezione.setString(2, collezione.getCondivisione());
-                uCollezione.setDate(3, java.sql.Date.valueOf(collezione.getDataCreazione()));
-                uCollezione.setInt(4, collezione.getUtente().getKey());
-                uCollezione.setInt(5, collezione.getKey());
+                uCollezione.setInt(3, collezione.getKey());
 
                 if (uCollezione.executeUpdate() == 0) {
                     throw new OptimisticLockException(collezione);

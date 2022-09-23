@@ -57,6 +57,14 @@
                                     <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.stato}</a>
                                 </div>
                             </div>
+                            <noscript>
+                                <style type="text/css">
+                                    .pagecontainer {display:none;}
+                                </style>
+                                <div class="noscriptmsg">
+                                    <a href="disco?numero=${disco.key}&collezione=${collezione_key}" class="btn poca-btn mt-10">Visualizza</a>
+                                </div>
+                            </noscript>
                         </div>
                     </div>
                 </div>

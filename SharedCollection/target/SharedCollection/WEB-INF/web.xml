@@ -74,6 +74,10 @@
         <servlet-class>it.fdd.sharedcollection.controller.NuovaCollezione</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Modifica collezione</servlet-name>
+        <servlet-class>it.fdd.sharedcollection.controller.ModificaCollezione</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Disco</servlet-name>
         <servlet-class>it.fdd.sharedcollection.controller.InfoDisco</servlet-class>
     </servlet>
@@ -112,6 +116,10 @@
     <servlet-mapping>
         <servlet-name>Nuova collezione</servlet-name>
         <url-pattern>/newCollezione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Modifica collezione</servlet-name>
+        <url-pattern>/modificaCollezione</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Disco</servlet-name>

@@ -164,10 +164,7 @@ public class ViewCollezione extends SharedCollectionBaseController {
         } catch (NumberFormatException ex) {
             request.setAttribute("message", "Invalid number submitted");
             action_error(request, response);
-        } catch (IOException ex) {
-            request.setAttribute("exception", ex);
-            action_error(request, response);
-        } catch (TemplateManagerException ex) {
+        } catch (IOException | TemplateManagerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
         }

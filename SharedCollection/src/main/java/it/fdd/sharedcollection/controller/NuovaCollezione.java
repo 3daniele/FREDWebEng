@@ -45,6 +45,7 @@ public class NuovaCollezione extends SharedCollectionBaseController {
 
 
             request.setAttribute("lista_utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+            request.setAttribute("lista_dischi", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getDiscoDAO().getDischi());
 
             res.activate("nuova_collezione.ftl", request, response);
 
@@ -92,12 +93,14 @@ public class NuovaCollezione extends SharedCollectionBaseController {
 
             int collezione_key = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getLast().getKey();
 
-            //Attributi utentiAutorizzati
-            for (int i=0; i<utentiS.length;i++){
-                UtentiAutorizzati utentiAutorizzati = new UtentiAutorizzatiImpl();
-                utentiAutorizzati.setCollezione(((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
-                utentiAutorizzati.setUtente(((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtente(Integer.parseInt(utentiS[i])));
-                ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(utentiAutorizzati);
+            if (utentiS != null) {
+                //Attributi utentiAutorizzati
+                for (int i=0; i<utentiS.length;i++){
+                    UtentiAutorizzati utentiAutorizzati = new UtentiAutorizzatiImpl();
+                    utentiAutorizzati.setCollezione(((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
+                    utentiAutorizzati.setUtente(((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtente(Integer.parseInt(utentiS[i])));
+                    ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(utentiAutorizzati);
+                }
             }
 
             response.sendRedirect("collezioni");

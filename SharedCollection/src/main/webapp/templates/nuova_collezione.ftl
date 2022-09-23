@@ -41,6 +41,19 @@
                     Seleziona gli utenti con cui condividere la tua collezione.
                 </div>
             </div>
+            <div class="mb-3">
+                <label class="form-label">
+                    <h5>Dischi</h5>
+                </label>
+                <select class="selectpicker" multiple data-live-search="true" id="dischi" name="dischi">
+                    <#list lista_dischi as disco>
+                        <option value="${disco.key}" id="${disco.key}">${disco.nome}</option>
+                    </#list>
+                </select>
+                <div class="form-text">
+                    Seleziona i dischi da aggiungere alla tua collezione.
+                </div>
+            </div>
             <input type="submit" class="btn poca-btn mt-70" value="Salva" name="nuova_collezione">
         </div>
     </form>
