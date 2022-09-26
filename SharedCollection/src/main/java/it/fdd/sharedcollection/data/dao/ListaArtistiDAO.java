@@ -1,4 +1,5 @@
 package it.fdd.sharedcollection.data.dao;
+
 import it.fdd.framework.data.DataException;
 import it.fdd.sharedcollection.data.model.ListaArtisti;
 
@@ -15,7 +16,7 @@ public interface ListaArtistiDAO {
 
     List<ListaArtisti> getListaCanzoniByArtista(int artista_key) throws DataException;
 
-    List<ListaArtisti> getListaArtistiByCanzone(int  canzone_key) throws DataException;
+    List<ListaArtisti> getListaArtistiByCanzone(int canzone_key) throws DataException;
 
     List<ListaArtisti> getListaRuoliByCanzone(int canzone_key) throws DataException;
 
@@ -26,8 +27,6 @@ public interface ListaArtistiDAO {
     List<ListaArtisti> getListaCanzoniByRuolo(int ruolo_key) throws DataException;
 
     void storeListaArtisti(ListaArtisti element) throws DataException;
-
-
 
 
 }

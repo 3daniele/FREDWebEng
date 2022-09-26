@@ -13,14 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-
 public class UtilityMethods {
-
-
-
-
-
-
     /**
      * Simula l'invio di una email all'utente in base ai parametri inseriti
      *
@@ -63,8 +56,8 @@ public class UtilityMethods {
                 String refer_code = SecurityLayer.encrypt(me.getEmail(), SecurityLayer.getStaticEncrypyionKey());
                 writer.newLine();
 
-                writer.write( " http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=" + verification_code + "&refer_code=" + refer_code);
-                me.setLink( verification_code);
+                writer.write(" http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=" + verification_code + "&refer_code=" + refer_code);
+                me.setLink(verification_code);
                 System.out.println(me.getLink());
 
             }

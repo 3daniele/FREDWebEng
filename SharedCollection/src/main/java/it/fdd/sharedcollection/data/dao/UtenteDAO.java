@@ -14,20 +14,25 @@ public interface UtenteDAO {
     List<Utente> getUtenti() throws DataException;
 
     List<Integer> getUtenteInfo(int utente_key) throws DataException;
+
     Utente getUtente(String email) throws DataException;
 
     Utente getUtenteByUsername(String username) throws DataException;
 
     Utente login(String email, String password) throws DataException;
+
     String getPassword(String email) throws DataException;
+
     int getToken(Utente utente) throws DataException;
+
     Utente getLink(String link) throws DataException;
-    void insertLink(Utente utente,String link)throws DataException;
-    void insertToken(Utente utente,int token)throws DataException;
+
+    void insertLink(Utente utente, String link) throws DataException;
+
+    void insertToken(Utente utente, int token) throws DataException;
 
 
-    Utente storeUtente(Utente utente) throws  DataException;
-
+    Utente storeUtente(Utente utente) throws DataException;
 
 
 }

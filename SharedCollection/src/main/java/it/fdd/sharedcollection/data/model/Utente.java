@@ -27,6 +27,7 @@ public interface Utente extends DataItem<Integer> {
     void setNome(String nome);
 
     void setCognome(String cognome);
+
     void setToken(int token);
 
     void setLink(String link);

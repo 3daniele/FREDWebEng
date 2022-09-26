@@ -1,11 +1,10 @@
 package it.fdd.framework.data;
 
 /**
- *
  * @param <KT> the key type
  */
 
-public class DataItemImpl<KT> implements DataItem<KT>  {
+public class DataItemImpl<KT> implements DataItem<KT> {
 
     private KT key;
     private long version;

@@ -61,8 +61,8 @@ public class InfoDisco extends SharedCollectionBaseController {
 
         if (SecurityLayer.checkSession(request) != null) {
             request.setAttribute("session", true);
-            request.setAttribute("username",sessione.getAttribute("username"));
-            request.setAttribute("email",sessione.getAttribute("email"));
+            request.setAttribute("username", sessione.getAttribute("username"));
+            request.setAttribute("email", sessione.getAttribute("email"));
             request.setAttribute("userid", sessione.getAttribute("userid"));
         }
 
@@ -94,7 +94,7 @@ public class InfoDisco extends SharedCollectionBaseController {
             request.setAttribute("listaArtisti", artisti);
             request.setAttribute("listaGeneri", generi);
 
-            res.activate("info_disco.ftl", request, response);
+            res.activate("info_disco.html.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);

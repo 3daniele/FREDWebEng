@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ConfimEmail  extends  SharedCollectionBaseController{
+public class ConfimEmail extends SharedCollectionBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
-        try{
-            if (request.getParameter("verification_code")!= null){
+        try {
+            if (request.getParameter("verification_code") != null) {
                 confirmEmail(request, response);
             }
 
@@ -27,7 +27,6 @@ public class ConfimEmail  extends  SharedCollectionBaseController{
         }
 
     }
-
 
 
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
@@ -40,32 +39,30 @@ public class ConfimEmail  extends  SharedCollectionBaseController{
     }
 
 
-
     private void confirmEmail(HttpServletRequest request, HttpServletResponse response) throws DataException, TemplateManagerException, IOException {
 
         String verification_code = request.getParameter("verification_code");
 
         System.out.println(verification_code);
-        String link =verification_code;
-    System.out.println(link);
-      Utente utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getLink(link);
-            System.out.println(utente.getKey());
+        String link = verification_code;
+        System.out.println(link);
+        Utente utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getLink(link);
+        System.out.println(utente.getKey());
 
-      if (utente !=null ){
-          if(utente.getToken() == 0){
-                 int token = 1;
-              ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().insertToken(utente,token );
-              TemplateResult results = new TemplateResult(getServletContext());
-              response.sendRedirect("login");
-          }
-          else{
-              String  error_msg="Email già verificata";
-              request.setAttribute("exception", error_msg);
-          }
-      } else{
-          String error_msg="Codice errato";
-          request.setAttribute("exception", error_msg);
+        if (utente != null) {
+            if (utente.getToken() == 0) {
+                int token = 1;
+                ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().insertToken(utente, token);
+                TemplateResult results = new TemplateResult(getServletContext());
+                response.sendRedirect("login");
+            } else {
+                String error_msg = "Email già verificata";
+                request.setAttribute("exception", error_msg);
+            }
+        } else {
+            String error_msg = "Codice errato";
+            request.setAttribute("exception", error_msg);
 
-      }
+        }
     }
 }

@@ -124,7 +124,7 @@ public class ListaDischiProxy extends ListaDischiImpl implements DataItemProxy {
     }
 
     public void setCollezioneKey(int collezione_key) {
-        this.collezione_key= collezione_key;
+        this.collezione_key = collezione_key;
         super.setCollezione(null);
     }
 }

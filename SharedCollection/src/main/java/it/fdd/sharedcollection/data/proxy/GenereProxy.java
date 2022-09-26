@@ -29,7 +29,7 @@ public class GenereProxy extends GenereImpl implements DataItemProxy {
 
     @Override
     public void setModified(boolean modified) {
-        this.modified=modified;
+        this.modified = modified;
 
     }
 }

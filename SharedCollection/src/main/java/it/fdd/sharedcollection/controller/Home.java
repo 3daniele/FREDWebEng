@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class Home extends SharedCollectionBaseController {
-    private String path="";
+    private String path = "";
 
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
@@ -36,31 +36,31 @@ public class Home extends SharedCollectionBaseController {
         HttpSession sessione = request.getSession(true);
 
         path = request.getRequestURL().toString();
-        if (path.equals("http://localhost:8080/SharedCollection_war/") || path.equals("http://localhost:8080/SharedCollection_war/home")){
+        if (path.equals("http://localhost:8080/SharedCollection_war/") || path.equals("http://localhost:8080/SharedCollection_war/home")) {
             request.setAttribute("display", true);
-        }else {
+        } else {
             request.setAttribute("display", false);
         }
 
         if (SecurityLayer.checkSession(request) != null) {
-           request.setAttribute("session", true);
-           request.setAttribute("username",sessione.getAttribute("username"));
-           request.setAttribute("email",sessione.getAttribute("email"));
-           request.setAttribute("userid", sessione.getAttribute("userid"));
+            request.setAttribute("session", true);
+            request.setAttribute("username", sessione.getAttribute("username"));
+            request.setAttribute("email", sessione.getAttribute("email"));
+            request.setAttribute("userid", sessione.getAttribute("userid"));
         }
 
         try {
-            List<Collezione> lista = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche();
+            List<Collezione> lista = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche();
             request.setAttribute("collezioni_home", lista);
             request.setAttribute("ultima_collezione", lista.get(0));
-            List<Utente> listaUtenti = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti();
-            request.setAttribute("utenti",listaUtenti);
+            List<Utente> listaUtenti = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti();
+            request.setAttribute("utenti", listaUtenti);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
         }
 
-        res.activate("collezioni_pubbliche.ftl", request, response);
+        res.activate("collezioni_pubbliche.html.ftl", request, response);
     }
 
     @Override

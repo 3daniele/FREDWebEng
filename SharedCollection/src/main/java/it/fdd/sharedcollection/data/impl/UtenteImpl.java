@@ -48,6 +48,7 @@ public class UtenteImpl extends DataItemImpl<Integer> implements Utente {
     public String getCognome() {
         return this.cognome;
     }
+
     @Override
     public int getToken() {
         return this.token;
@@ -82,6 +83,7 @@ public class UtenteImpl extends DataItemImpl<Integer> implements Utente {
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
+
     public void setLink(String link) {
         this.link = link;
     }

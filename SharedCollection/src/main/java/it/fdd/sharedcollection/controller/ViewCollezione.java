@@ -141,7 +141,7 @@ public class ViewCollezione extends SharedCollectionBaseController {
             request.setAttribute("artisti",artisti);
             request.setAttribute("percentualiA", percentualiArtisiti);
 
-            res.activate("collezione.ftl", request, response);
+            res.activate("collezione.html.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);

@@ -15,10 +15,10 @@ import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.impl.CollezioneImpl;
 import it.fdd.sharedcollection.data.impl.UtentiAutorizzatiImpl;
-import it.fdd.sharedcollection.data.model.Collezione;
-import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
+import it.fdd.sharedcollection.data.model.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModificaCollezione extends SharedCollectionBaseController {
@@ -36,7 +36,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                     action_collezione(request, response);
                 }
 
-                if (request.getParameter("modifica_utenti") != null) {
+                if (request.getParameter("modificaUtenti") != null) {
                     action_utenti(request, response);
                 }
                 response.sendRedirect("collezioni");
@@ -65,24 +65,34 @@ public class ModificaCollezione extends SharedCollectionBaseController {
 
             if (SecurityLayer.checkSession(request) == null) {
                 response.sendRedirect("home");
-            }else{
+            } else {
                 request.setAttribute("session", true);
-                request.setAttribute("username",sessione.getAttribute("username"));
-                request.setAttribute("email",sessione.getAttribute("email"));
+                request.setAttribute("username", sessione.getAttribute("username"));
+                request.setAttribute("email", sessione.getAttribute("email"));
                 request.setAttribute("userid", sessione.getAttribute("userid"));
-                user_key = (Integer)sessione.getAttribute("userid");
+                user_key = (Integer) sessione.getAttribute("userid");
             }
 
-            Integer collezioneID = (Integer)request.getAttribute("collezioneID");
-            Collezione collezione = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezioneID);
+            Integer collezioneID = (Integer) request.getAttribute("collezioneID");
+            Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezioneID);
 
-            request.setAttribute("page_title", "Modifica "+collezione.getNome());
+            request.setAttribute("page_title", "Modifica " + collezione.getNome());
             request.setAttribute("collezione", collezione);
-            request.setAttribute("lista_utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
-            request.setAttribute("utenti_autorizzati", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByCollezione(collezioneID));
+            request.setAttribute("lista_utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+            request.setAttribute("utenti_autorizzati", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByCollezione(collezioneID));
+
+            List<ListaDischi> dettagliDischi = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getDischiByCollezione(collezioneID);
+            List<Disco> disco = new ArrayList<>();
+            for (ListaDischi i : dettagliDischi) {
+                disco.add(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(i.getDisco().getKey()));
+            }
+
+            request.setAttribute("dettagliDischi", dettagliDischi);
+            request.setAttribute("dischi", disco);
+            request.setAttribute("collezione_key", collezioneID);
 
             if (collezione.getUtente().getKey() == user_key) {
-                res.activate("modifica_collezione.ftl", request, response);
+                res.activate("modifica_collezione.html.ftl", request, response);
             } else {
                 response.sendRedirect("collezioni");
             }
@@ -99,27 +109,68 @@ public class ModificaCollezione extends SharedCollectionBaseController {
         Integer collezioneid = SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
         String error_msg = "";
 
-        Collezione uCollezione = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezioneid);
+        Collezione uCollezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezioneid);
 
         if (!nome.isEmpty()) {
             //Attributi collezione
             uCollezione.setNome(nome);
             uCollezione.setCondivisione(condivisione);
-            ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().storeCollezione(uCollezione);
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().storeCollezione(uCollezione);
 
-            response.sendRedirect("modificaCollezione?numero="+uCollezione.getKey());
+            response.sendRedirect("modificaCollezione?numero=" + uCollezione.getKey());
         } else {
-            error_msg="Alcuni  campi sono vuoti";
+            error_msg = "Alcuni  campi sono vuoti";
             request.setAttribute("exception", error_msg);
             action_default(request, response);
         }
     }
 
     private void action_utenti(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, ServletException, TemplateManagerException {
+        Integer collezioneid = SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
+
+        List<Integer> idutentiAutorizzatiV = new ArrayList<>();
+        idutentiAutorizzatiV.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByCollezione(collezioneid));
+
+        List<Utente> utentiAutorizzatiV = new ArrayList<>();
+        for (Integer i : idutentiAutorizzatiV) {
+            utentiAutorizzatiV.add(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(i));
+        }
+
+        String[] usernames = request.getParameterValues("utentiS");
+
+        List<Utente> utentiAutorizzatiN = new ArrayList<>();
+
+        if (usernames != null) {
+            for (int i = 0; i < usernames.length; i++) {
+                utentiAutorizzatiN.add(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(Integer.parseInt(usernames[i])));
+            }
+        }
+
+        //elimino gli utenti non più presenti
+        for (Utente i : utentiAutorizzatiV) {
+            if (!utentiAutorizzatiN.contains(i)) {
+                ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().deleteUtenteAutorizzato(collezioneid, i.getKey());
+            }
+        }
+
+        if (!utentiAutorizzatiN.isEmpty()) {
+            //inserisco i nuovi utenti
+            for (Utente i : utentiAutorizzatiN) {
+                if (!utentiAutorizzatiV.contains(i)) {
+                    UtentiAutorizzatiImpl u = new UtentiAutorizzatiImpl();
+                    u.setCollezione(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezioneid));
+                    u.setUtente(i);
+                    ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(u);
+                }
+            }
+        }
+
+        response.sendRedirect("modificaCollezione?numero=" + collezioneid);
+
 
     }
 
-        private void action_error(HttpServletRequest request, HttpServletResponse response) {
+    private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         } else {

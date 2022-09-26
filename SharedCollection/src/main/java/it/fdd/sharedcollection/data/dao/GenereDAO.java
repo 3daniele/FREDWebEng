@@ -1,6 +1,8 @@
 package it.fdd.sharedcollection.data.dao;
+
 import it.fdd.framework.data.DataException;
 import it.fdd.sharedcollection.data.model.Genere;
+
 import java.util.List;
 
 public interface GenereDAO {
@@ -13,11 +15,6 @@ public interface GenereDAO {
 
 
     void storeGenere(Genere c) throws DataException;
-
-
-
-
-
 
 
 }

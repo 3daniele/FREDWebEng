@@ -133,14 +133,14 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     }
 
     @Override
-    public Collezione getLast() throws DataException{
+    public Collezione getLast() throws DataException {
 
         Collezione result = null;
-            try (ResultSet rs = sLastCollezione.executeQuery()) {
-                while (rs.next()) {
-                    result = ((Collezione) getCollezione(rs.getInt("id")));
-                }
-            }catch (SQLException ex) {
+        try (ResultSet rs = sLastCollezione.executeQuery()) {
+            while (rs.next()) {
+                result = ((Collezione) getCollezione(rs.getInt("id")));
+            }
+        } catch (SQLException ex) {
             throw new DataException("Unable to load last Collezione", ex);
         }
         return result;
@@ -158,7 +158,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
                     while (rs.next()) {
                         result.add((Collezione) getCollezione(rs.getInt("id")));
                     }
-            }
+                }
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load Collezione by Utente", ex);

@@ -33,7 +33,7 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
             sUtentiAutorizzatiByCollezioneID = connection.prepareStatement("SELECT utente FROM UtentiAutorizzati WHERE collezione = ?");
             iUtentiAutorizzati = connection.prepareStatement("INSERT INTO UtentiAutorizzati (utente, collezione) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
             uUtentiAutorizzati = connection.prepareStatement("UPDATE UtentiAutorizzati SET utente = ?, collezione = ? WHERE id = ?");
-            dUtentiAutorizzati = connection.prepareStatement("DELETE FROM UtentiAutorizzati WHERE id = ?");
+            dUtentiAutorizzati = connection.prepareStatement("DELETE FROM UtentiAutorizzati WHERE collezione = ? AND utente = ?");
         } catch (SQLException ex) {
             throw new DataException("Errore nell'inizializzazione del DataLayer", ex);
         }
@@ -72,6 +72,18 @@ public class UtentiAutorizzatiDAO_MySQL extends DAO implements UtentiAutorizzati
             throw new DataException("Impossibile creare l'oggetto UtentiAutotizzati dal ResultSet", ex);
         }
         return utentiAutorizzati;
+    }
+
+    @Override
+    public void deleteUtenteAutorizzato(int collezioni_key, int user_key) throws DataException {
+        try {
+            dUtentiAutorizzati.setInt(1, collezioni_key);
+            dUtentiAutorizzati.setInt(2, user_key);
+            dUtentiAutorizzati.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile eliminare l'oggetto UtentiAutotizzati", ex);
+        }
     }
 
     @Override

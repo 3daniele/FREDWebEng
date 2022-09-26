@@ -41,12 +41,10 @@ public class SecurityLayer {
             //check sull'ip del client
             //check if the client ip chage
         } else {
-            if(s.getAttribute("email") == null)
-            {
+            if (s.getAttribute("email") == null) {
                 check = false;
-            }
-            else {
-                if(s.getAttribute("username") == null){
+            } else {
+                if (s.getAttribute("username") == null) {
                     check = false;
                 }
             }
@@ -59,7 +57,7 @@ public class SecurityLayer {
         }
     }
 
-    public static HttpSession createSession(HttpServletRequest request, String username, int userid,String email) {
+    public static HttpSession createSession(HttpServletRequest request, String username, int userid, String email) {
         HttpSession s = request.getSession(true);
         s.setAttribute("username", username);
         s.setAttribute("email", email);
@@ -161,11 +159,13 @@ public class SecurityLayer {
     public static String getStaticEncrypyionKey() {
         return SecurityLayer.STATIC_KEY;
     }
+
     public static String removeSpecialChars(String input) {
         return input.replaceAll("[^\\p{L}0-9']", "");
     }
+
     public static boolean isEmailValid(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";

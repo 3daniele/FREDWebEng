@@ -19,7 +19,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     private PreparedStatement login;
     private PreparedStatement getUtenteByUsername;
     private PreparedStatement loginUtente;
-    private PreparedStatement sToken, sLink , insertLink, insertToken;
+    private PreparedStatement sToken, sLink, insertLink, insertToken;
 
     private PreparedStatement sCollezioni, sNCollezioni, sDischi, sNDischi, sNBrani;
 
@@ -40,11 +40,13 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             iUtente = connection.prepareStatement("INSERT INTO utente (nickname,email,password,nome,cognome) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
             getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE nickname = ?");
+
             loginUtente = connection.prepareStatement("SELECT id, password FROM Utente WHERE email = ?");
+
             sToken = connection.prepareStatement("SELECT token FROM Utente WHERE id = ?");
             sLink = connection.prepareStatement("SELECT * FROM Utente WHERE link = ?");
-            insertLink=connection.prepareStatement("UPDATE Utente SET  link = ? WHERE id = ?");
-            insertToken=connection.prepareStatement("UPDATE Utente SET  token = ? WHERE id = ?");
+            insertLink = connection.prepareStatement("UPDATE Utente SET  link = ? WHERE id = ?");
+            insertToken = connection.prepareStatement("UPDATE Utente SET  token = ? WHERE id = ?");
 
             sCollezioni = connection.prepareStatement("SELECT *FROM Collezione WHERE utente = ?");
             sNCollezioni = connection.prepareStatement("SELECT COUNT(id) AS c FROM Collezione WHERE utente = ? ");
@@ -106,6 +108,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             a.setNickname(rs.getString("nickname"));
             a.setPassword(rs.getString("password"));
             a.setEmail(rs.getString("email"));
+            a.setToken(rs.getInt("token"));
+            a.setLink(rs.getString("link"));
             return a;
         } catch (SQLException ex) {
             throw new DataException("Unable to create Utente object form ResultSet", ex);
@@ -262,11 +266,11 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
     @Override
     public int getToken(Utente utente) throws DataException {
-        int ptoken= 0;
+        int ptoken = 0;
 
         try {
             sToken.setInt(1, utente.getKey());
-            try (ResultSet rs = sLink.executeQuery()) {
+            try (ResultSet rs = sToken.executeQuery()) {
                 if (rs.next()) {
                     ptoken = rs.getInt("token");
 
@@ -275,14 +279,13 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
         } catch (SQLException ex) {
             throw new DataException("Unable to load token utente by email", ex);
         }
-        return ptoken ;
+        return ptoken;
     }
-
 
 
     @Override
     public Utente getLink(String link) throws DataException {
-    Utente utente = null;
+        Utente utente = null;
 
         try {
             sLink.setString(1, link);
@@ -296,7 +299,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             throw new DataException("Unable to load link utente by email", ex);
         }
 
-        return utente ;
+        return utente;
     }
 
     @Override
@@ -350,6 +353,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
         }
         return utente;
     }
+
     public Utente storeUtente(Utente utente) throws DataException {
         try {
             if (utente.getKey() != null && utente.getKey() > 0) {
@@ -365,7 +369,6 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
                 uUtente.setString(1, utente.getNome());
                 uUtente.setString(2, utente.getCognome());
                 uUtente.setString(3, utente.getPassword());
-
 
 
                 if (uUtente.executeUpdate() == 0) {
@@ -407,14 +410,14 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
     public void insertLink(Utente utente, String link) throws DataException {
         try {
-                insertLink.setInt(2, utente.getKey());
-                insertLink.setString(1, link);
+            insertLink.setInt(2, utente.getKey());
+            insertLink.setString(1, link);
 
-                if (insertLink.executeUpdate() == 0) {
-                    throw new OptimisticLockException(utente);
-                }
+            if (insertLink.executeUpdate() == 0) {
+                throw new OptimisticLockException(utente);
+            }
 
-            } catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -424,7 +427,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     public void insertToken(Utente utente, int token) throws DataException {
         try {
             insertToken.setInt(2, utente.getKey());
-            insertToken.setInt(1,token);
+            insertToken.setInt(1, token);
 
             if (insertToken.executeUpdate() == 0) {
                 throw new OptimisticLockException(utente);
@@ -434,7 +437,6 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             throw new RuntimeException(e);
         }
     }
-
 
 
 }

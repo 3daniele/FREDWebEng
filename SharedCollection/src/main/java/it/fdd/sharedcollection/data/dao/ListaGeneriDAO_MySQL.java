@@ -59,12 +59,13 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
         }
         super.destroy();
     }
+
     @Override
     public ListaGeneriProxy createListaGenere() {
         return new ListaGeneriProxy(getDataLayer());
     }
 
-    private  ListaGeneriProxy createListaGenere(ResultSet rs) throws DataException {
+    private ListaGeneriProxy createListaGenere(ResultSet rs) throws DataException {
         ListaGeneriProxy listaGenere = createListaGenere();
         try {
             listaGenere.setKey(rs.getInt("id"));
@@ -128,8 +129,7 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
                     result.add((ListaGeneri) getGenere(rs.getInt("id")));
                 }
             }
-        }
-         catch (SQLException ex) {
+        } catch (SQLException ex) {
             throw new DataException("Impossibile caricare ", ex);
         }
         return result;

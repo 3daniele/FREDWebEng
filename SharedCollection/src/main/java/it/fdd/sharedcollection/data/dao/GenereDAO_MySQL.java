@@ -163,6 +163,4 @@ public class GenereDAO_MySQL extends DAO implements GenereDAO {
     }
 
 
-
-
 }

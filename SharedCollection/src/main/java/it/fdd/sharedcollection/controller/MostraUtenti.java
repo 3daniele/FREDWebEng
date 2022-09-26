@@ -33,15 +33,15 @@ public class MostraUtenti extends SharedCollectionBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("page_title", "Elenco utenti");
             request.setAttribute("utentiPath", true);
-            request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+            request.setAttribute("utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
 
             if (SecurityLayer.checkSession(request) != null) {
                 request.setAttribute("session", true);
-                request.setAttribute("username",sessione.getAttribute("username"));
-                request.setAttribute("email",sessione.getAttribute("email"));
+                request.setAttribute("username", sessione.getAttribute("username"));
+                request.setAttribute("email", sessione.getAttribute("email"));
                 request.setAttribute("userid", sessione.getAttribute("userid"));
             }
-            res.activate("lista_utenti.ftl", request, response);
+            res.activate("lista_utenti.html.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
@@ -58,8 +58,8 @@ public class MostraUtenti extends SharedCollectionBaseController {
         try {
             if (request.getParameter("filter") != null) {
                 letter_key = SecurityLayer.checkNumeric(request.getParameter("filter"));
-                request.setAttribute("filter",letter_key);
-                action_default(request,response);
+                request.setAttribute("filter", letter_key);
+                action_default(request, response);
             } else {
                 action_default(request, response);
             }

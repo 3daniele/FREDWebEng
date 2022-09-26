@@ -24,6 +24,7 @@ import java.io.IOException;
 
 public class NuovaCollezione extends SharedCollectionBaseController {
     private Integer user_key;
+
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
         try {
             TemplateResult res = new TemplateResult(getServletContext());
@@ -35,19 +36,19 @@ public class NuovaCollezione extends SharedCollectionBaseController {
 
             if (SecurityLayer.checkSession(request) == null) {
                 response.sendRedirect("home");
-            }else{
+            } else {
                 request.setAttribute("session", true);
-                request.setAttribute("username",sessione.getAttribute("username"));
-                request.setAttribute("email",sessione.getAttribute("email"));
+                request.setAttribute("username", sessione.getAttribute("username"));
+                request.setAttribute("email", sessione.getAttribute("email"));
                 request.setAttribute("userid", sessione.getAttribute("userid"));
-                user_key = (Integer)sessione.getAttribute("userid");
+                user_key = (Integer) sessione.getAttribute("userid");
             }
 
 
-            request.setAttribute("lista_utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
-            request.setAttribute("lista_dischi", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getDiscoDAO().getDischi());
+            request.setAttribute("lista_utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+            request.setAttribute("lista_dischi", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDischi());
 
-            res.activate("nuova_collezione.ftl", request, response);
+            res.activate("nuova_collezione.html.ftl", request, response);
 
         } catch (Exception ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
@@ -80,7 +81,6 @@ public class NuovaCollezione extends SharedCollectionBaseController {
         String error_msg = "";
 
 
-
         if (!nome.isEmpty()) {
 
             Collezione collezione = new CollezioneImpl();
@@ -88,25 +88,25 @@ public class NuovaCollezione extends SharedCollectionBaseController {
             //Attributi collezione
             collezione.setNome(nome);
             collezione.setCondivisione(condivisione);
-            collezione.setUtente(((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtente(user_key));
-            ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().storeCollezione(collezione);
+            collezione.setUtente(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(user_key));
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().storeCollezione(collezione);
 
-            int collezione_key = ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getLast().getKey();
+            int collezione_key = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getLast().getKey();
 
             if (utentiS != null) {
                 //Attributi utentiAutorizzati
-                for (int i=0; i<utentiS.length;i++){
+                for (int i = 0; i < utentiS.length; i++) {
                     UtentiAutorizzati utentiAutorizzati = new UtentiAutorizzatiImpl();
-                    utentiAutorizzati.setCollezione(((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
-                    utentiAutorizzati.setUtente(((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtente(Integer.parseInt(utentiS[i])));
-                    ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(utentiAutorizzati);
+                    utentiAutorizzati.setCollezione(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
+                    utentiAutorizzati.setUtente(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(Integer.parseInt(utentiS[i])));
+                    ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(utentiAutorizzati);
                 }
             }
 
             response.sendRedirect("collezioni");
 
         } else {
-            error_msg="Alcuni  campi sono vuoti";
+            error_msg = "Alcuni  campi sono vuoti";
             request.setAttribute("exception", error_msg);
             action_default(request, response);
         }

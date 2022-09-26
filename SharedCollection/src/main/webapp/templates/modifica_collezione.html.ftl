@@ -26,7 +26,7 @@
                 </#if>
             </select>
             <div class="form-text">
-                <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}" />
+                <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
                 Modifica il tipo di condivisione.
             </div>
             <div class="text-end">
@@ -37,7 +37,7 @@
 
     <!--MODIFICA UTENTI AUTORIZZATI-->
     <div class="col-12 col-md-6 col-lg-6">
-        <form action="modificaUtenti" method="post">
+        <form action="modificaCollezione" method="post">
             <h2 class="text-danger">Condivisione:</h2>
             <label class="form-label">
                 <h5>Utenti</h5>
@@ -59,7 +59,7 @@
             </div>
             <br><br><br><br><br><br>
             <div class="text-end">
-                <input type="submit" class="btn btn-danger" value="Salva" name="modifica_utenti">
+                <input type="submit" class="btn btn-danger" value="Salva" id="modificaUtenti" name="modificaUtenti">
             </div>
         </form>
     </div>
@@ -69,9 +69,50 @@
 <div class="row">
 
     <!--MODIFICA DISCHI-->
-    <div class="col-12 col-md-6 col-lg-6">
+    <div class="row">
         <h2 class="text-danger">Lista Dischi:</h2>
         <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
+    </div>
+    <div class="row">
+        <#list dettagliDischi as dettaglio>
+            <#list dischi as disco>
+                <#if (disco.key = dettaglio.disco.key)>
+                    <div class="col-12 col-md-4 entre wow fadeInUp" data-wow-delay="0.2s"
+                         style="cursor:pointer"
+                         onclick="location.href='disco?numero=${disco.key}&collezione=${collezione_key}'">
+                        <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
+                            <div class="poca-music-thumbnail">
+                                <img src="${dettaglio.imgCopertina}" alt="">
+                            </div>
+                            <div class="poca-music-content text-center">
+                                <span class="music-published-date mb-2">${disco.anno}</span>
+                                <h2>${disco.nome}</h2>
+                                <div class="music-meta-data">
+                                    <p>By <a href="#" class="music-author">${disco.artista.nomeArte}</a>
+                                </div>
+                                <div class="likes-share-download d-flex align-items-center justify-content-between">
+                                    <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.formato}</a>
+                                    <div>
+                                        <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.stato}</a>
+                                    </div>
+                                </div>
+                                <noscript>
+                                    <style type="text/css">
+                                        .pagecontainer {
+                                            display: none;
+                                        }
+                                    </style>
+                                    <div class="noscriptmsg">
+                                        <a href="disco?numero=${disco.key}&collezione=${collezione_key}"
+                                           class="btn poca-btn mt-10">Visualizza</a>
+                                    </div>
+                                </noscript>
+                            </div>
+                        </div>
+                    </div>
+                </#if>
+            </#list>
+        </#list>
     </div>
 </div>
 

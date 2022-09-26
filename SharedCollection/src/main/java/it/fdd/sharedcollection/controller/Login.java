@@ -33,14 +33,14 @@ public class Login extends SharedCollectionBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("loginPath", true);
             request.setAttribute("page_title", "Login");
-            request.setAttribute("utenti", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+            request.setAttribute("utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
 
             if (SecurityLayer.checkSession(request) != null) {
                 request.setAttribute("session", true);
                 response.sendRedirect("home");
             }
 
-            res.activate("login.ftl", request, response);
+            res.activate("login.html.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
@@ -65,7 +65,7 @@ public class Login extends SharedCollectionBaseController {
                     request.setAttribute("error", "Credenziali non corrette.");
                     action_default(request, response);
                 }
-                if(it.fdd.sharedcollection.utility.BCrypt.checkpw(password, my_pass)) {
+                if (it.fdd.sharedcollection.utility.BCrypt.checkpw(password, my_pass)) {
 
                     try {
                         utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(email);
@@ -78,10 +78,9 @@ public class Login extends SharedCollectionBaseController {
 
                     if (utente != null) {
                         userID = utente.getKey();
-                        if(utente.getToken() == 1) {
+                        if (utente.getToken() == 1) {
                             SecurityLayer.createSession(request, utente.getNickname(), userID, email);
-                        }
-                        else {
+                        } else {
                             request.setAttribute("message", "Verifica email prima di proseguire");
                             action_error(request, response);
                         }
@@ -97,15 +96,15 @@ public class Login extends SharedCollectionBaseController {
                     } else {
                         response.sendRedirect("home");
                     }
-                }else
-                {
+                } else {
                     request.setAttribute("exception", new Exception("Login failed"));
                     action_error(request, response);
                 }
-            }catch (DataException ex) {
+            } catch (DataException ex) {
                 request.setAttribute("message", "Data access exception: " + ex.getMessage());
                 action_error(request, response);
-            } }else {
+            }
+        } else {
             request.setAttribute("exception", new Exception("Login failed"));
             action_error(request, response);
         }

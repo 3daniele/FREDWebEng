@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 public class ListaGeneriProxy extends ListaGeneriImpl implements DataItemProxy {
 
 
-    private boolean modified; 
-    
+    private boolean modified;
+
     private int key_genere = 0;
 
     private int key_canzone = 0;
@@ -44,16 +44,16 @@ public class ListaGeneriProxy extends ListaGeneriImpl implements DataItemProxy {
 
     @Override
     public void setModified(boolean modified) {
-        this.modified=modified;
+        this.modified = modified;
 
     }
 
-  public   void setCanzone(Canzone canzone){
+    public void setCanzone(Canzone canzone) {
         super.setCanzone(canzone);
         this.modified = true;
     }
 
-    public void setGenere(Genere genere){
+    public void setGenere(Genere genere) {
         super.setGenere(genere);
         this.modified = true;
     }
@@ -62,6 +62,7 @@ public class ListaGeneriProxy extends ListaGeneriImpl implements DataItemProxy {
         this.key_genere = genereKey;
         super.setGenere(null);
     }
+
     public void setCanzoneKey(int canzoneKey) {
         this.key_canzone = canzoneKey;
         super.setCanzone(null);

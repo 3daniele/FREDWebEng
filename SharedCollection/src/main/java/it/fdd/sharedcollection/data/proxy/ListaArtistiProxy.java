@@ -43,29 +43,31 @@ public class ListaArtistiProxy extends ListaArtistiImpl implements DataItemProxy
 
     @Override
     public void setModified(boolean modified) {
-        this.modified=modified;
+        this.modified = modified;
 
     }
-    public void setArtista(Artista artista){
+
+    public void setArtista(Artista artista) {
         super.setArtista(artista);
         this.modified = true;
 
     }
 
-    public void setCanzone(Canzone canzone){
+    public void setCanzone(Canzone canzone) {
         super.setCanzone(canzone);
         this.modified = true;
     }
 
-   public void setRuolo(String ruolo){
-       super.setRuolo(ruolo);
-       this.modified = true;
-   }
+    public void setRuolo(String ruolo) {
+        super.setRuolo(ruolo);
+        this.modified = true;
+    }
 
     public void setArtistaKey(int genereKey) {
         this.key_artista = genereKey;
         super.setArtista(null);
     }
+
     public void setCanzoneKey(int canzoneKey) {
         this.key_canzone = canzoneKey;
         super.setCanzone(null);

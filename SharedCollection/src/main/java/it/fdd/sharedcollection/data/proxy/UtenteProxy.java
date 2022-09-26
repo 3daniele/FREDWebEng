@@ -53,6 +53,7 @@ public class UtenteProxy extends UtenteImpl implements DataItemProxy {
         super.setPassword(password);
         this.modified = true;
     }
+
     @Override
     public void setToken(int token) {
         super.setToken(token);

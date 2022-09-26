@@ -2,6 +2,7 @@ package it.fdd.sharedcollection.data.impl;
 
 import it.fdd.framework.data.DataItemImpl;
 import it.fdd.sharedcollection.data.model.Canzone;
+
 import java.sql.Time;
 
 public class CanzoneImpl extends DataItemImpl<Integer> implements Canzone {

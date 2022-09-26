@@ -36,7 +36,7 @@ public class Collezioni extends SharedCollectionBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("page_title", "Collezioni");
             request.setAttribute("collezioniPath", true);
-            request.setAttribute("collezioniPubbliche", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche());
+            request.setAttribute("collezioniPubbliche", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche());
             request.setAttribute("dischi", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListeDischi());
 
             if (SecurityLayer.checkSession(request) != null) {
@@ -44,13 +44,13 @@ public class Collezioni extends SharedCollectionBaseController {
                 List<UtentiAutorizzati> users = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByUser(userID);
 
                 request.setAttribute("session", true);
-                request.setAttribute("username",sessione.getAttribute("username"));
-                request.setAttribute("email",sessione.getAttribute("email"));
+                request.setAttribute("username", sessione.getAttribute("username"));
+                request.setAttribute("email", sessione.getAttribute("email"));
                 request.setAttribute("userid", sessione.getAttribute("userid"));
-                request.setAttribute("collezioniPersonali", ((SharedCollectionDataLayer)request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByUtente(userID));
+                request.setAttribute("collezioniPersonali", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByUtente(userID));
                 request.setAttribute("collezioniCondivise", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniCondivise(users));
             }
-            res.activate("collezioni.ftl", request, response);
+            res.activate("collezioni.html.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
