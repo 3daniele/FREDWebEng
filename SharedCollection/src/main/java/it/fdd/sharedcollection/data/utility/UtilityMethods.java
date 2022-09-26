@@ -32,7 +32,7 @@ public class UtilityMethods {
      * @throws Exception
      */
     public static void sendEmailWithCodes(String file, Utente me, String emailText, EmailTypes type) throws IOException, Exception {
-        System.out.println(file);
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             String direct_to = null;
             boolean link = true;
@@ -62,7 +62,11 @@ public class UtilityMethods {
                 String verification_code = it.fdd.sharedcollection.utility.BCrypt.hashpw(me.getEmail(), it.fdd.sharedcollection.utility.BCrypt.gensalt());
                 String refer_code = SecurityLayer.encrypt(me.getEmail(), SecurityLayer.getStaticEncrypyionKey());
                 writer.newLine();
-                writer.write("/Sharedcollection/" + direct_to + "?verification_code=" + verification_code + "&refer_code=" + refer_code);
+
+                writer.write( " http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=" + verification_code + "&refer_code=" + refer_code);
+                me.setLink( verification_code);
+                System.out.println(me.getLink());
+
             }
 
             writer.newLine();

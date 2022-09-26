@@ -10,6 +10,8 @@ public class UtenteImpl extends DataItemImpl<Integer> implements Utente {
     private String password;
     private String nome;
     private String cognome;
+    private int token;
+    private String link;
 
     public UtenteImpl() {
         super();
@@ -18,6 +20,8 @@ public class UtenteImpl extends DataItemImpl<Integer> implements Utente {
         this.password = "";
         this.nome = "";
         this.cognome = "";
+        this.token = 0;
+        this.link = "";
     }
 
     @Override
@@ -44,6 +48,15 @@ public class UtenteImpl extends DataItemImpl<Integer> implements Utente {
     public String getCognome() {
         return this.cognome;
     }
+    @Override
+    public int getToken() {
+        return this.token;
+    }
+
+    @Override
+    public String getLink() {
+        return this.link;
+    }
 
     @Override
     public void setNickname(String nickname) {
@@ -69,4 +82,13 @@ public class UtenteImpl extends DataItemImpl<Integer> implements Utente {
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    @Override
+    public void setToken(int token) {
+        this.token = token;
+    }
+
 }

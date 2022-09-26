@@ -78,7 +78,14 @@ public class Login extends SharedCollectionBaseController {
 
                     if (utente != null) {
                         userID = utente.getKey();
-                        SecurityLayer.createSession(request, utente.getNickname(), userID,email);
+                        if(utente.getToken() == 1) {
+                            SecurityLayer.createSession(request, utente.getNickname(), userID, email);
+                        }
+                        else {
+                            request.setAttribute("message", "Verifica email prima di proseguire");
+                            action_error(request, response);
+                        }
+
                     } else {
                         request.setAttribute("message", "Email e/o password errati");
                         action_error(request, response);

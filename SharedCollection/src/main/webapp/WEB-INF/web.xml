@@ -81,6 +81,10 @@
         <servlet-name>Disco</servlet-name>
         <servlet-class>it.fdd.sharedcollection.controller.InfoDisco</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>confermaEmail</servlet-name>
+        <servlet-class>it.fdd.sharedcollection.controller.ConfimEmail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -120,6 +124,10 @@
     <servlet-mapping>
         <servlet-name>Modifica collezione</servlet-name>
         <url-pattern>/modificaCollezione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>confermaEmail</servlet-name>
+        <url-pattern>/confermaEmail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Disco</servlet-name>

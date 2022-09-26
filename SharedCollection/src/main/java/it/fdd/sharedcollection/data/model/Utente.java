@@ -14,6 +14,10 @@ public interface Utente extends DataItem<Integer> {
 
     String getCognome();
 
+    int getToken();
+
+    String getLink();
+
     void setNickname(String nickname);
 
     void setEmail(String email);
@@ -23,4 +27,9 @@ public interface Utente extends DataItem<Integer> {
     void setNome(String nome);
 
     void setCognome(String cognome);
+    void setToken(int token);
+
+    void setLink(String link);
+
+
 }

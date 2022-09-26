@@ -108,6 +108,10 @@ public class Registrazione extends SharedCollectionBaseController{
                             utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().storeUtente(utente);
                             UtilityMethods.sendEmailWithCodes(this.getServletContext().getRealPath("/WEB-INF/links.txt"), utente, "Conferma la tua email cliccando sul link in basso", EmailTypes.CONFIRM_EMAIL);
 
+
+                         ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().insertLink(utente, utente.getLink());
+
+
                         } catch (DataException ex) {
                             request.setAttribute("exception", "Data access exception: " + ex.getMessage());
                             action_error(request, response);
@@ -137,9 +141,13 @@ public class Registrazione extends SharedCollectionBaseController{
                         }
 
                         if (utente != null) {
-                            userID = utente.getKey();
-                            SecurityLayer.createSession(request, utente.getNickname(), userID, email);
-
+                            if(utente.getToken() == 1) {
+                                userID = utente.getKey();
+                                SecurityLayer.createSession(request, utente.getNickname(), userID, email);
+                            }else{
+                                error_msg="controlla la tua email e verifica l'email";
+                                request.setAttribute("exception", error_msg);
+                            }
                         } else {
                             error_msg="Email e/o password errati";
                             request.setAttribute("exception", error_msg);

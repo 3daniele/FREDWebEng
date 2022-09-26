@@ -1,8 +1,6 @@
 package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.*;
-import it.fdd.sharedcollection.data.model.Artista;
-import it.fdd.sharedcollection.data.model.Disco;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.proxy.UtenteProxy;
 
@@ -21,6 +19,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     private PreparedStatement login;
     private PreparedStatement getUtenteByUsername;
     private PreparedStatement loginUtente;
+    private PreparedStatement sToken, sLink , insertLink, insertToken;
 
     private PreparedStatement sCollezioni, sNCollezioni, sDischi, sNDischi, sNBrani;
 
@@ -42,6 +41,10 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
             getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE nickname = ?");
             loginUtente = connection.prepareStatement("SELECT id, password FROM Utente WHERE email = ?");
+            sToken = connection.prepareStatement("SELECT token FROM Utente WHERE id = ?");
+            sLink = connection.prepareStatement("SELECT * FROM Utente WHERE link = ?");
+            insertLink=connection.prepareStatement("UPDATE Utente SET  link = ? WHERE id = ?");
+            insertToken=connection.prepareStatement("UPDATE Utente SET  token = ? WHERE id = ?");
 
             sCollezioni = connection.prepareStatement("SELECT *FROM Collezione WHERE utente = ?");
             sNCollezioni = connection.prepareStatement("SELECT COUNT(id) AS c FROM Collezione WHERE utente = ? ");
@@ -71,6 +74,10 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             sDischi.close();
             sNDischi.close();
             sNBrani.close();
+            sToken.close();
+            sLink.close();
+            insertLink.close();
+            insertToken.close();
         } catch (SQLException ex) {
             //
         }
@@ -251,6 +258,47 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
         return numeri;
     }
+
+
+    @Override
+    public int getToken(Utente utente) throws DataException {
+        int ptoken= 0;
+
+        try {
+            sToken.setInt(1, utente.getKey());
+            try (ResultSet rs = sLink.executeQuery()) {
+                if (rs.next()) {
+                    ptoken = rs.getInt("token");
+
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load token utente by email", ex);
+        }
+        return ptoken ;
+    }
+
+
+
+    @Override
+    public Utente getLink(String link) throws DataException {
+    Utente utente = null;
+
+        try {
+            sLink.setString(1, link);
+            try (ResultSet rs = sLink.executeQuery()) {
+                if (rs.next()) {
+                    utente = getUtente(rs.getInt("id"));
+
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load link utente by email", ex);
+        }
+
+        return utente ;
+    }
+
     @Override
     public Utente getUtente(String email) throws DataException {
         Utente utente = null;
@@ -267,6 +315,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
         }
         return utente;
     }
+
+
     public String getPassword(String email) throws DataException {
         String pass = null;
 
@@ -310,10 +360,13 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
                 }
 
                 // update
+
+
                 uUtente.setString(1, utente.getNome());
                 uUtente.setString(2, utente.getCognome());
                 uUtente.setString(3, utente.getPassword());
-                //uUtente.setInt(4, utente.getKey());
+
+
 
                 if (uUtente.executeUpdate() == 0) {
                     throw new OptimisticLockException(utente);
@@ -350,6 +403,38 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
         }
         return utente;
     }
+
+
+    public void insertLink(Utente utente, String link) throws DataException {
+        try {
+                insertLink.setInt(2, utente.getKey());
+                insertLink.setString(1, link);
+
+                if (insertLink.executeUpdate() == 0) {
+                    throw new OptimisticLockException(utente);
+                }
+
+            } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void insertToken(Utente utente, int token) throws DataException {
+        try {
+            insertToken.setInt(2, utente.getKey());
+            insertToken.setInt(1,token);
+
+            if (insertToken.executeUpdate() == 0) {
+                throw new OptimisticLockException(utente);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 }

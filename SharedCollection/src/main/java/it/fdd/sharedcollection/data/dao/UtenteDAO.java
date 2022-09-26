@@ -20,6 +20,11 @@ public interface UtenteDAO {
 
     Utente login(String email, String password) throws DataException;
     String getPassword(String email) throws DataException;
+    int getToken(Utente utente) throws DataException;
+    Utente getLink(String link) throws DataException;
+    void insertLink(Utente utente,String link)throws DataException;
+    void insertToken(Utente utente,int token)throws DataException;
+
 
     Utente storeUtente(Utente utente) throws  DataException;
 
