@@ -1,0 +1,13 @@
+[ 2022-09-27T11:31:49.172414 ]  vvv@jjj.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile vvv@jjj.itvvv@jjj.it,
+Conferma la tua email cliccando sul link in basso
+ http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=$2a$10$LfO0EVWohhebopJt1Ds3QeQxmvJrIgCAmHIsa4FOrrYpR2AY4oxnu&refer_code=8VX2tewvINx6VugDG50Qyw==
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+

@@ -105,7 +105,7 @@ public class Registrazione extends SharedCollectionBaseController {
                     int userID = 0;
                     try {
                         utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().storeUtente(utente);
-                        UtilityMethods.sendEmailWithCodes(this.getServletContext().getRealPath("/WEB-INF/links.txt"), utente, "Conferma la tua email cliccando sul link in basso", EmailTypes.CONFIRM_EMAIL);
+                        UtilityMethods.sendEmailWithCodes(this.getServletContext().getRealPath("/tempFiles/links.txt"), utente, "Conferma la tua email cliccando sul link in basso", EmailTypes.CONFIRM_EMAIL);
 
 
                         ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().insertLink(utente, utente.getLink());
