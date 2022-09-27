@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Creato il: Set 25, 2022 alle 16:48
+-- Creato il: Set 27, 2022 alle 09:27
 -- Versione del server: 5.7.34
 -- Versione PHP: 7.4.21
 
@@ -29,12 +29,13 @@ USE `FDDWebEng`;
 -- Struttura della tabella `Artista`
 --
 
-CREATE TABLE `Artista` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `Artista` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `cognome` varchar(100) NOT NULL,
-  `nomeDArte` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `nomeDArte` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Artista`
@@ -43,7 +44,8 @@ CREATE TABLE `Artista` (
 INSERT INTO `Artista` (`id`, `nome`, `cognome`, `nomeDArte`) VALUES
 (1, 'Nelson', 'Venceslai', 'Rovere'),
 (2, 'Luciano', 'Ligabue', 'Ligabue'),
-(3, 'Riccardo', 'Zanotti', 'Pinguini tattici nucleari');
+(3, 'Riccardo', 'Zanotti', 'Pinguini tattici nucleari'),
+(4, 'Elisa', 'Toffoli', 'Elisa');
 
 -- --------------------------------------------------------
 
@@ -51,11 +53,12 @@ INSERT INTO `Artista` (`id`, `nome`, `cognome`, `nomeDArte`) VALUES
 -- Struttura della tabella `Canzone`
 --
 
-CREATE TABLE `Canzone` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `Canzone` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
-  `durata` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `durata` time NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Canzone`
@@ -107,13 +110,15 @@ INSERT INTO `Canzone` (`id`, `nome`, `durata`) VALUES
 -- Struttura della tabella `Collezione`
 --
 
-CREATE TABLE `Collezione` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `Collezione` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `condivisione` enum('pubblica','privata','condivisa') NOT NULL DEFAULT 'privata',
   `dataDiCreazione` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `utente` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `utente` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `utente` (`utente`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Collezione`
@@ -122,7 +127,8 @@ CREATE TABLE `Collezione` (
 INSERT INTO `Collezione` (`id`, `nome`, `condivisione`, `dataDiCreazione`, `utente`) VALUES
 (1, 'Il meglio di Rovere', 'pubblica', '2022-08-12 09:04:05', 1),
 (3, 'Nuovi pinguini', 'pubblica', '2022-08-25 14:28:08', 2),
-(8, 'Antonio\'s collection', 'pubblica', '2022-09-07 10:55:43', 3);
+(8, 'Antonio\'s collection', 'pubblica', '2022-09-07 10:55:43', 3),
+(11, 'My collection', 'privata', '2022-09-17 12:12:13', 3);
 
 -- --------------------------------------------------------
 
@@ -130,20 +136,22 @@ INSERT INTO `Collezione` (`id`, `nome`, `condivisione`, `dataDiCreazione`, `uten
 -- Struttura della tabella `Disco`
 --
 
-CREATE TABLE `Disco` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `Disco` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `etichetta` varchar(50) NOT NULL,
   `anno` date NOT NULL,
-  `artista` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `artista` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artista` (`artista`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Disco`
 --
 
 INSERT INTO `Disco` (`id`, `nome`, `etichetta`, `anno`, `artista`) VALUES
-(1, 'Disponibile anche in mogano', 'Sony Music', '2019-03-29', 1),
+(1, 'Disponibile in mogano', 'Sony Music', '2019-03-29', 1),
 (2, 'Dalla terra a Marte', 'Sony Music', '2022-02-18', 1),
 (3, 'Dentista Croazia', 'Sony Music', '2022-08-24', 3),
 (4, 'Giovani Wannabe', 'Sony Music', '2022-06-15', 3),
@@ -155,10 +163,11 @@ INSERT INTO `Disco` (`id`, `nome`, `etichetta`, `anno`, `artista`) VALUES
 -- Struttura della tabella `Genere`
 --
 
-CREATE TABLE `Genere` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `Genere` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Genere`
@@ -298,12 +307,15 @@ INSERT INTO `Genere` (`id`, `nome`) VALUES
 -- Struttura della tabella `ListaArtisti`
 --
 
-CREATE TABLE `ListaArtisti` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ListaArtisti` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `artista` int(11) NOT NULL,
   `canzone` int(11) NOT NULL,
-  `ruolo` enum('Compositore','Musicista','Entrambi') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `ruolo` enum('Compositore','Musicista','Entrambi') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artista` (`artista`),
+  KEY `canzone` (`canzone`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `ListaArtisti`
@@ -335,7 +347,23 @@ INSERT INTO `ListaArtisti` (`id`, `artista`, `canzone`, `ruolo`) VALUES
 (23, 1, 23, 'Entrambi'),
 (24, 1, 24, 'Entrambi'),
 (25, 3, 25, 'Entrambi'),
-(26, 3, 26, 'Entrambi');
+(26, 3, 26, 'Entrambi'),
+(27, 2, 27, 'Entrambi'),
+(28, 2, 28, 'Entrambi'),
+(29, 2, 29, 'Entrambi'),
+(30, 2, 30, 'Entrambi'),
+(31, 2, 31, 'Entrambi'),
+(32, 2, 32, 'Entrambi'),
+(33, 2, 33, 'Entrambi'),
+(34, 2, 34, 'Entrambi'),
+(35, 2, 35, 'Entrambi'),
+(36, 2, 36, 'Entrambi'),
+(37, 2, 37, 'Entrambi'),
+(38, 2, 38, 'Entrambi'),
+(39, 4, 27, 'Musicista'),
+(40, 4, 37, 'Musicista'),
+(41, 4, 32, 'Musicista'),
+(42, 3, 32, 'Musicista');
 
 -- --------------------------------------------------------
 
@@ -343,11 +371,14 @@ INSERT INTO `ListaArtisti` (`id`, `artista`, `canzone`, `ruolo`) VALUES
 -- Struttura della tabella `ListaBrani`
 --
 
-CREATE TABLE `ListaBrani` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ListaBrani` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `disco` int(11) NOT NULL,
-  `canzone` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `canzone` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `canzone` (`canzone`),
+  KEY `disco` (`disco`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `ListaBrani`
@@ -399,8 +430,8 @@ INSERT INTO `ListaBrani` (`id`, `disco`, `canzone`) VALUES
 -- Struttura della tabella `ListaDischi`
 --
 
-CREATE TABLE `ListaDischi` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ListaDischi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `collezione` int(11) NOT NULL,
   `disco` int(11) NOT NULL,
   `numeroCopie` int(11) NOT NULL,
@@ -410,8 +441,12 @@ CREATE TABLE `ListaDischi` (
   `imgCopertina` text,
   `imgFronte` text,
   `imgRetro` text,
-  `imgLibretto` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `imgLibretto` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `barcode` (`barcode`),
+  KEY `collezione` (`collezione`),
+  KEY `disco` (`disco`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `ListaDischi`
@@ -424,7 +459,12 @@ INSERT INTO `ListaDischi` (`id`, `collezione`, `disco`, `numeroCopie`, `Stato`, 
 (6, 8, 1, 12, 'Ottimo', 'Digitale', NULL, 'https://www.diregiovani.it/wp-content/uploads/2019/04/Rovere-2-no-scritta.jpeg', NULL, NULL, NULL),
 (7, 8, 2, 2, 'Discreto', 'CD', NULL, 'https://www.angolotesti.it/cover/297286.jpg', NULL, 'https://images.genius.com/5daa166c35d4c8d7d1978bc230e49cb2.1000x1000x1.jpg', NULL),
 (8, 3, 3, 2, 'Ottimo', 'Digitale', NULL, 'https://i.ytimg.com/vi/KfaEg4bfx_A/hqdefault.jpg', NULL, NULL, NULL),
-(9, 3, 4, 1, 'Sufficiente', 'Vinile', NULL, 'https://i.ytimg.com/vi/_8FRkoqKVhk/maxresdefault.jpg', NULL, NULL, NULL);
+(9, 3, 4, 1, 'Sufficiente', 'Vinile', NULL, 'https://i.ytimg.com/vi/_8FRkoqKVhk/maxresdefault.jpg', NULL, NULL, NULL),
+(10, 11, 1, 1, 'Ottimo', 'Vinile', NULL, 'https://i.scdn.co/image/ab67616d0000b2736d8c3e309ec1c8c9f9e827cd', NULL, 'https://images.genius.com/6f459c8504e7794da54a2cc4b4ec49d8.520x520x1.jpg', NULL),
+(11, 11, 2, 1, 'Ottimo', 'Vinile', NULL, 'https://i.discogs.com/3i683fZphgglkY6uQDDhg85fYYxjdo-C0Hc1Z2AdPJg/rs:fit/g:sm/q:90/h:600/w:577/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyMzU5/MjcxLTE2NDYyMzUw/MjgtMzMyMC5qcGVn.jpeg', NULL, 'https://images.genius.com/5daa166c35d4c8d7d1978bc230e49cb2.1000x1000x1.jpg', NULL),
+(12, 11, 3, 1, 'Ottimo', 'Digitale', NULL, 'https://i.ytimg.com/vi/KfaEg4bfx_A/hqdefault.jpg', NULL, NULL, NULL),
+(13, 11, 4, 1, 'Ottimo', 'Digitale', NULL, 'https://binaries.radioitalia.it/2022/06/06/102108393-6e304f53-db11-4bb7-b10b-31874facef80.jpg', NULL, NULL, NULL),
+(14, 11, 5, 1, 'Ottimo', 'Vinile', NULL, 'https://m.media-amazon.com/images/I/51f2020w9rL._AC_SX466_.jpg', NULL, 'https://m.media-amazon.com/images/I/6169scxiiHL._AC_SX466_.jpg', NULL);
 
 -- --------------------------------------------------------
 
@@ -432,11 +472,14 @@ INSERT INTO `ListaDischi` (`id`, `collezione`, `disco`, `numeroCopie`, `Stato`, 
 -- Struttura della tabella `ListaGeneri`
 --
 
-CREATE TABLE `ListaGeneri` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ListaGeneri` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `canzone` int(11) NOT NULL,
-  `genere` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `genere` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `canzone` (`canzone`),
+  KEY `genere` (`genere`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `ListaGeneri`
@@ -491,25 +534,28 @@ INSERT INTO `ListaGeneri` (`id`, `canzone`, `genere`) VALUES
 -- Struttura della tabella `Utente`
 --
 
-CREATE TABLE `Utente` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `Utente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(500) NOT NULL,
   `nome` varchar(50) DEFAULT NULL,
   `cognome` varchar(50) DEFAULT NULL,
   `token` tinyint(1) NOT NULL DEFAULT '0',
-  `link` varchar(500) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `link` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nickname` (`nickname`,`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Utente`
 --
 
 INSERT INTO `Utente` (`id`, `nickname`, `email`, `password`, `nome`, `cognome`, `token`, `link`) VALUES
-(1, 'user', 'utente@utente.it', '$2a$12$bvRMGZxAa0r4mW/8yCH1HOq9kfuNYWLjlBwc5SR/beauhTV4P5zz2', 'Utente', 'Utente', 0, NULL),
-(2, 'gestore', 'gestore@gestore.it', '$2a$12$WarrbFzzniyiEv26H2gZVe.RTFStpAHdGuyBA.EiYj2ANS.vDxsoi', 'Gestore', 'Gestore', 0, NULL),
-(3, 'antonio', 'antonio@site.it', '$2a$10$pTeOgmfUIdNwML4PvKHfxOxaetREbug8rQxANjn9P87aWhOpRjbI6', 'Antonio', 'De Amicis', 0, NULL);
+(1, 'user', 'utente@utente.it', '$2a$12$bvRMGZxAa0r4mW/8yCH1HOq9kfuNYWLjlBwc5SR/beauhTV4P5zz2', 'Utente', 'Utente', 1, NULL),
+(2, 'gestore', 'gestore@gestore.it', '$2a$12$WarrbFzzniyiEv26H2gZVe.RTFStpAHdGuyBA.EiYj2ANS.vDxsoi', 'Gestore', 'Gestore', 1, NULL),
+(3, 'antonio', 'antonio@site.it', '$2a$10$pTeOgmfUIdNwML4PvKHfxOxaetREbug8rQxANjn9P87aWhOpRjbI6', 'Antonio', 'De Amicis', 1, NULL),
+(4, 'danieledd', 'daniele@danieledd.it', '$2a$10$E1vFy59Mx9bzbnNOYpW2mu69faBol7IwgP1jJaOEiIRopbV0sqLty', 'Daniele', 'Di Desidero', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -517,11 +563,14 @@ INSERT INTO `Utente` (`id`, `nickname`, `email`, `password`, `nome`, `cognome`, 
 -- Struttura della tabella `UtentiAutorizzati`
 --
 
-CREATE TABLE `UtentiAutorizzati` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `UtentiAutorizzati` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `collezione` int(11) NOT NULL,
-  `utente` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `utente` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `collezione` (`collezione`),
+  KEY `utente` (`utente`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `UtentiAutorizzati`
@@ -530,160 +579,6 @@ CREATE TABLE `UtentiAutorizzati` (
 INSERT INTO `UtentiAutorizzati` (`id`, `collezione`, `utente`) VALUES
 (3, 3, 1),
 (6, 8, 2);
-
---
--- Indici per le tabelle scaricate
---
-
---
--- Indici per le tabelle `Artista`
---
-ALTER TABLE `Artista`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `Canzone`
---
-ALTER TABLE `Canzone`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `Collezione`
---
-ALTER TABLE `Collezione`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `utente` (`utente`);
-
---
--- Indici per le tabelle `Disco`
---
-ALTER TABLE `Disco`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `artista` (`artista`);
-
---
--- Indici per le tabelle `Genere`
---
-ALTER TABLE `Genere`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `ListaArtisti`
---
-ALTER TABLE `ListaArtisti`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `artista` (`artista`),
-  ADD KEY `canzone` (`canzone`);
-
---
--- Indici per le tabelle `ListaBrani`
---
-ALTER TABLE `ListaBrani`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `canzone` (`canzone`),
-  ADD KEY `disco` (`disco`);
-
---
--- Indici per le tabelle `ListaDischi`
---
-ALTER TABLE `ListaDischi`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `barcode` (`barcode`),
-  ADD KEY `collezione` (`collezione`),
-  ADD KEY `disco` (`disco`);
-
---
--- Indici per le tabelle `ListaGeneri`
---
-ALTER TABLE `ListaGeneri`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `canzone` (`canzone`),
-  ADD KEY `genere` (`genere`);
-
---
--- Indici per le tabelle `Utente`
---
-ALTER TABLE `Utente`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nickname` (`nickname`,`email`);
-
---
--- Indici per le tabelle `UtentiAutorizzati`
---
-ALTER TABLE `UtentiAutorizzati`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `collezione` (`collezione`),
-  ADD KEY `utente` (`utente`);
-
---
--- AUTO_INCREMENT per le tabelle scaricate
---
-
---
--- AUTO_INCREMENT per la tabella `Artista`
---
-ALTER TABLE `Artista`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT per la tabella `Canzone`
---
-ALTER TABLE `Canzone`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
-
---
--- AUTO_INCREMENT per la tabella `Collezione`
---
-ALTER TABLE `Collezione`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT per la tabella `Disco`
---
-ALTER TABLE `Disco`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT per la tabella `Genere`
---
-ALTER TABLE `Genere`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
-
---
--- AUTO_INCREMENT per la tabella `ListaArtisti`
---
-ALTER TABLE `ListaArtisti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
---
--- AUTO_INCREMENT per la tabella `ListaBrani`
---
-ALTER TABLE `ListaBrani`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
-
---
--- AUTO_INCREMENT per la tabella `ListaDischi`
---
-ALTER TABLE `ListaDischi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT per la tabella `ListaGeneri`
---
-ALTER TABLE `ListaGeneri`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-
---
--- AUTO_INCREMENT per la tabella `Utente`
---
-ALTER TABLE `Utente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT per la tabella `UtentiAutorizzati`
---
-ALTER TABLE `UtentiAutorizzati`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Limiti per le tabelle scaricate
