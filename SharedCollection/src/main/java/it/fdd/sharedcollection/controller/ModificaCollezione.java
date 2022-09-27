@@ -91,6 +91,11 @@ public class ModificaCollezione extends SharedCollectionBaseController {
             request.setAttribute("dischi", disco);
             request.setAttribute("collezione_key", collezioneID);
 
+            List<Disco> lista_dischi = new ArrayList<>();
+            lista_dischi.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDischi());
+
+            request.setAttribute("lista_dischi", lista_dischi);
+
             if (collezione.getUtente().getKey() == user_key) {
                 res.activate("modifica_collezione.html.ftl", request, response);
             } else {

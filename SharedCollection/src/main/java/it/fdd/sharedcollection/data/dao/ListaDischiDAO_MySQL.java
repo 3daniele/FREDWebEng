@@ -187,16 +187,35 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
                 }
             } else {
                 // insert
+
                 iListaDischi.setInt(1, listaDischi.getCollezione().getKey());
                 iListaDischi.setInt(2, listaDischi.getDisco().getKey());
-                iListaDischi.setInt(3, listaDischi.getNumeroCopie());
-                iListaDischi.setString(4, listaDischi.getStato());
-                iListaDischi.setString(5, listaDischi.getFormato());
-                iListaDischi.setString(6, listaDischi.getBarcode());
-                iListaDischi.setString(7, listaDischi.getImgCopertina());
-                iListaDischi.setString(8, listaDischi.getImgFronte());
-                iListaDischi.setString(9, listaDischi.getImgRetro());
-                iListaDischi.setString(10, listaDischi.getImgLibretto());
+
+
+                if (listaDischi.getImgCopertina() == null){
+                    iListaDischi.setString(7, "https://www.musicaccia.com/wp-content/uploads/2018/02/disco_vinile_che_esplode.jpg");
+                }else{
+                    iListaDischi.setString(7, listaDischi.getImgCopertina());
+                }
+
+                if (listaDischi.getStato() != null) {
+                    iListaDischi.setInt(3,  1);
+                    iListaDischi.setString(4, "Buono");
+                    iListaDischi.setString(5, "Digitale");
+                    iListaDischi.setString(6, null);
+                    iListaDischi.setString(8, null);
+                    iListaDischi.setString(9, null);
+                    iListaDischi.setString(10, null);
+                } else {
+                    iListaDischi.setInt(3, listaDischi.getNumeroCopie());
+                    iListaDischi.setString(4, listaDischi.getStato());
+                    iListaDischi.setString(5, listaDischi.getFormato());
+                    iListaDischi.setString(6, listaDischi.getBarcode());
+                    iListaDischi.setString(8, listaDischi.getImgFronte());
+                    iListaDischi.setString(9, listaDischi.getImgRetro());
+                    iListaDischi.setString(10, listaDischi.getImgLibretto());
+                }
+
 
                 if (iListaDischi.executeUpdate() == 1) {
                     // get della chiave generata

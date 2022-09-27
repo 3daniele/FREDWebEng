@@ -8,9 +8,11 @@ import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.impl.CollezioneImpl;
+import it.fdd.sharedcollection.data.impl.ListaDischiImpl;
 import it.fdd.sharedcollection.data.impl.UtenteImpl;
 import it.fdd.sharedcollection.data.impl.UtentiAutorizzatiImpl;
 import it.fdd.sharedcollection.data.model.Collezione;
+import it.fdd.sharedcollection.data.model.ListaDischi;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
 import it.fdd.sharedcollection.data.utility.EmailTypes;
@@ -78,6 +80,7 @@ public class NuovaCollezione extends SharedCollectionBaseController {
         String nome = request.getParameter("nome");
         String condivisione = request.getParameter("condivisione");
         String[] utentiS = request.getParameterValues("utentiS");
+        String[] dischiS = request.getParameterValues("dischiS");
         String error_msg = "";
 
 
@@ -102,6 +105,16 @@ public class NuovaCollezione extends SharedCollectionBaseController {
                     ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(utentiAutorizzati);
                 }
             }
+
+            if (dischiS != null) {
+                for (int i = 0; i < dischiS.length; i++) {
+                    ListaDischi listaDischi = new ListaDischiImpl();
+                    listaDischi.setCollezione(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
+                    listaDischi.setDisco(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(Integer.parseInt(dischiS[i])));
+                    ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
+                }
+            }
+
 
             response.sendRedirect("collezioni");
 

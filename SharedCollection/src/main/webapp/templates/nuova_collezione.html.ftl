@@ -45,7 +45,7 @@
                 <label class="form-label">
                     <h5>Dischi</h5>
                 </label>
-                <select class="selectpicker" multiple data-live-search="true" id="dischi" name="dischi">
+                <select class="selectpicker" multiple data-live-search="true" id="dischiS" name="dischiS">
                     <#list lista_dischi as disco>
                         <option value="${disco.key}" id="${disco.key}">${disco.nome}</option>
                     </#list>
