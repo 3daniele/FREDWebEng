@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="style/default-assets/multi-select.css">
+<link rel="stylesheet" href="style/default-assets/multi-select.css" xmlns="http://www.w3.org/1999/html">
 <div class="row">
 
     <!--MODIFICA COLLEZIONE-->
@@ -119,10 +119,183 @@
                                            class="btn poca-btn mt-10">Visualizza</a>
                                     </div>
                                 </noscript>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="modificaDiscoModal" data-bs-whatever="${disco.key}">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#modificaDiscoModal${disco.key}">
                                     Modifica
                                 </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal modifica disco -->
+                    <div class="modal fade modal-lg" id="modificaDiscoModal${disco.key}" tabindex="-1"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="modificaCollezione" method="POST">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-danger" id="exampleModalLabel">Modifica disco:</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <label class="form-label">
+                                                <h5>Dischi</h5>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" name="${disco.key}"
+                                                       id="${disco.key}" value="${disco.nome}" readonly>
+                                            </div>
+                                            <input type="hidden" name="collezioneID" id="collezioneID"
+                                                   value="${collezione.key}"/>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 col-lg-4">
+                                                <label class="form-label">
+                                                    <h5>Numero copie</h5>
+                                                </label>
+                                                <input type="number" class="form-control"
+                                                       value="${dettaglio.numeroCopie}"
+                                                       min="1" id="numeroCopie" name="numeroCopie">
+                                            </div>
+                                            <div class="col-12 col-md-4 col-lg-4">
+                                                <label class="form-label">
+                                                    <h5>Formato</h5>
+                                                </label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                        id="formato" name="formato">
+                                                    <option>Seleziona formato</option>
+                                                    <#if (dettaglio.formato == "Vinile")>
+                                                        <option value="Vinile" selected>Vinile</option>
+                                                    <#else>
+                                                        <option value="Vinile">Vinile</option>
+                                                    </#if>
+                                                    <#if (dettaglio.formato == "CD")>
+                                                        <option value="CD" selected>CD</option>
+                                                    <#else>
+                                                        <option value="CD">CD</option>
+                                                    </#if>
+                                                    <#if (dettaglio.formato == "Digitale")>
+                                                        <option value="Digitale" selected>Digitale</option>
+                                                    <#else>
+                                                        <option value="Digitale">Digitale</option>
+                                                    </#if>
+                                                    <#if (dettaglio.formato == "Cassetta")>
+                                                        <option value="Cassetta" selected>Cassetta</option>
+                                                    <#else>
+                                                        <option value="Cassetta">Cassetta</option>
+                                                    </#if>
+                                                    <#if (dettaglio.formato == "Altro")>
+                                                        <option value="Altro" selected>Altro</option>
+                                                    <#else>
+                                                        <option value="Altro">Altro</option>
+                                                    </#if>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 col-md-4 col-lg-4">
+                                                <label class="form-label">
+                                                    <h5>Stato</h5>
+                                                </label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                        id="stato" name="stato">
+                                                    <option selected>Seleziona stato</option>
+                                                    <#if (dettaglio.stato == "Ottimo")>
+                                                        <option value="Ottimo" selected>Ottimo</option>
+                                                    <#else>
+                                                        <option value="Ottimo">Ottimo</option>
+                                                    </#if>
+                                                    <#if (dettaglio.stato == "Buono")>
+                                                        <option value="Buono" selected>Buono</option>
+                                                    <#else>
+                                                        <option value="Buono">Buono</option>
+                                                    </#if>
+                                                    <#if (dettaglio.stato == "Discreto")>
+                                                        <option value="Discreto" selected>Discreto</option>
+                                                    <#else>
+                                                        <option value="Discreto">Discreto</option>
+                                                    </#if>
+                                                    <#if (dettaglio.stato == "Sufficente")>
+                                                        <option value="Sufficente" selected>Sufficente</option>
+                                                    <#else>
+                                                        <option value="Sufficente">Sufficente</option>
+                                                    </#if>
+                                                    <#if (dettaglio.stato == "Pessimo")>
+                                                        <option value="Pessimo" selected>Pessimo</option>
+                                                    <#else>
+                                                        <option value="Pessimo">Pessimo</option>
+                                                    </#if>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <label class="form-label">
+                                                <h5>Barcode</h5>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control"
+                                                       aria-label="Sizing example input"
+                                                       aria-describedby="inputGroup-sizing-default" id="barcode"
+                                                       name="barcode"
+                                                        <#if (dettaglio.barcode??)>
+                                                    value="${dettaglio.barcode}"
+                                                        </#if>>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <label class="form-label">
+                                                <h5>Immagine di copertina:</h5>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                                                <input type="file" class="form-control" id="imgCopertina"
+                                                       name="imgCopertina"
+                                                        <#if (dettaglio.imgCopertina??)>
+                                                    value="${dettaglio.imgCopertina}"
+                                                        </#if>>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <label class="form-label">
+                                                <h5>Immagine frontale:</h5>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                                                <input type="file" class="form-control" id="imgFronte" name="imgFronte">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <label class="form-label">
+                                                <h5>Immagine retro:</h5>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                                                <input type="file" class="form-control" id="imgRetro" name="imgRetro">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <label class="form-label">
+                                                <h5>Immagine libretto:</h5>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                                                <input type="file" class="form-control" id="imgLibretto"
+                                                       name="imgLibretto">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi
+                                        </button>
+                                        <input type="submit" class="btn btn-danger text-end" value="Salva"
+                                               name="modifica_disco">
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -137,133 +310,134 @@
 <div class="modal fade modal-lg" id="importModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Importa disco:</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <label class="form-label">
-                        <h5>Dischi</h5>
-                    </label>
-                    <select class="selectpicker" multiple data-live-search="true" id="dischiS" name="dischiS">
-                        <#list lista_dischi as disco>
-                            <option value="${disco.key}" id="${disco.key}">${disco.nome}</option>
-                        </#list>
-                    </select>
-                    <div class="form-text">
-                        Seleziona i dischi da aggiungere alla tua collezione.
-                    </div>
+            <form action="modificaCollezione" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="exampleModalLabel">Importa disco:</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <br>
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-6">
+                <div class="modal-body">
+                    <div class="row">
                         <label class="form-label">
-                            <h5>Numero copie</h5>
+                            <h5>Dischi</h5>
                         </label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
+                        <select class="selectpicker" data-live-search="true" id="discoID" name="discoID">
+                            <option selected>Seleziona disco</option>
+                            <#list lista_dischi as disco>
+                                <option value="${disco.key}" id="${disco.key}">${disco.nome}</option>
+                            </#list>
+                            <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
                         </select>
+                        <div class="form-text">
+                            Seleziona i dischi da aggiungere alla tua collezione.
+                        </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-6">
+                    <br>
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <label class="form-label">
+                                <h5>Numero copie</h5>
+                            </label>
+                            <select class="form-select" aria-label="Default select example" id="numeroCopie"
+                                    name="numeroCopie">
+                                <option selected>Seleziona quantità</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <label class="form-label">
+                                <h5>Formato</h5>
+                            </label>
+                            <select class="form-select" aria-label="Default select example" id="formato" name="formato">
+                                <option selected>Seleziona formato</option>
+                                <option value="Vinile">Vinile</option>
+                                <option value="CD">CD</option>
+                                <option value="Digitale">Digitale</option>
+                                <option value="Cassetta">Cassetta</option>
+                                <option value="Altro">Altro</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <label class="form-label">
+                                <h5>Stato</h5>
+                            </label>
+                            <select class="form-select" aria-label="Default select example" id="stato" name="stato">
+                                <option selected>Seleziona stato</option>
+                                <option value="Ottimo">Ottimo</option>
+                                <option value="Buono">Buono</option>
+                                <option value="Discreto">Discreto</option>
+                                <option value="Sufficente">Sufficente</option>
+                                <option value="Pessimo">Pessimo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
                         <label class="form-label">
-                            <h5>Formato</h5>
+                            <h5>Barcode</h5>
                         </label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="Vinile">Vinile</option>
-                            <option value="CD">CD</option>
-                            <option value="Digitale">Digitale</option>
-                            <option value="Cassetta">Cassetta</option>
-                            <option value="Altro">Altro</option>
-                        </select>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default" id="barcode" name="barcode">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="form-label">
+                            <h5>Immagine di copertina:</h5>
+                        </label>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                            <input type="file" class="form-control" id="imgCopertina" name="imgCopertina">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="form-label">
+                            <h5>Immagine frontale:</h5>
+                        </label>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                            <input type="file" class="form-control" id="imgFronte" name="imgFronte">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="form-label">
+                            <h5>Immagine retro:</h5>
+                        </label>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                            <input type="file" class="form-control" id="imgRetro" name="imgRetro">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="form-label">
+                            <h5>Immagine libretto:</h5>
+                        </label>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                            <input type="file" class="form-control" id="imgLibretto" name="imgLibretto">
+                        </div>
                     </div>
                 </div>
-                <br>
-                <div class="row">
-                    <label class="form-label">
-                        <h5>Stato</h5>
-                    </label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="Ottimo">Ottimo</option>
-                        <option value="Buono">Buono</option>
-                        <option value="Discreto">Discreto</option>
-                        <option value="Sufficente">Sufficente</option>
-                        <option value="Pessimo">Pessimo</option>
-                    </select>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <input type="submit" class="btn btn-danger text-end" value="Salva" name="modifica_disco">
                 </div>
-                <br>
-                <div class="row">
-                    <label class="form-label">
-                        <h5>Barcode</h5>
-                    </label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" aria-label="Sizing example input"
-                               aria-describedby="inputGroup-sizing-default"></input>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <label class="form-label">
-                        <h5>Immagine di copertina:</h5>
-                    </label>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupFile01">Upload</label>
-                        <input type="file" class="form-control" id="inputGroupFile01">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <label class="form-label">
-                        <h5>Immagine frontale:</h5>
-                    </label>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupFile01">Upload</label>
-                        <input type="file" class="form-control" id="inputGroupFile01">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <label class="form-label">
-                        <h5>Immagine retro:</h5>
-                    </label>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupFile01">Upload</label>
-                        <input type="file" class="form-control" id="inputGroupFile01">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <label class="form-label">
-                        <h5>Immagine libretto:</h5>
-                    </label>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupFile01">Upload</label>
-                        <input type="file" class="form-control" id="inputGroupFile01">
-                    </div>
-                </div>
-                <br>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger">Save changes</button>
+            </form>
         </div>
     </div>
 </div>
-
-<!-- Modal nuovo disco -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>

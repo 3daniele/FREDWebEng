@@ -192,13 +192,13 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
                 iListaDischi.setInt(2, listaDischi.getDisco().getKey());
 
 
-                if (listaDischi.getImgCopertina() == null){
+                if (listaDischi.getImgCopertina() == null || listaDischi.getImgCopertina().equals("")){
                     iListaDischi.setString(7, "https://www.musicaccia.com/wp-content/uploads/2018/02/disco_vinile_che_esplode.jpg");
                 }else{
                     iListaDischi.setString(7, listaDischi.getImgCopertina());
                 }
 
-                if (listaDischi.getStato() != null) {
+                if (listaDischi.getStato() == null || listaDischi.getStato().equals("")) {
                     iListaDischi.setInt(3,  1);
                     iListaDischi.setString(4, "Buono");
                     iListaDischi.setString(5, "Digitale");

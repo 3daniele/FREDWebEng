@@ -41,28 +41,21 @@ public class ConfimEmail extends SharedCollectionBaseController {
 
     private void confirmEmail(HttpServletRequest request, HttpServletResponse response) throws DataException, TemplateManagerException, IOException {
 
-        String verification_code = request.getParameter("verification_code");
-
-        System.out.println(verification_code);
-        String link = verification_code;
-        System.out.println(link);
+        String link = request.getParameter("verification_code");
         Utente utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getLink(link);
-        System.out.println(utente.getKey());
 
         if (utente != null) {
             if (utente.getToken() == 0) {
                 int token = 1;
                 ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().insertToken(utente, token);
                 TemplateResult results = new TemplateResult(getServletContext());
-                response.sendRedirect("login");
+                response.getWriter().print("Email confermata correttamente!");
+                //response.sendRedirect("login");
             } else {
-                String error_msg = "Email già verificata";
-                request.setAttribute("exception", error_msg);
+                response.getWriter().print("Email già confermata!");
             }
         } else {
-            String error_msg = "Codice errato";
-            request.setAttribute("exception", error_msg);
-
+            response.getWriter().print("Codice errato!");
         }
     }
 }

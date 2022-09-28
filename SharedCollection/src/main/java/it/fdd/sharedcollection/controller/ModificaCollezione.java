@@ -14,6 +14,7 @@ import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.impl.CollezioneImpl;
+import it.fdd.sharedcollection.data.impl.ListaDischiImpl;
 import it.fdd.sharedcollection.data.impl.UtentiAutorizzatiImpl;
 import it.fdd.sharedcollection.data.model.*;
 
@@ -35,9 +36,11 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                 if (request.getParameter("modifica_collezione") != null) {
                     action_collezione(request, response);
                 }
-
                 if (request.getParameter("modificaUtenti") != null) {
                     action_utenti(request, response);
+                }
+                if (request.getParameter("modifica_disco") != null) {
+                    action_disco(request, response);
                 }
                 response.sendRedirect("collezioni");
             }
@@ -175,7 +178,40 @@ public class ModificaCollezione extends SharedCollectionBaseController {
 
     }
 
-    private void action_error(HttpServletRequest request, HttpServletResponse response) {
+    private void action_disco(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
+
+        int disco_key = SecurityLayer.checkNumeric(request.getParameter("discoID"));
+        int collezione_key = SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
+        int numeroCopie = SecurityLayer.checkNumeric(request.getParameter("numeroCopie"));
+        String formato = request.getParameter("formato");
+        String stato = request.getParameter("stato");
+        String barcode = request.getParameter("barcode");
+        String imgCopertina = "https://www.musicaccia.com/wp-content/uploads/2018/02/disco_vinile_che_esplode.jpg";
+        String imgFronte = null;
+        String imgRetro = null;
+        String imgLibretto = null;
+
+        Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key);
+        Disco disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key);
+
+        ListaDischi listaDischi = new ListaDischiImpl();
+        listaDischi.setCollezione(collezione);
+        listaDischi.setDisco(disco);
+        listaDischi.setNumeroCopie(numeroCopie);
+        listaDischi.setFormato(formato);
+        listaDischi.setStato(stato);
+        listaDischi.setBarcode(barcode);
+        listaDischi.setImgCopertina(imgCopertina);
+        listaDischi.setImgFronte(imgFronte);
+        listaDischi.setImgRetro(imgRetro);
+        listaDischi.setImgLibretto(imgLibretto);
+
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
+
+        response.sendRedirect("modificaCollezione?numero=" + collezione_key);
+    }
+
+        private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         } else {
