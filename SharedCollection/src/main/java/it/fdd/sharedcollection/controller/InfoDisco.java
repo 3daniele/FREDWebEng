@@ -24,12 +24,15 @@ public class InfoDisco extends SharedCollectionBaseController {
 
         int disco_key;
         int collezione_key;
+        String formato;
         try {
             if (request.getParameter("numero") != null) {
                 disco_key = SecurityLayer.checkNumeric(request.getParameter("numero"));
                 collezione_key = SecurityLayer.checkNumeric(request.getParameter("collezione"));
+                formato = request.getParameter("formato");
                 request.setAttribute("discoID", disco_key);
                 request.setAttribute("collezioneID", collezione_key);
+                request.setAttribute("formato", formato);
                 action_default(request, response);
             } else {
                 response.sendRedirect("collezioni");
@@ -69,10 +72,11 @@ public class InfoDisco extends SharedCollectionBaseController {
         try {
             Integer disco_key = (Integer) request.getAttribute("discoID");
             Integer collezione_key = (Integer) request.getAttribute("collezioneID");
+            String formato = request.getAttribute("formato").toString();
             Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key);
             Disco disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key);
             List<ListaBrani> listaBrani = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaBraniDAO().getListeBrani(disco_key);
-            ListaDischi infoDisco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDisco(collezione_key, disco_key);
+            ListaDischi infoDisco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDisco(collezione_key, disco_key, formato);
             List<Canzone> canzoni = new ArrayList<>();
             List<ListaArtisti> artisti = new ArrayList<>();
             List<ListaGeneri> generi = new ArrayList<>();

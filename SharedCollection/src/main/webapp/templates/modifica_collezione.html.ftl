@@ -57,6 +57,16 @@
                 <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
                 Seleziona gli utenti con cui condividere la tua collezione.
             </div>
+            <noscript>
+                <style type="text/css">
+                    .pagecontainer {
+                        display: none;
+                    }
+                </style>
+                <div class="noscriptmsg">
+                    Impossibile modificare la condivisione, attiva il javascript!
+                </div>
+            </noscript>
             <br><br><br><br><br><br>
             <div class="text-end">
                 <input type="submit" class="btn btn-danger" value="Salva" id="modificaUtenti" name="modificaUtenti">
@@ -87,10 +97,12 @@
     <br>
     <div class="row">
         <#list dettagliDischi as dettaglio>
+            <#assign formato = "formato">
             <#list dischi as disco>
-                <#if (disco.key = dettaglio.disco.key)>
-                    <div class="col-12 col-md-4 entre wow fadeInUp" data-wow-delay="0.2s"
-                         style="cursor:pointer">
+                <#if (disco.key = dettaglio.disco.key && dettaglio.formato != formato)>
+                    <#assign formato = dettaglio.formato>
+                    <div class="col-12 col-md-4 entre wow fadeInUp" data-wow-delay="0.2s">
+                        <form action="modificaCollezione" method="POST">
                         <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
                             <div class="poca-music-thumbnail">
                                 <img src="${dettaglio.imgCopertina}" alt="">
@@ -106,25 +118,20 @@
                                     <div>
                                         <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.stato}</a>
                                     </div>
+                                    <input type="hidden" name="listaDiscoID" id="listaDiscoID"
+                                           value="${dettaglio.key}"/>
                                 </div>
-
-                                <noscript>
-                                    <style type="text/css">
-                                        .pagecontainer {
-                                            display: none;
-                                        }
-                                    </style>
-                                    <div class="noscriptmsg">
-                                        <a href="disco?numero=${disco.key}&collezione=${collezione_key}"
-                                           class="btn poca-btn mt-10">Visualizza</a>
-                                    </div>
-                                </noscript>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#modificaDiscoModal${disco.key}">
+                                <br>
+                                <a href="disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
+                                   class="btn poca-btn mt-10">Visualizza</a>
+                                <br><br>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modificaDiscoModal${disco.key}">
                                     Modifica
                                 </button>
+                                <input type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco" name="elimina_disco">
                             </div>
                         </div>
+                        </form>
                     </div>
                     <!-- Modal modifica disco -->
                     <div class="modal fade modal-lg" id="modificaDiscoModal${disco.key}" tabindex="-1"
@@ -145,13 +152,17 @@
                                             <div class="input-group mb-3">
                                                 <input type="text" class="form-control" name="${disco.key}"
                                                        id="${disco.key}" value="${disco.nome}" readonly>
+                                                <input type="hidden" name="discoID" id="discoID"
+                                                       value="${disco.key}"/>
+                                                <input type="hidden" name="collezioneID" id="collezioneID"
+                                                       value="${collezione.key}"/>
+                                                <input type="hidden" name="formato" id="formato"
+                                                       value="${dettaglio.formato}"/>
                                             </div>
-                                            <input type="hidden" name="collezioneID" id="collezioneID"
-                                                   value="${collezione.key}"/>
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <div class="col-12 col-md-4 col-lg-4">
+                                            <div class="col-12 col-md-6 col-lg-6">
                                                 <label class="form-label">
                                                     <h5>Numero copie</h5>
                                                 </label>
@@ -159,41 +170,7 @@
                                                        value="${dettaglio.numeroCopie}"
                                                        min="1" id="numeroCopie" name="numeroCopie">
                                             </div>
-                                            <div class="col-12 col-md-4 col-lg-4">
-                                                <label class="form-label">
-                                                    <h5>Formato</h5>
-                                                </label>
-                                                <select class="form-select" aria-label="Default select example"
-                                                        id="formato" name="formato">
-                                                    <option>Seleziona formato</option>
-                                                    <#if (dettaglio.formato == "Vinile")>
-                                                        <option value="Vinile" selected>Vinile</option>
-                                                    <#else>
-                                                        <option value="Vinile">Vinile</option>
-                                                    </#if>
-                                                    <#if (dettaglio.formato == "CD")>
-                                                        <option value="CD" selected>CD</option>
-                                                    <#else>
-                                                        <option value="CD">CD</option>
-                                                    </#if>
-                                                    <#if (dettaglio.formato == "Digitale")>
-                                                        <option value="Digitale" selected>Digitale</option>
-                                                    <#else>
-                                                        <option value="Digitale">Digitale</option>
-                                                    </#if>
-                                                    <#if (dettaglio.formato == "Cassetta")>
-                                                        <option value="Cassetta" selected>Cassetta</option>
-                                                    <#else>
-                                                        <option value="Cassetta">Cassetta</option>
-                                                    </#if>
-                                                    <#if (dettaglio.formato == "Altro")>
-                                                        <option value="Altro" selected>Altro</option>
-                                                    <#else>
-                                                        <option value="Altro">Altro</option>
-                                                    </#if>
-                                                </select>
-                                            </div>
-                                            <div class="col-12 col-md-4 col-lg-4">
+                                            <div class="col-12 col-md-6 col-lg-6">
                                                 <label class="form-label">
                                                     <h5>Stato</h5>
                                                 </label>

@@ -37,10 +37,12 @@
 </div>
 <div class="row">
     <#list dettagliDischi as dettaglio>
+        <#assign formato = "formato">
         <#list dischi as disco>
-            <#if (disco.key = dettaglio.disco.key)>
+            <#if (disco.key = dettaglio.disco.key && dettaglio.formato != formato)>
+                <#assign formato = dettaglio.formato>
                 <div class="col-12 col-md-4 entre wow fadeInUp" data-wow-delay="0.2s"
-                     style="cursor:pointer" onclick="location.href='disco?numero=${disco.key}&collezione=${collezione_key}'">
+                     style="cursor:pointer" onclick="location.href='disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}'">
                     <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
                         <div class="poca-music-thumbnail">
                             <img src="${dettaglio.imgCopertina}" alt="">
@@ -62,7 +64,7 @@
                                     .pagecontainer {display:none;}
                                 </style>
                                 <div class="noscriptmsg">
-                                    <a href="disco?numero=${disco.key}&collezione=${collezione_key}" class="btn poca-btn mt-10">Visualizza</a>
+                                    <a href="disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}" class="btn poca-btn mt-10">Visualizza</a>
                                 </div>
                             </noscript>
                         </div>

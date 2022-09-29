@@ -42,6 +42,9 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                 if (request.getParameter("modifica_disco") != null) {
                     action_disco(request, response);
                 }
+                if (request.getParameter("elimina_disco") != null) {
+                    action_delete(request, response);
+                }
                 response.sendRedirect("collezioni");
             }
         } catch (NumberFormatException ex) {
@@ -194,24 +197,49 @@ public class ModificaCollezione extends SharedCollectionBaseController {
         Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key);
         Disco disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key);
 
-        ListaDischi listaDischi = new ListaDischiImpl();
-        listaDischi.setCollezione(collezione);
-        listaDischi.setDisco(disco);
-        listaDischi.setNumeroCopie(numeroCopie);
-        listaDischi.setFormato(formato);
-        listaDischi.setStato(stato);
-        listaDischi.setBarcode(barcode);
-        listaDischi.setImgCopertina(imgCopertina);
-        listaDischi.setImgFronte(imgFronte);
-        listaDischi.setImgRetro(imgRetro);
-        listaDischi.setImgLibretto(imgLibretto);
-
-        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
+        if (((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDisco(collezione_key, disco_key, formato) == null) {
+            // insert
+            ListaDischi listaDischi = new ListaDischiImpl();
+            listaDischi.setCollezione(collezione);
+            listaDischi.setDisco(disco);
+            listaDischi.setNumeroCopie(numeroCopie);
+            listaDischi.setFormato(formato);
+            listaDischi.setStato(stato);
+            listaDischi.setBarcode(barcode);
+            listaDischi.setImgCopertina(imgCopertina);
+            listaDischi.setImgFronte(imgFronte);
+            listaDischi.setImgRetro(imgRetro);
+            listaDischi.setImgLibretto(imgLibretto);
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
+        } else {
+            // update
+            ListaDischi listaDischi = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDisco(collezione_key, disco_key, formato);
+            listaDischi.setNumeroCopie(numeroCopie);
+            listaDischi.setStato(stato);
+            listaDischi.setBarcode(barcode);
+            listaDischi.setImgCopertina(imgCopertina);
+            listaDischi.setImgFronte(imgFronte);
+            listaDischi.setImgRetro(imgRetro);
+            listaDischi.setImgLibretto(imgLibretto);
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
+        }
 
         response.sendRedirect("modificaCollezione?numero=" + collezione_key);
     }
 
-        private void action_error(HttpServletRequest request, HttpServletResponse response) {
+    private void action_delete(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
+
+        int listaDisco_key = SecurityLayer.checkNumeric(request.getParameter("listaDiscoID"));
+        System.out.println(listaDisco_key);
+        ListaDischi listaDischi = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDischi(listaDisco_key);
+        int collezione_key = listaDischi.getCollezione().getKey();
+
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().deleteListaDischi(listaDischi);
+
+        response.sendRedirect("modificaCollezione?numero=" + collezione_key);
+    }
+
+    private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         } else {

@@ -11,12 +11,14 @@ public interface ListaDischiDAO {
 
     ListaDischi getListaDischi(int listaDischi_key) throws DataException;
 
-    ListaDischi getListaDisco(int collezione_key, int disco_key) throws DataException;
+    ListaDischi getListaDisco(int collezione_key, int disco_key, String formato) throws DataException;
 
     List<ListaDischi> getListeDischi() throws DataException;
 
     List<ListaDischi> getDischiByCollezione(int collezione_key) throws DataException;
 
     void storeListaDischi(ListaDischi listaDischi) throws DataException;
+
+    void deleteListaDischi(ListaDischi listaDischi) throws DataException;
 
 }

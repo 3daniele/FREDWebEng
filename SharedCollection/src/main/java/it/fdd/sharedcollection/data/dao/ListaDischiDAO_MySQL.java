@@ -27,7 +27,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
             // precompilazione di tutte le query utilizzate nella classe
             sListaDischiByID = connection.prepareStatement("SELECT * FROM listaDischi WHERE id = ?");
             sListeDischi = connection.prepareStatement("SELECT * FROM listaDischi");
-            sListaDisco = connection.prepareStatement("SELECT * FROM ListaDischi WHERE collezione = ? AND disco = ?");
+            sListaDisco = connection.prepareStatement("SELECT * FROM ListaDischi WHERE collezione = ? AND disco = ? AND formato = ?");
             sDischiByCollezione = connection.prepareStatement("SELECT * FROM ListaDischi WHERE collezione=?");
             iListaDischi = connection.prepareStatement("INSERT INTO listaDischi (collezione, disco, numeroCopie,stato,formato,barcode,imgCopertina,imgFronte,imgRetro,imgLibretto) VALUES(?, ?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uListaDischi = connection.prepareStatement("UPDATE listaDischi SET collezione=?,disco = ?, numeroCopie = ?, stato=?,formato=?,barcode=?,imgCopertina=?,imgFronte=?,imgRetro=?,imgLibretto=? WHERE id = ?");
@@ -105,13 +105,14 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
     }
 
     @Override
-    public ListaDischi getListaDisco(int collezione_key, int disco_key) throws DataException {
+    public ListaDischi getListaDisco(int collezione_key, int disco_key, String formato) throws DataException {
 
         ListaDischi listaDisco = null;
 
         try {
             sListaDisco.setInt(1, collezione_key);
             sListaDisco.setInt(2, disco_key);
+            sListaDisco.setString(3, formato);
             try (ResultSet rs = sListaDisco.executeQuery()) {
                 if (rs.next()) {
                     listaDisco = createListaDischi(rs);
@@ -181,6 +182,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
                 uListaDischi.setString(8, listaDischi.getImgFronte());
                 uListaDischi.setString(9, listaDischi.getImgRetro());
                 uListaDischi.setString(10, listaDischi.getImgLibretto());
+                uListaDischi.setInt(11, listaDischi.getKey());
 
                 if (uListaDischi.executeUpdate() == 0) {
                     throw new OptimisticLockException(listaDischi);
@@ -239,5 +241,15 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
         }
     }
 
+    @Override
+    public void deleteListaDischi(ListaDischi listaDischi) throws DataException {
+
+        try {
+            dListaDischi.setInt(1, listaDischi.getKey());
+            dListaDischi.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile eliminare l'oggetto ListaDischi", ex);
+        }
+    }
 
 }
