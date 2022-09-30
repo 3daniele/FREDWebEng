@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import it.fdd.framework.result.SplitSlashesFmkExt;
 import it.fdd.framework.result.TemplateManagerException;
@@ -18,7 +19,8 @@ import it.fdd.sharedcollection.data.impl.ListaDischiImpl;
 import it.fdd.sharedcollection.data.impl.UtentiAutorizzatiImpl;
 import it.fdd.sharedcollection.data.model.*;
 
-import java.io.IOException;
+import java.io.*;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -194,6 +196,31 @@ public class ModificaCollezione extends SharedCollectionBaseController {
         String imgRetro = null;
         String imgLibretto = null;
 
+        File copertina = new File(request.getParameter("imgCopertina"));
+
+        System.out.println(copertina.getName());
+
+
+        /*
+        Part fronte = request.getPart("imgFronte");
+        Part retro = request.getPart("imgRetro");
+        Part libretto = request.getPart("imgLibretto");
+        */
+
+        if(copertina != null){
+            System.out.println("Copertina è diverso da null");
+            try {
+                File uploaded_file = File.createTempFile("upload_", "", new File(System.getenv("PROJECT_IMG") + "/upload-img/"));
+                imgCopertina = uploaded_file.getAbsolutePath();
+        }catch (Exception e){
+            System.out.println("Poveri illusi");
+        }
+
+        }else{
+            System.out.println("Copertina è null");
+        }
+
+        /*
         Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key);
         Disco disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key);
 
@@ -223,6 +250,8 @@ public class ModificaCollezione extends SharedCollectionBaseController {
             listaDischi.setImgLibretto(imgLibretto);
             ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
         }
+
+         */
 
         response.sendRedirect("modificaCollezione?numero=" + collezione_key);
     }

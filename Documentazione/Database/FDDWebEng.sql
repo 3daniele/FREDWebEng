@@ -446,7 +446,6 @@ CREATE TABLE IF NOT EXISTS `ListaDischi` (
   `imgRetro` text,
   `imgLibretto` text,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `barcode` (`barcode`),
   KEY `collezione` (`collezione`),
   KEY `disco` (`disco`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;

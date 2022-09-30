@@ -102,7 +102,7 @@
                 <#if (disco.key = dettaglio.disco.key && dettaglio.formato != formato)>
                     <#assign formato = dettaglio.formato>
                     <div class="col-12 col-md-4 entre wow fadeInUp" data-wow-delay="0.2s">
-                        <form action="modificaCollezione" method="POST">
+                        <form action="modificaCollezione" method="POST" enctype="application/x-www-form-urlencoded">
                         <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
                             <div class="poca-music-thumbnail">
                                 <img src="${dettaglio.imgCopertina}" alt="">
@@ -287,7 +287,7 @@
 <div class="modal fade modal-lg" id="importModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="modificaCollezione" method="POST">
+            <form action="modificaCollezione" method="POST" enctype="application/x-www-form-urlencoded">
                 <div class="modal-header">
                     <h5 class="modal-title text-danger" id="exampleModalLabel">Importa disco:</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
