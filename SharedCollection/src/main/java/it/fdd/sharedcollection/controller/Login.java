@@ -45,7 +45,6 @@ public class Login extends SharedCollectionBaseController {
             request.setAttribute("message", "Data access exception: " + ex.getMessage());
             action_error(request, response);
         }
-
     }
 
     private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, ServletException, TemplateManagerException {
@@ -63,6 +62,7 @@ public class Login extends SharedCollectionBaseController {
 
                 if (my_pass == null) {
                     request.setAttribute("error", "Credenziali non corrette.");
+                    request.setAttribute("email", email);
                     action_default(request, response);
                 }
                 if (it.fdd.sharedcollection.utility.BCrypt.checkpw(password, my_pass)) {
@@ -81,13 +81,15 @@ public class Login extends SharedCollectionBaseController {
                         if (utente.getToken() == 1) {
                             SecurityLayer.createSession(request, utente.getNickname(), userID, email);
                         } else {
-                            request.setAttribute("message", "Verifica email prima di proseguire");
-                            action_error(request, response);
+                            request.setAttribute("error", "Verifica la tua email prima di proseguire!");
+                            request.setAttribute("email", email);
+                            action_default(request, response);
                         }
 
                     } else {
-                        request.setAttribute("message", "Email e/o password errati");
-                        action_error(request, response);
+                        request.setAttribute("error", "Email e/o password errati!");
+                        request.setAttribute("email", email);
+                        action_default(request, response);
                     }
 
                     //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
@@ -97,16 +99,18 @@ public class Login extends SharedCollectionBaseController {
                         response.sendRedirect("home");
                     }
                 } else {
-                    request.setAttribute("exception", new Exception("Login failed"));
-                    action_error(request, response);
+                    request.setAttribute("error", "Email e/o password errati!");
+                    request.setAttribute("email", email);
+                    action_default(request, response);
                 }
             } catch (DataException ex) {
                 request.setAttribute("message", "Data access exception: " + ex.getMessage());
                 action_error(request, response);
             }
         } else {
-            request.setAttribute("exception", new Exception("Login failed"));
-            action_error(request, response);
+            request.setAttribute("error", "Compila tutti i campi!");
+            request.setAttribute("email", email);
+            action_default(request, response);
         }
 
     }

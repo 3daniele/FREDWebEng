@@ -5,17 +5,31 @@
                  class="img-fluid" alt="Sample image">
         </div>
         <div class="col-md-8 col-lg-6">
+            <#if error??>
+            <div class="alert alert-danger" role="alert">
+                ${error}
+            </div>
+            </#if>
+            <#if confirmEmail??>
+                <div class="alert alert-success" role="alert">
+                    ${confirmEmail}
+                </div>
+            </#if>
             <form method="POST" action="login">
                 <!-- Email input -->
                 <div class="form-outline mb-4">
                     <input type="email" name="email" class="form-control form-control-lg"
-                           placeholder="Enter a valid email address"/>
+                           placeholder="Inserisci la tua email"
+                           <#if email??>
+                               value="${email}"
+                           </#if>
+                    >
                 </div>
 
                 <!-- Password input -->
                 <div class="form-outline mb-3">
                     <input type="password" name="password" class="form-control form-control-lg"
-                           placeholder="Enter password"/>
+                           placeholder="Inserisci la tua password"/>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center">

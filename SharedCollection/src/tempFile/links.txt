@@ -1,0 +1,13 @@
+[ 2022-10-02T16:30:25.563311 ]  user@user.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile useruser,
+Conferma la tua email cliccando sul link in basso
+ http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=$2a$10$IvW5Tw5J9fhmtOjGed5kt./Yj0OhLGmf5UQsk1QhJ2GwLfVAjXJCm&refer_code=WCtEc37Q0KQxVZnt/Y8dnQ==
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+

@@ -96,7 +96,7 @@ public class NuovaCollezione extends SharedCollectionBaseController {
 
             int collezione_key = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getLast().getKey();
 
-            if (utentiS != null) {
+            if (condivisione.equals("privata") && utentiS != null) {
                 //Attributi utentiAutorizzati
                 for (int i = 0; i < utentiS.length; i++) {
                     UtentiAutorizzati utentiAutorizzati = new UtentiAutorizzatiImpl();
@@ -115,12 +115,10 @@ public class NuovaCollezione extends SharedCollectionBaseController {
                 }
             }
 
-
             response.sendRedirect("collezioni");
-
         } else {
-            error_msg = "Alcuni  campi sono vuoti";
-            request.setAttribute("exception", error_msg);
+            error_msg = "Inserisci un nome per la tua collezione!";
+            request.setAttribute("error", error_msg);
             action_default(request, response);
         }
     }

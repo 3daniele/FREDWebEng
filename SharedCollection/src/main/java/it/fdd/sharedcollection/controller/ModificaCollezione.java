@@ -7,14 +7,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 
 import it.fdd.framework.result.SplitSlashesFmkExt;
 import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
-import it.fdd.sharedcollection.data.impl.CollezioneImpl;
 import it.fdd.sharedcollection.data.impl.ListaDischiImpl;
 import it.fdd.sharedcollection.data.impl.UtentiAutorizzatiImpl;
 import it.fdd.sharedcollection.data.model.*;
@@ -24,16 +22,17 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import java.io.*;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class ModificaCollezione extends SharedCollectionBaseController {
 
+    public int collezione_key = 0;
+    public int disco_key = 0;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
-        int collezione_key;
         try {
             if (request.getParameter("numero") != null) {
                 collezione_key = SecurityLayer.checkNumeric(request.getParameter("numero"));
@@ -189,7 +188,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
     private void action_disco(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
 
         int disco_key = 0; //SecurityLayer.checkNumeric(request.getParameter("discoID"));
-        int collezione_key = 0; //SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
+        //int collezione_key = 0; //SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
         int numeroCopie = 0; //SecurityLayer.checkNumeric(request.getParameter("numeroCopie"));
         String formato = null;
         String stato = null;
@@ -212,7 +211,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setFileSizeMax(MAX_FILE_SIZE);
         upload.setSizeMax(MAX_REQUEST_SIZE);
-        String uploadPath = System.getenv("PROJECT_IMG") + "/upload-img/";
+        String uploadPath = System.getenv("PROJECT_IMG") + "/upload-img";
 
         File uploaddir = new File(uploadPath);
         if (!uploaddir.exists()) {
@@ -227,27 +226,35 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                 FileItem item = (FileItem) it.next();
                 // processes only fields that are not form fields
                 if (!item.isFormField()) {
+                    //creazione cartella per le immagini della collezione
+                    new File(uploadPath + File.separator + collezione_key).mkdir();
+                    new File(request.getServletContext().getRealPath("/images/upload-img/") + collezione_key).mkdir();
+
                     String fileName = new File(item.getName()).getName();
-                    String filePath = uploadPath + File.separator + fileName;
+                    String filePath = uploadPath + File.separator + collezione_key + File.separator + fileName;
+                    String filePath_ = request.getServletContext().getRealPath("/images/upload-img") + File.separator + collezione_key + File.separator + fileName;
+
 
                     File storeFile = new File(filePath);
+                    File storeFile_ = new File(filePath_);
                     // saves the file on disk
                     item.write(storeFile);
+                    item.write(storeFile_);
 
                     if ("imgCopertina".equals(item.getFieldName())) {
-                        imgCopertina = "images/upload-img" + File.separator + fileName;
+                        imgCopertina = "images/upload-img" + File.separator + collezione_key + File.separator + fileName;
                     }
 
                     if ("imgFronte".equals(item.getFieldName())) {
-                        imgFronte = "images/upload-img" + File.separator + fileName;
+                        imgFronte = "images/upload-img" + File.separator + collezione_key + File.separator + fileName;
                     }
 
                     if ("imgRetro".equals(item.getFieldName())) {
-                        imgRetro = "images/upload-img" + File.separator + fileName;
+                        imgRetro = "images/upload-img" + File.separator + collezione_key + File.separator + fileName;
                     }
 
                     if ("imgLibretto".equals(item.getFieldName())) {
-                        imgLibretto = "images/upload-img" + File.separator + fileName;
+                        imgLibretto = "images/upload-img" + File.separator + collezione_key + File.separator + fileName;
                     }
                 } else {
                     if ("formato".equals(item.getFieldName()))
@@ -258,19 +265,15 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                         barcode = item.getString();
                     else if ("discoID".equals(item.getFieldName()))
                         disco_key = Integer.parseInt(item.getString());
-                    else if ("collezioneID".equals(item.getFieldName()))
-                        collezione_key = Integer.parseInt(item.getString());
+                        // else if ("collezioneID".equals(item.getFieldName()))
+                        //    collezione_key = Integer.parseInt(item.getString());
                     else if ("numeroCopie".equals(item.getFieldName()))
                         numeroCopie = Integer.parseInt(item.getString());
                 }
             }
 
             PrintWriter out = response.getWriter();
-        } catch (FileUploadException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -298,14 +301,20 @@ public class ModificaCollezione extends SharedCollectionBaseController {
             listaDischi.setNumeroCopie(numeroCopie);
             listaDischi.setStato(stato);
             listaDischi.setBarcode(barcode);
-            listaDischi.setImgCopertina(imgCopertina);
-            listaDischi.setImgFronte(imgFronte);
-            listaDischi.setImgRetro(imgRetro);
-            listaDischi.setImgLibretto(imgLibretto);
+            if (!imgCopertina.equals("https://www.musicaccia.com/wp-content/uploads/2018/02/disco_vinile_che_esplode.jpg")) {
+                listaDischi.setImgCopertina(imgCopertina);
+            }
+            if (imgFronte != null) {
+                listaDischi.setImgFronte(imgFronte);
+            }
+            if (imgRetro != null) {
+                listaDischi.setImgRetro(imgRetro);
+            }
+            if (imgLibretto != null) {
+                listaDischi.setImgLibretto(imgLibretto);
+            }
             ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
         }
-
-
         response.sendRedirect("modificaCollezione?numero=" + collezione_key);
     }
 

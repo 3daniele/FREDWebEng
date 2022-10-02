@@ -192,10 +192,10 @@
                                                     <#else>
                                                         <option value="Discreto">Discreto</option>
                                                     </#if>
-                                                    <#if (dettaglio.stato == "Sufficente")>
-                                                        <option value="Sufficente" selected>Sufficente</option>
+                                                    <#if (dettaglio.stato == "Sufficiente")>
+                                                        <option value="Sufficiente" selected>Sufficiente</option>
                                                     <#else>
-                                                        <option value="Sufficente">Sufficente</option>
+                                                        <option value="Sufficiente">Sufficiente</option>
                                                     </#if>
                                                     <#if (dettaglio.stato == "Pessimo")>
                                                         <option value="Pessimo" selected>Pessimo</option>
@@ -351,7 +351,7 @@
                                 <option value="Ottimo">Ottimo</option>
                                 <option value="Buono">Buono</option>
                                 <option value="Discreto">Discreto</option>
-                                <option value="Sufficente">Sufficente</option>
+                                <option value="Sufficiente">Sufficiente</option>
                                 <option value="Pessimo">Pessimo</option>
                             </select>
                         </div>

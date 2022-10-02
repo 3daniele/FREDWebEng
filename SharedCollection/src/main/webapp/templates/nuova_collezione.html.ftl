@@ -1,5 +1,10 @@
 <link rel="stylesheet" href="style/default-assets/multi-select.css">
 <div class="container">
+    <#if error??>
+    <div class="alert alert-danger text-center" role="alert">
+        ${error}
+    </div>
+    </#if>
     <form action="newCollezione" method="post">
         <div>
             <div class="mb-3">
@@ -30,7 +35,7 @@
                 <label class="form-label">
                     <h5>Utenti</h5>
                 </label>
-                <select class="selectpicker" multiple data-live-search="true" id="utentiS" name="utentiS">
+                <select class="selectpicker" multiple data-live-search="true" id="utentiS" name="utentiS" <#if pubblica??> disable </#if>>
                     <#list lista_utenti as utente>
                         <#if (utente.key != userid)>
                             <option value="${utente.key}" id="${utente.key}">${utente.nickname}</option>
