@@ -185,6 +185,11 @@ public class ModificaCollezione extends SharedCollectionBaseController {
 
     }
 
+    private void action_nuovoDisco(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
+        //disco?numero=1&collezione=1&formato=CD
+        response.sendRedirect("nuovo?collezione=" + collezione_key + "&numero="+ collezione_key + "&formato=" + collezione_key);
+    }
+
     private void action_disco(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
 
         int disco_key = 0; //SecurityLayer.checkNumeric(request.getParameter("discoID"));

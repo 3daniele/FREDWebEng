@@ -87,9 +87,7 @@
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#importModal">
                 Importa disco
             </button>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#nuovoModal">
-                Nuovo disco
-            </button>
+            <a href="nuovoDisco?collezione=${collezione.key}" class="btn btn-danger">Nuovo disco</a>
         </div>
 
         <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
@@ -103,34 +101,34 @@
                     <#assign formato = dettaglio.formato>
                     <div class="col-12 col-md-4 entre wow fadeInUp" data-wow-delay="0.2s">
                         <form action="modificaCollezione" method="POST">
-                        <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
-                            <div class="poca-music-thumbnail">
-                                <img src="${dettaglio.imgCopertina}" alt="">
-                            </div>
-                            <div class="poca-music-content text-center">
-                                <span class="music-published-date mb-2">${disco.anno}</span>
-                                <h2>${disco.nome}</h2>
-                                <div class="music-meta-data">
-                                    <p>By <a href="#" class="music-author">${disco.artista.nomeArte}</a>
+                            <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
+                                <div class="poca-music-thumbnail">
+                                    <img src="${dettaglio.imgCopertina}" alt="">
                                 </div>
-                                <div class="likes-share-download d-flex align-items-center justify-content-between">
-                                    <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.formato}</a>
-                                    <div>
-                                        <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.stato}</a>
+                                <div class="poca-music-content text-center">
+                                    <span class="music-published-date mb-2">${disco.anno}</span>
+                                    <h2>${disco.nome}</h2>
+                                    <div class="music-meta-data">
+                                        <p>By <a href="#" class="music-author">${disco.artista.nomeArte}</a>
                                     </div>
-                                    <input type="hidden" name="listaDiscoID" id="listaDiscoID"
-                                           value="${dettaglio.key}"/>
+                                    <div class="likes-share-download d-flex align-items-center justify-content-between">
+                                        <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.formato}</a>
+                                        <div>
+                                            <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.stato}</a>
+                                        </div>
+                                        <input type="hidden" name="listaDiscoID" id="listaDiscoID"
+                                               value="${dettaglio.key}"/>
+                                    </div>
+                                    <br>
+                                    <a href="disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
+                                       class="btn poca-btn mt-10">Visualizza</a>
+                                    <br><br>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modificaDiscoModal${disco.key}">
+                                        Modifica
+                                    </button>
+                                    <input type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco" name="elimina_disco">
                                 </div>
-                                <br>
-                                <a href="disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
-                                   class="btn poca-btn mt-10">Visualizza</a>
-                                <br><br>
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modificaDiscoModal${disco.key}">
-                                    Modifica
-                                </button>
-                                <input type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco" name="elimina_disco">
                             </div>
-                        </div>
                         </form>
                     </div>
                     <!-- Modal modifica disco -->
