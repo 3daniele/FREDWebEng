@@ -6,6 +6,9 @@
                 <h2 class="text-danger">Informazioni disco:</h2>
             </label>
             <div class="row">
+                <label class="form-label">
+                    <h5>Titolo:</h5>
+                </label>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="${disco.key}"
                            id="${disco.key}" value="${disco.nome}" readonly>
@@ -21,19 +24,19 @@
         <br>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-6">
+                <label class="form-label">
+                    <h5>Etichetta:</h5>
+                </label>
                 <div class="input-group mb-3">
-                    <label class="form-label">
-                        <h5>Etichetta:</h5>
-                    </label>
                     <input type="text" class="form-control" name="${disco.key}"
                            id="${disco.key}" value="${disco.etichetta}" readonly>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6">
+                <label class="form-label">
+                    <h5>Data di uscita:</h5>
+                </label>
                 <div class="input-group mb-3">
-                    <label class="form-label">
-                        <h5>Data di uscita:</h5>
-                    </label>
                     <input type="text" class="form-control" name="${disco.key}"
                            id="${disco.key}" value="${disco.anno}">
                 </div>
@@ -42,20 +45,20 @@
         <br>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-6">
+                <label class="form-label">
+                    <h5>Numero copie:</h5>
+                </label>
                 <div class="input-group mb-3">
-                    <label class="form-label">
-                        <h5>Numero copie</h5>
-                    </label>
                     <input type="number" class="form-control"
                            value="${infoDisco.numeroCopie}"
                            min="1" id="numeroCopie" name="numeroCopie">
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6">
+                <label class="form-label">
+                    <h5>Stato:</h5>
+                </label>
                 <div class="input-group mb-3">
-                    <label class="form-label">
-                        <h5>Stato</h5>
-                    </label>
                     <select class="form-select" aria-label="Default select example"
                             id="stato" name="stato">
                         <option selected>Seleziona stato</option>
@@ -90,19 +93,19 @@
         </div>
         <br>
         <div class="row">
-            <div class="input-group mb-3">
-<label class="form-label">
-                <h5>Barcode</h5>
+            <label class="form-label">
+                <h5>Barcode:</h5>
             </label>
             <div class="input-group mb-3">
-                <input type="text" class="form-control"
-                       aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default" id="barcode"
-                       name="barcode"
-                        <#if (infoDisco.barcode??)>
-                    value="${infoDisco.barcode}"
-                        </#if>>
-            </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control"
+                           aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default" id="barcode"
+                           name="barcode"
+                            <#if (infoDisco.barcode??)>
+                        value="${infoDisco.barcode}"
+                            </#if>>
+                </div>
             </div>
 
         </div>
@@ -195,7 +198,19 @@
         </div>
         <div class="col-12 col-md-8 col-lg-8">
             <div class="table-responsive text-danger">
-                <h2 class="text-danger">Lista brani</h2>
+                <div class="row">
+                    <div class="col">
+                        <h2 class="text-danger">Lista brani</h2>
+                    </div>
+                    <div class="col text-end">
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                Nuova traccia
+                            </button>
+                    </div>
+
+                </div>
+
                 <#if (listaBrani?size>0)>
                     <#assign n = 0>
                     <table class="table custom-table">
@@ -236,6 +251,26 @@
                         </tbody>
                     </table>
                 </#if>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

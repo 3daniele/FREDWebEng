@@ -3,6 +3,7 @@ package it.fdd.sharedcollection.data.impl;
 import it.fdd.framework.data.DataItemImpl;
 import it.fdd.sharedcollection.data.model.Artista;
 import it.fdd.sharedcollection.data.model.Disco;
+import it.fdd.sharedcollection.data.model.Utente;
 
 import java.util.Date;
 
@@ -14,12 +15,15 @@ public class DiscoImpl extends DataItemImpl<Integer> implements Disco {
 
     private Artista artista;
 
+    private Utente creatore;
+
     public DiscoImpl() {
         super();
         this.nome = "";
         this.etichetta = "";
         this.anno = null;
         this.artista = null;
+        this.creatore = null;
     }
 
     @Override
@@ -43,6 +47,11 @@ public class DiscoImpl extends DataItemImpl<Integer> implements Disco {
     }
 
     @Override
+    public Utente getCreatore() {
+        return this.creatore;
+    }
+
+    @Override
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -60,5 +69,10 @@ public class DiscoImpl extends DataItemImpl<Integer> implements Disco {
     @Override
     public void setArtista(Artista artista) {
         this.artista = artista;
+    }
+
+    @Override
+    public void setCreatore(Utente creatore) {
+        this.creatore = creatore;
     }
 }

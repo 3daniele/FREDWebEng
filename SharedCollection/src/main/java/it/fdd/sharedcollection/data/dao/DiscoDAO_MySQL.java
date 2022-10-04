@@ -71,6 +71,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
             disco.setEtichetta(rs.getString("etichetta"));
             disco.setAnno(rs.getDate("anno"));
             disco.setArtistaKey(rs.getInt("artista"));
+            disco.setCreatoreKey(rs.getInt("creatore"));
         } catch (SQLException ex) {
             throw new DataException("Impossibile creare l'oggetto Disco dal ResultSet", ex);
         }

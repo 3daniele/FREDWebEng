@@ -15,6 +15,8 @@ public interface Disco extends DataItem<Integer> {
 
     Artista getArtista();
 
+    Utente getCreatore();
+
     void setNome(String nome);
 
     void setEtichetta(String etichetta);
@@ -22,4 +24,6 @@ public interface Disco extends DataItem<Integer> {
     void setAnno(Date anno);
 
     void setArtista(Artista artista);
+
+    void setCreatore(Utente creatore);
 }

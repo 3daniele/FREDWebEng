@@ -16,6 +16,8 @@ public class DiscoProxy extends DiscoImpl implements DataItemProxy {
     protected boolean modified;
     protected int artista_key;
 
+    protected int creatore_key;
+
     protected DataLayer dataLayer;
 
     public DiscoProxy(DataLayer d) {
@@ -82,5 +84,10 @@ public class DiscoProxy extends DiscoImpl implements DataItemProxy {
     public void setArtistaKey(int artista_key) {
         this.artista_key = artista_key;
         super.setArtista(null);
+    }
+
+    public void setCreatoreKey(int creatore_key){
+        this.creatore_key = creatore_key;
+        super.setCreatore(null);
     }
 }
