@@ -5,8 +5,8 @@ import it.fdd.framework.result.FailureResult;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import it.fdd.framework.data.DataException;
-import it.fdd.framework.result.FailureResult;
 import it.fdd.framework.result.SplitSlashesFmkExt;
 import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
@@ -14,15 +14,12 @@ import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.model.*;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NuovoDisco extends SharedCollectionBaseController {
+public class ModificaDisco extends SharedCollectionBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
@@ -60,7 +57,6 @@ public class NuovoDisco extends SharedCollectionBaseController {
     }
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession sessione = request.getSession(true);
 
@@ -103,12 +99,15 @@ public class NuovoDisco extends SharedCollectionBaseController {
             request.setAttribute("listaArtisti", artisti);
             request.setAttribute("listaGeneri", generi);
 
-            res.activate("nuovo_disco.html.ftl", request, response);
+            res.activate("modifica_disco.html.ftl", request, response);
         } catch (DataException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
         } catch (TemplateManagerException e) {
             throw new RuntimeException(e);
         }
+
     }
+
+
 }

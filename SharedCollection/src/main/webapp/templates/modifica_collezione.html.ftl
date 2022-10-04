@@ -87,7 +87,9 @@
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#importModal">
                 Importa disco
             </button>
-            <a href="nuovoDisco?collezione=${collezione.key}" class="btn btn-danger">Nuovo disco</a>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#newModal">
+                Nuovo disco
+            </button>
         </div>
 
         <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
@@ -123,10 +125,12 @@
                                     <a href="disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
                                        class="btn poca-btn mt-10">Visualizza</a>
                                     <br><br>
-                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modificaDiscoModal${disco.key}">
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                            data-bs-target="#modificaDiscoModal${disco.key}">
                                         Modifica
                                     </button>
-                                    <input type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco" name="elimina_disco">
+                                    <input type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco"
+                                           name="elimina_disco">
                                 </div>
                             </div>
                         </form>
@@ -408,6 +412,125 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                     <input type="submit" class="btn btn-danger text-end" value="Salva" name="modifica_disco">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal importa disco -->
+<div class="modal fade modal-lg" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="modificaCollezione" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="exampleModalLabel">Nuovo disco:</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <label class="form-label">
+                            <h5>Nome</h5>
+                        </label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default" id="nome" name="nome">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-6 col-md-6">
+                            <label class="form-label">
+                                <h5>Etichetta</h5>
+                            </label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" aria-label="Sizing example input"
+                                       aria-describedby="inputGroup-sizing-default" id="etichetta" name="etichetta">
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 col-md-6">
+                            <label class="form-label">
+                                <h5>Data di uscita</h5>
+                            </label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" aria-label="Sizing example input"
+                                       aria-describedby="inputGroup-sizing-default" id="anno" name="anno">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="form-label">
+                            <h5>Artista</h5>
+                        </label>
+                        <select class="selectpicker" data-live-search="true" id="artistaID" name="artistaID">
+                            <option selected>Seleziona artista</option>
+                            <#list lista_artisti as artista>
+                                <option value="${artista.key}" id="${artista.key}">${artista.nomeArte}</option>
+                            </#list>
+                            <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <label class="form-label">
+                                <h5>Numero copie</h5>
+                            </label>
+                            <select class="form-select" aria-label="Default select example" id="numeroCopie"
+                                    name="numeroCopie">
+                                <option selected>Seleziona quantità</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <label class="form-label">
+                                <h5>Formato</h5>
+                            </label>
+                            <select class="form-select" aria-label="Default select example" id="formato" name="formato">
+                                <option selected>Seleziona formato</option>
+                                <option value="Vinile">Vinile</option>
+                                <option value="CD">CD</option>
+                                <option value="Digitale">Digitale</option>
+                                <option value="Cassetta">Cassetta</option>
+                                <option value="Altro">Altro</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <label class="form-label">
+                                <h5>Stato</h5>
+                            </label>
+                            <select class="form-select" aria-label="Default select example" id="stato" name="stato">
+                                <option selected>Seleziona stato</option>
+                                <option value="Ottimo">Ottimo</option>
+                                <option value="Buono">Buono</option>
+                                <option value="Discreto">Discreto</option>
+                                <option value="Sufficiente">Sufficiente</option>
+                                <option value="Pessimo">Pessimo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="form-label">
+                            <h5>Barcode</h5>
+                        </label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default" id="barcode" name="barcode">
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <input type="submit" class="btn btn-danger text-end" value="Salva" name="nuovo_disco">
                 </div>
             </form>
         </div>

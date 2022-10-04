@@ -90,6 +90,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
             request.setAttribute("collezione", collezione);
             request.setAttribute("lista_utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
             request.setAttribute("utenti_autorizzati", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByCollezione(collezioneID));
+            request.setAttribute("lista_artisti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtisti());
 
             List<ListaDischi> dettagliDischi = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getDischiByCollezione(collezioneID);
             List<Disco> disco = new ArrayList<>();

@@ -34,7 +34,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
             // precompilazione di tutte le query utilizzate nella classe
             sDiscoByID = connection.prepareStatement("SELECT * FROM Disco WHERE id = ?");
             sDischi = connection.prepareStatement("SELECT id AS discoID FROM Disco");
-            iDisco = connection.prepareStatement("INSERT INTO Disco (nome, etichetta, anno, artista) VALUES(?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);
+            iDisco = connection.prepareStatement("INSERT INTO Disco (nome, etichetta, anno, artista, creatore) VALUES(?,?,?, ?,?)", Statement.RETURN_GENERATED_KEYS);
             uDisco = connection.prepareStatement("UPDATE Disco SET nome = ?, etichetta = ?, anno = ?, artista = ? WHERE id = ?");
             dDisco = connection.prepareStatement("DELETE FROM Disco WHERE id = ?");
         } catch (SQLException ex) {
@@ -139,12 +139,14 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
                 if (uDisco.executeUpdate() == 0) {
                     throw new OptimisticLockException(disco);
                 }
+                
             } else {
                 // insert
                 iDisco.setString(1, disco.getNome());
                 iDisco.setString(2, disco.getEtichetta());
                 iDisco.setDate(3, (Date) disco.getAnno());
                 iDisco.setInt(4, disco.getArtista().getKey());
+                iDisco.setInt(5, disco.getCreatore().getKey());
 
                 if (iDisco.executeUpdate() == 1) {
                     // get della chiave generata

@@ -1,47 +1,91 @@
 <div class="container">
     <!-- Form iniziale -->
     <div class="row">
-        <div class="row">
-            <label class="form-label text-danger">
-                <h2 class="text-danger">Informazioni disco:</h2>
-            </label>
+        <#if (userid == disco.creatore.key)>
             <div class="row">
-                <label class="form-label">
-                    <h5>Titolo:</h5>
+                <label class="form-label text-danger">
+                    <h2 class="text-danger">Informazioni disco:</h2>
                 </label>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="${disco.key}"
-                           id="${disco.key}" value="${disco.nome}">
-                    <input type="hidden" name="discoID" id="discoID"
-                           value="${disco.key}"/>
-                    <input type="hidden" name="collezioneID" id="collezioneID"
-                           value="${collezione.key}"/>
-                    <input type="hidden" name="formato" id="formato"
-                           value="${infoDisco.formato}"/>
+                <div class="row">
+                    <label class="form-label">
+                        <h5>Titolo:</h5>
+                    </label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="${disco.key}"
+                               id="${disco.key}" value="${disco.nome}">
+                        <input type="hidden" name="discoID" id="discoID"
+                               value="${disco.key}"/>
+                        <input type="hidden" name="collezioneID" id="collezioneID"
+                               value="${collezione.key}"/>
+                        <input type="hidden" name="formato" id="formato"
+                               value="${infoDisco.formato}"/>
+                    </div>
                 </div>
             </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-6">
-                <label class="form-label">
-                    <h5>Etichetta:</h5>
-                </label>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="${disco.key}"
-                           id="${disco.key}" value="${disco.etichetta}">
+            <br>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6">
+                    <label class="form-label">
+                        <h5>Etichetta:</h5>
+                    </label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="${disco.key}"
+                               id="${disco.key}" value="${disco.etichetta}">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                    <label class="form-label">
+                        <h5>Data di uscita:</h5>
+                    </label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="${disco.key}"
+                               id="${disco.key}" value="${disco.anno}">
+                    </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-6">
-                <label class="form-label">
-                    <h5>Data di uscita:</h5>
+        <#else>
+            <div class="row">
+                <label class="form-label text-danger">
+                    <h2 class="text-danger">Informazioni disco:</h2>
                 </label>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="${disco.key}"
-                           id="${disco.key}" value="${disco.anno}">
+                <div class="row">
+                    <label class="form-label">
+                        <h5>Titolo:</h5>
+                    </label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="${disco.key}"
+                               id="${disco.key}" value="${disco.nome}" readonly>
+                        <input type="hidden" name="discoID" id="discoID"
+                               value="${disco.key}"/>
+                        <input type="hidden" name="collezioneID" id="collezioneID"
+                               value="${collezione.key}"/>
+                        <input type="hidden" name="formato" id="formato"
+                               value="${infoDisco.formato}"/>
+                    </div>
                 </div>
             </div>
-        </div>
+            <br>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6">
+                    <label class="form-label">
+                        <h5>Etichetta:</h5>
+                    </label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="${disco.key}"
+                               id="${disco.key}" value="${disco.etichetta}" readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                    <label class="form-label">
+                        <h5>Data di uscita:</h5>
+                    </label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="${disco.key}"
+                               id="${disco.key}" value="${disco.anno}" readonly>
+                    </div>
+                </div>
+            </div>
+        </#if>
         <br>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-6">
@@ -62,17 +106,31 @@
                     <select class="form-select" aria-label="Default select example"
                             id="stato" name="stato">
                         <option selected>Seleziona stato</option>
-
-                        <option value="Ottimo">Ottimo</option>
-
-                        <option value="Buono">Buono</option>
-
-                        <option value="Discreto">Discreto</option>
-
-                        <option value="Sufficiente">Sufficiente</option>
-
-                        <option value="Pessimo">Pessimo</option>
-
+                        <#if (infoDisco.stato == "Ottimo")>
+                            <option value="Ottimo" selected>Ottimo</option>
+                        <#else>
+                            <option value="Ottimo">Ottimo</option>
+                        </#if>
+                        <#if (infoDisco.stato == "Buono")>
+                            <option value="Buono" selected>Buono</option>
+                        <#else>
+                            <option value="Buono">Buono</option>
+                        </#if>
+                        <#if (infoDisco.stato == "Discreto")>
+                            <option value="Discreto" selected>Discreto</option>
+                        <#else>
+                            <option value="Discreto">Discreto</option>
+                        </#if>
+                        <#if (infoDisco.stato == "Sufficiente")>
+                            <option value="Sufficiente" selected>Sufficiente</option>
+                        <#else>
+                            <option value="Sufficiente">Sufficiente</option>
+                        </#if>
+                        <#if (infoDisco.stato == "Pessimo")>
+                            <option value="Pessimo" selected>Pessimo</option>
+                        <#else>
+                            <option value="Pessimo">Pessimo</option>
+                        </#if>
                     </select>
                 </div>
             </div>
@@ -88,7 +146,9 @@
                            aria-label="Sizing example input"
                            aria-describedby="inputGroup-sizing-default" id="barcode"
                            name="barcode"
-                    >
+                            <#if (infoDisco.barcode??)>
+                        value="${infoDisco.barcode}"
+                            </#if>>
                 </div>
             </div>
 
@@ -268,21 +328,18 @@
                         </table>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                             aria-hidden="true">
+                        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica brano</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         ...
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi
-                                        </button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                                         <button type="button" class="btn btn-danger">Salva</button>
                                     </div>
                                 </div>

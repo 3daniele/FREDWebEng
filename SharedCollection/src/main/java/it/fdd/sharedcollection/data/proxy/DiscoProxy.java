@@ -4,8 +4,10 @@ import it.fdd.framework.data.DataException;
 import it.fdd.framework.data.DataItemProxy;
 import it.fdd.framework.data.DataLayer;
 import it.fdd.sharedcollection.data.dao.ArtistaDAO;
+import it.fdd.sharedcollection.data.dao.UtenteDAO;
 import it.fdd.sharedcollection.data.impl.DiscoImpl;
 import it.fdd.sharedcollection.data.model.Artista;
+import it.fdd.sharedcollection.data.model.Utente;
 
 import java.util.Date;
 import java.util.logging.Level;
@@ -23,6 +25,7 @@ public class DiscoProxy extends DiscoImpl implements DataItemProxy {
     public DiscoProxy(DataLayer d) {
         super();
         this.artista_key = 0;
+        this.creatore_key = 0;
         this.dataLayer = d;
         this.modified = false;
     }
@@ -37,6 +40,18 @@ public class DiscoProxy extends DiscoImpl implements DataItemProxy {
             }
         }
         return super.getArtista();
+    }
+
+    @Override
+    public Utente getCreatore() {
+        if (super.getCreatore() == null && creatore_key > 0) {
+            try {
+                super.setCreatore(((UtenteDAO) dataLayer.getDAO(Utente.class)).getUtente(creatore_key));
+            } catch (DataException ex) {
+                Logger.getLogger(CollezioneProxy.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return super.getCreatore();
     }
 
     @Override
@@ -69,6 +84,13 @@ public class DiscoProxy extends DiscoImpl implements DataItemProxy {
         this.artista_key = artista.getKey();
         this.modified = true;
     }
+    
+    @Override
+    public void setCreatore(Utente utente){
+        super.setCreatore(utente);
+        this.creatore_key = utente.getKey();
+        this.modified = true;
+    }
 
     // metodi proxy
     @Override
@@ -86,7 +108,7 @@ public class DiscoProxy extends DiscoImpl implements DataItemProxy {
         super.setArtista(null);
     }
 
-    public void setCreatoreKey(int creatore_key){
+    public void setCreatoreKey(int creatore_key) {
         this.creatore_key = creatore_key;
         super.setCreatore(null);
     }
