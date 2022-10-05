@@ -2,8 +2,8 @@ package it.fdd.sharedcollection.data.utility;
 
 
 import it.fdd.framework.security.SecurityLayer;
+import it.fdd.sharedcollection.data.model.Collezione;
 import it.fdd.sharedcollection.data.model.Utente;
-import it.fdd.sharedcollection.data.utility.EmailTypes;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -20,47 +20,28 @@ public class UtilityMethods {
      * @param file
      * @param me
      * @param emailText
-     * @param type
      * @throws IOException
      * @throws Exception
      */
-    public static void sendEmailWithCodes(String file, Utente me, String emailText, EmailTypes type) throws IOException, Exception {
+    public static void sendEmailWithCodes(String file, Utente me, String emailText) throws IOException, Exception {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            String direct_to = null;
-            boolean link = true;
-            switch (type) {
-                case CONFIRM_EMAIL:
-                    direct_to = "confirmEmail";
-                    break;
-                case PASSWORD_RECOVERY_EMAIL:
-                    direct_to = "forgot";
-                    break;
-                case DAILY_EMAIL:
-                    link = false;
-                    break;
-                default:
-                    return;
-            }
 
             writer.write("[ " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + " ]  " + me.getEmail() + ":");
             writer.newLine();
             writer.write("--------------------------------- Sharedcollection Web Site ----------------------------------");
             writer.newLine();
-            writer.write("Gentile " + me.getCognome() + me.getNome() + ",");
+            writer.write("Gentile " + me.getCognome() + " " + me.getNome() + ",");
             writer.newLine();
             writer.write(emailText);
 
-            if (link) {
-                String verification_code = it.fdd.sharedcollection.utility.BCrypt.hashpw(me.getEmail(), it.fdd.sharedcollection.utility.BCrypt.gensalt());
-                String refer_code = SecurityLayer.encrypt(me.getEmail(), SecurityLayer.getStaticEncrypyionKey());
-                writer.newLine();
+            String verification_code = it.fdd.sharedcollection.utility.BCrypt.hashpw(me.getEmail(), it.fdd.sharedcollection.utility.BCrypt.gensalt());
+            String refer_code = SecurityLayer.encrypt(me.getEmail(), SecurityLayer.getStaticEncrypyionKey());
+            writer.newLine();
 
-                writer.write(" http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=" + verification_code + "&refer_code=" + refer_code);
-                me.setLink(verification_code);
-                System.out.println(me.getLink());
-
-            }
+            writer.write(" http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=" + verification_code + "&refer_code=" + refer_code);
+            me.setLink(verification_code);
+            System.out.println(me.getLink());
 
             writer.newLine();
             writer.write("--------------------------------- Sharedcollection Web Site ----------------------------------");
@@ -73,6 +54,31 @@ public class UtilityMethods {
             writer.newLine();
             writer.newLine();
         }
+    }
 
+    public static void sharingEmail(String file, Utente utente, Collezione collezione, String text) throws IOException, Exception {
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+
+            writer.write("[ " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + " ]  " + utente.getEmail() + ":");
+            writer.newLine();
+            writer.write("--------------------------------- Sharedcollection Web Site ----------------------------------");
+            writer.newLine();
+            writer.write("Gentile " + utente.getCognome() + " " + utente.getNome() + ",");
+            writer.newLine();
+            writer.write("Le informiamo che l'utente " + collezione.getUtente().getNickname() + text + "'" + collezione.getNome() + "'.");
+            writer.newLine();
+            writer.write("Le auguriamo una buona giornata!");
+            writer.newLine();
+            writer.write("--------------------------------- Sharedcollection Web Site ----------------------------------");
+            writer.newLine();
+            writer.newLine();
+            writer.newLine();
+            writer.newLine();
+            writer.newLine();
+            writer.newLine();
+            writer.newLine();
+            writer.newLine();
+        }
     }
 }

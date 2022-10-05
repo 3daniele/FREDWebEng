@@ -9,13 +9,11 @@ import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.impl.CollezioneImpl;
 import it.fdd.sharedcollection.data.impl.ListaDischiImpl;
-import it.fdd.sharedcollection.data.impl.UtenteImpl;
 import it.fdd.sharedcollection.data.impl.UtentiAutorizzatiImpl;
 import it.fdd.sharedcollection.data.model.Collezione;
 import it.fdd.sharedcollection.data.model.ListaDischi;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
-import it.fdd.sharedcollection.data.utility.EmailTypes;
 import it.fdd.sharedcollection.data.utility.UtilityMethods;
 
 import javax.servlet.ServletException;
@@ -96,21 +94,30 @@ public class NuovaCollezione extends SharedCollectionBaseController {
 
             int collezione_key = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getLast().getKey();
 
-            if (condivisione.equals("privata") && utentiS != null) {
+            if (utentiS != null) {
                 //Attributi utentiAutorizzati
-                for (int i = 0; i < utentiS.length; i++) {
+                for (String utenti : utentiS) {
                     UtentiAutorizzati utentiAutorizzati = new UtentiAutorizzatiImpl();
                     utentiAutorizzati.setCollezione(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
-                    utentiAutorizzati.setUtente(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(Integer.parseInt(utentiS[i])));
+                    utentiAutorizzati.setUtente(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(Integer.parseInt(utenti)));
                     ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(utentiAutorizzati);
+                    // email di notifica
+                    Utente utente = utentiAutorizzati.getUtente();
+                    try {
+                        String text = " ha condiviso con lei la sua collezione ";
+                        UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/email" + utente.getNickname() + ".txt", utente, collezione, text);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
             if (dischiS != null) {
-                for (int i = 0; i < dischiS.length; i++) {
+                for (String dischi : dischiS) {
                     ListaDischi listaDischi = new ListaDischiImpl();
                     listaDischi.setCollezione(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
-                    listaDischi.setDisco(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(Integer.parseInt(dischiS[i])));
+                    listaDischi.setDisco(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(Integer.parseInt(dischi)));
+                    listaDischi.setImgCopertina("images/templateimg/core-img/disco_default.jpeg");
                     ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
                 }
             }

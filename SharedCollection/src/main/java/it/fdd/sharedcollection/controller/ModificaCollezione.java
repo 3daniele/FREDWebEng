@@ -13,15 +13,17 @@ import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
+import it.fdd.sharedcollection.data.impl.DiscoImpl;
 import it.fdd.sharedcollection.data.impl.ListaDischiImpl;
 import it.fdd.sharedcollection.data.impl.UtentiAutorizzatiImpl;
 import it.fdd.sharedcollection.data.model.*;
+import it.fdd.sharedcollection.data.utility.UtilityMethods;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import java.io.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +32,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
 
     public int collezione_key = 0;
     public int disco_key = 0;
+    int user_key = 0;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
@@ -45,6 +48,8 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                     action_utenti(request, response);
                 } else if (request.getParameter("elimina_disco") != null) {
                     action_delete(request, response);
+                } else if (request.getParameter("nuovo_disco") != null) {
+                    action_nuovoDisco(request, response);
                 } else {
                     action_disco(request, response);
                 }
@@ -63,12 +68,11 @@ public class ModificaCollezione extends SharedCollectionBaseController {
 
     }
 
-    private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
+    private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
 
         try {
             TemplateResult res = new TemplateResult(getServletContext());
             HttpSession sessione = request.getSession(true);
-            int user_key = 0;
 
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("collezioniPath", true);
@@ -122,7 +126,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
 
         String nome = request.getParameter("nome");
         String condivisione = request.getParameter("condivisione");
-        Integer collezioneid = SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
+        int collezioneid = SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
         String error_msg = "";
 
         Collezione uCollezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezioneid);
@@ -135,17 +139,18 @@ public class ModificaCollezione extends SharedCollectionBaseController {
 
             response.sendRedirect("modificaCollezione?numero=" + uCollezione.getKey());
         } else {
-            error_msg = "Alcuni  campi sono vuoti";
-            request.setAttribute("exception", error_msg);
+            error_msg = "Inserisci un nome per la collezione!";
+            request.setAttribute("error", error_msg);
             action_default(request, response);
         }
     }
 
-    private void action_utenti(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, ServletException, TemplateManagerException {
-        Integer collezioneid = SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
+    private void action_utenti(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, TemplateManagerException {
 
-        List<Integer> idutentiAutorizzatiV = new ArrayList<>();
-        idutentiAutorizzatiV.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByCollezione(collezioneid));
+        int collezioneid = SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
+        Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezioneid);
+
+        List<Integer> idutentiAutorizzatiV = new ArrayList<>(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByCollezione(collezioneid));
 
         List<Utente> utentiAutorizzatiV = new ArrayList<>();
         for (Integer i : idutentiAutorizzatiV) {
@@ -157,8 +162,8 @@ public class ModificaCollezione extends SharedCollectionBaseController {
         List<Utente> utentiAutorizzatiN = new ArrayList<>();
 
         if (usernames != null) {
-            for (int i = 0; i < usernames.length; i++) {
-                utentiAutorizzatiN.add(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(Integer.parseInt(usernames[i])));
+            for (String username : usernames) {
+                utentiAutorizzatiN.add(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(Integer.parseInt(username)));
             }
         }
 
@@ -166,6 +171,13 @@ public class ModificaCollezione extends SharedCollectionBaseController {
         for (Utente i : utentiAutorizzatiV) {
             if (!utentiAutorizzatiN.contains(i)) {
                 ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().deleteUtenteAutorizzato(collezioneid, i.getKey());
+                // email di notifica
+                try {
+                    String text = " ha rimosso la condivisione con lei della sua collezione ";
+                    UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/email" + i.getNickname() + ".txt", i, collezione, text);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
@@ -177,18 +189,47 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                     u.setCollezione(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezioneid));
                     u.setUtente(i);
                     ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(u);
+                    // email di notifica
+                    Utente utente = u.getUtente();
+                    try {
+                        String text = " ha condiviso con lei la sua collezione ";
+                        UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/email" + utente.getNickname() + ".txt", utente, collezione, text);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
 
         response.sendRedirect("modificaCollezione?numero=" + collezioneid);
-
-
     }
 
     private void action_nuovoDisco(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
-        //disco?numero=1&collezione=1&formato=CD
-        response.sendRedirect("nuovo?collezione=" + collezione_key + "&numero="+ collezione_key + "&formato=" + collezione_key);
+
+        Disco disco = new DiscoImpl();
+        disco.setNome(request.getParameter("nome"));
+        disco.setEtichetta(request.getParameter("etichetta"));
+        disco.setAnno(Date.valueOf(request.getParameter("anno")));
+        disco.setArtista(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtista(Integer.parseInt(request.getParameter("artistaID"))));
+        disco.setCreatore(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(user_key));
+
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().storeDisco(disco);
+
+        disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getLast();
+
+
+        ListaDischi listaDischi = new ListaDischiImpl();
+        listaDischi.setDisco(disco);
+        listaDischi.setCollezione(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
+        listaDischi.setBarcode(request.getParameter("barcode"));
+        listaDischi.setImgCopertina("images/templateimg/core-img/disco_default.jpeg");
+        listaDischi.setStato(request.getParameter("stato"));
+        listaDischi.setFormato(request.getParameter("formato"));
+        listaDischi.setNumeroCopie(Integer.parseInt(request.getParameter("numeroCopie")));
+
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
+
+        response.sendRedirect("modificaDisco?numero=" + disco.getKey() + "&collezione=" + collezione_key + "&formato=" + listaDischi.getFormato());
     }
 
     private void action_disco(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
@@ -199,7 +240,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
         String formato = null;
         String stato = null;
         String barcode = null;
-        String imgCopertina = "https://www.musicaccia.com/wp-content/uploads/2018/02/disco_vinile_che_esplode.jpg";
+        String imgCopertina = "/images/templateimg/core-img/disco_default.jpeg";
         String imgFronte = null;
         String imgRetro = null;
         String imgLibretto = null;

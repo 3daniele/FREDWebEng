@@ -9,7 +9,6 @@ import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.impl.UtenteImpl;
 import it.fdd.sharedcollection.data.model.Utente;
-import it.fdd.sharedcollection.data.utility.EmailTypes;
 import it.fdd.sharedcollection.data.utility.UtilityMethods;
 import it.fdd.sharedcollection.utility.BCrypt;
 
@@ -20,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Registrazione extends SharedCollectionBaseController {
+
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
@@ -120,7 +120,7 @@ public class Registrazione extends SharedCollectionBaseController {
                     int userID = 0;
                     try {
                         utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().storeUtente(utente);
-                        UtilityMethods.sendEmailWithCodes(System.getenv("FILE_DIRECTORY") + "/links.txt", utente, "Conferma la tua email cliccando sul link in basso", EmailTypes.CONFIRM_EMAIL);
+                        UtilityMethods.sendEmailWithCodes(System.getenv("FILE_DIRECTORY") + "/links.txt", utente, "Conferma la tua email cliccando sul link in basso");
 
                         ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().insertLink(utente, utente.getLink());
                     } catch (DataException ex) {

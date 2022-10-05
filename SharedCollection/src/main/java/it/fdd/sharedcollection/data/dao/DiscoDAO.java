@@ -12,6 +12,8 @@ public interface DiscoDAO {
 
     Disco getDisco(int disco_key) throws DataException;
 
+    Disco getLast() throws DataException;
+
     List<Disco> getDischi() throws DataException;
 
     void storeDisco(Disco disco) throws DataException;

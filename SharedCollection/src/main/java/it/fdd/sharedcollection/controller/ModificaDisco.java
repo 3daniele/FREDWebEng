@@ -68,6 +68,8 @@ public class ModificaDisco extends SharedCollectionBaseController {
             request.setAttribute("username", sessione.getAttribute("username"));
             request.setAttribute("email", sessione.getAttribute("email"));
             request.setAttribute("userid", sessione.getAttribute("userid"));
+        }else{
+            response.sendRedirect("collezioni");
         }
 
         try {

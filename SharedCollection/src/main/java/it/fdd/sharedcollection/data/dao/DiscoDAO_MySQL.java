@@ -23,6 +23,8 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
     private PreparedStatement sDischi;
     private PreparedStatement iDisco, uDisco, dDisco;
 
+    private PreparedStatement lDisco;
+
     public DiscoDAO_MySQL(DataLayer d) {
         super(d);
     }
@@ -37,6 +39,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
             iDisco = connection.prepareStatement("INSERT INTO Disco (nome, etichetta, anno, artista, creatore) VALUES(?,?,?, ?,?)", Statement.RETURN_GENERATED_KEYS);
             uDisco = connection.prepareStatement("UPDATE Disco SET nome = ?, etichetta = ?, anno = ?, artista = ? WHERE id = ?");
             dDisco = connection.prepareStatement("DELETE FROM Disco WHERE id = ?");
+            lDisco = connection.prepareStatement("SELECT * FROM Disco ORDER BY id DESC LIMIT 1");
         } catch (SQLException ex) {
             throw new DataException("Errore nell'inizializzazione del DataLayer", ex);
         }
@@ -51,6 +54,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
             iDisco.close();
             uDisco.close();
             dDisco.close();
+            lDisco.close();
         } catch (SQLException ex) {
             //
         }
@@ -101,6 +105,25 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
                 throw new DataException("Impossibile caricare disco dall'ID", ex);
             }
         }
+        return disco;
+    }
+
+    @Override
+    public Disco getLast() throws DataException{
+        Disco disco = null;
+
+        try {
+            try (ResultSet rs = lDisco.executeQuery()) {
+                if (rs.next()) {
+                    disco = createDisco(rs);
+                    // aggiunta nella cache
+                    dataLayer.getCache().add(Disco.class, disco);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare l'ultimo disco", ex);
+        }
+
         return disco;
     }
 
