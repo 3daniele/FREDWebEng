@@ -1,13 +1,12 @@
 <link rel="stylesheet" href="style/default-assets/multi-select.css" xmlns="http://www.w3.org/1999/html">
 <div class="row">
-
+    <#if error??>
+        <div class="alert alert-danger text-center" role="alert">
+            ${error}
+        </div>
+    </#if>
     <!--MODIFICA COLLEZIONE-->
     <div class="col-12 col-md-6 col-lg-6">
-        <#if error??>
-            <div class="alert alert-danger" role="alert">
-                ${error}
-            </div>
-        </#if>
         <form action="modificaCollezione" method="post">
             <h2 class="text-danger">Informazioni:</h2>
             <label class="form-label">

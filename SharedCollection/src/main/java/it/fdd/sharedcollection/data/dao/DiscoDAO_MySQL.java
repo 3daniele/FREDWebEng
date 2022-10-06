@@ -37,7 +37,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
             sDiscoByID = connection.prepareStatement("SELECT * FROM Disco WHERE id = ?");
             sDischi = connection.prepareStatement("SELECT id AS discoID FROM Disco");
             iDisco = connection.prepareStatement("INSERT INTO Disco (nome, etichetta, anno, artista, creatore) VALUES(?,?,?, ?,?)", Statement.RETURN_GENERATED_KEYS);
-            uDisco = connection.prepareStatement("UPDATE Disco SET nome = ?, etichetta = ?, anno = ?, artista = ? WHERE id = ?");
+            uDisco = connection.prepareStatement("UPDATE Disco SET nome = ?, etichetta = ?, anno = ? WHERE id = ?");
             dDisco = connection.prepareStatement("DELETE FROM Disco WHERE id = ?");
             lDisco = connection.prepareStatement("SELECT * FROM Disco ORDER BY id DESC LIMIT 1");
         } catch (SQLException ex) {
@@ -157,7 +157,8 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
                 uDisco.setString(1, disco.getNome());
                 uDisco.setString(2, disco.getEtichetta());
                 uDisco.setDate(3, (Date) disco.getAnno());
-                uDisco.setInt(4, disco.getArtista().getKey());
+                //uDisco.setInt(4, disco.getArtista().getKey());
+                uDisco.setInt(4, disco.getKey());
 
                 if (uDisco.executeUpdate() == 0) {
                     throw new OptimisticLockException(disco);

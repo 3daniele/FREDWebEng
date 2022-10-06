@@ -11,3 +11,16 @@ Conferma la tua email cliccando sul link in basso
 
 
 
+[ 2022-10-06T10:43:31.175346 ]  admin@admin.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile Admin Sig.,
+Conferma la tua email cliccando sul link in basso
+ http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=$2a$10$NeaTaf0/Y.8Q16SEFTCOL.UdwZOuVDAgze3rQNl4w0g5VvIZNKt4S&refer_code=7rHdWq0dHNWXqLSyN33XvA==
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+

@@ -2,93 +2,61 @@
     <!-- Form iniziale -->
     <form action="modificaDisco" method="post">
         <div class="row">
-            <#if (userid == disco.creatore.key)>
+            <div class="row">
+                <label class="form-label text-danger">
+                    <h2 class="text-danger">Informazioni disco:</h2>
+                </label>
                 <div class="row">
-                    <label class="form-label text-danger">
-                        <h2 class="text-danger">Informazioni disco:</h2>
+                    <label class="form-label">
+                        <h5>Titolo:</h5>
                     </label>
-                    <div class="row">
-                        <label class="form-label">
-                            <h5>Titolo:</h5>
-                        </label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="${disco.key}"
-                                   id="${disco.key}" value="${disco.nome}">
-                            <input type="hidden" name="discoID" id="discoID"
-                                   value="${disco.key}"/>
-                            <input type="hidden" name="collezioneID" id="collezioneID"
-                                   value="${collezione.key}"/>
-                            <input type="hidden" name="formato" id="formato"
-                                   value="${infoDisco.formato}"/>
-                        </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="titolo"
+                               id="titolo" value="${disco.nome}"
+                                <#if (userid != disco.creatore.key)>
+                                    readonly
+                                </#if>
+                        >
+                        <input type="hidden" name="discoID" id="discoID"
+                               value="${disco.key}"/>
+                        <input type="hidden" name="collezioneID" id="collezioneID"
+                               value="${collezione.key}"/>
+                        <input type="hidden" name="formato" id="formato"
+                               value="${infoDisco.formato}"/>
                     </div>
                 </div>
-                <br>
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <label class="form-label">
-                            <h5>Etichetta:</h5>
-                        </label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="${disco.key}"
-                                   id="${disco.key}" value="${disco.etichetta}">
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <label class="form-label">
-                            <h5>Data di uscita:</h5>
-                        </label>
-                        <div class="input-group mb-3">
-                            <input type="date" class="form-control" name="${disco.key}"
-                                   id="${disco.key}" value='${disco.anno?iso_utc}'>
-                            </input>
-                        </div>
-                    </div>
-                </div>
-                <br>
-            <#else>
-                <div class="row">
-                    <label class="form-label text-danger">
-                        <h2 class="text-danger">Informazioni disco:</h2>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6">
+                    <label class="form-label">
+                        <h5>Etichetta:</h5>
                     </label>
-                    <div class="row">
-                        <label class="form-label">
-                            <h5>Titolo:</h5>
-                        </label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="${disco.key}"
-                                   id="${disco.key}" value="${disco.nome}" readonly>
-                            <input type="hidden" name="discoID" id="discoID"
-                                   value="${disco.key}"/>
-                            <input type="hidden" name="collezioneID" id="collezioneID"
-                                   value="${collezione.key}"/>
-                            <input type="hidden" name="formato" id="formato"
-                                   value="${infoDisco.formato}"/>
-                        </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="etichetta"
+                               id="etichetta" value="${disco.etichetta}"
+                                <#if (userid != disco.creatore.key)>
+                                    readonly
+                                </#if>
+                        >
                     </div>
                 </div>
-                <br>
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <label class="form-label">
-                            <h5>Etichetta:</h5>
-                        </label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="${disco.key}"
-                                   id="${disco.key}" value="${disco.etichetta}" readonly>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <label class="form-label">
-                            <h5>Data di uscita:</h5>
-                        </label>
-                        <div class="input-group mb-3">
-                            <input type="date" class="form-control" name="${disco.key}"
-                                   id="${disco.key}" value="${disco.anno?iso_utc}" readonly>
-                        </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                    <label class="form-label">
+                        <h5>Data di uscita:</h5>
+                    </label>
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" name="anno"
+                               id="anno" value='${disco.anno?iso_local}'
+                                <#if (userid != disco.creatore.key)>
+                                    readonly
+                                </#if>
+                        >
                     </div>
                 </div>
-            </#if>
+            </div>
+            <br>
+
             <br>
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-6">
@@ -173,6 +141,11 @@
     <!-- CAROSELLO IMMAGINI -->
     <div class="row">
         <div class="col-12 col-md-3 col-lg-3">
+            <#if error??>
+                <div class="alert alert-danger text-center" role="alert">
+                    ${error}
+                </div>
+            </#if>
             <!-- Inizio Carousel -->
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
                 <div class="carousel-indicators">
@@ -219,39 +192,50 @@
             <!-- Fine Carousel -->
             <hr>
             <br>
-            <div class="row">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Copertina</label>
-                    <input type="file" class="form-control" id="imgCopertina"
-                           name="imgCopertina"
-                            <#if (infoDisco.imgCopertina??)>
-                        value="${infoDisco.imgCopertina}"
-                            </#if>>
-                </div>
-            </div>
-            <br>
             <!-- CARICAMENTO IMMAGINI -->
-            <div class="row">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Frontale</label>
-                    <input type="file" class="form-control" id="imgFronte" name="imgFronte">
+            <form action="modificaDisco" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Copertina</label>
+                        <input type="file" class="form-control" id="imgCopertina" name="imgCopertina" class="form-control form-control-lg"
+                                <#if (infoDisco.imgCopertina??)>
+                            value="${infoDisco.imgCopertina}"
+                                </#if>>
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Retro</label>
-                    <input type="file" class="form-control" id="imgRetro" name="imgRetro">
+                <br>
+                <div class="row">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Frontale</label>
+                        <input type="file" class="form-control" id="imgFronte" name="imgFronte" class="form-control form-control-lg"
+                                <#if (infoDisco.imgFronte??)>
+                            value="${infoDisco.imgFronte}"
+                                </#if>>
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Libretto</label>
-                    <input type="file" class="form-control" id="imgLibretto"
-                           name="imgLibretto">
+                <br>
+                <div class="row">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Retro</label>
+                        <input type="file" class="form-control" id="imgRetro" name="imgRetro" class="form-control form-control-lg"
+                                <#if (infoDisco.imgRetro??)>
+                            value="${infoDisco.imgRetro}"
+                                </#if>>
+                    </div>
                 </div>
-            </div>
+                <br>
+                <div class="row">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Libretto</label>
+                        <input type="file" class="form-control" id="imgLibretto" name="imgLibretto" class="form-control form-control-lg"
+                                <#if (infoDisco.imgLibretto??)>
+                            value="${infoDisco.imgLibretto}"
+                                </#if>>
+                    </div>
+                </div>
+                <br>
+                <input type="submit" class="btn btn-danger" name="caricaImg" id="caricaImg" value="Carica">
+            </form>
         </div>
 
         <!-- TABLE lista brani -->
