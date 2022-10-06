@@ -126,15 +126,19 @@
                                                value="${dettaglio.key}"/>
                                     </div>
                                     <br>
-                                    <a href="modificaDisco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}" class="btn btn-secondary">
-                                        Modifica
-                                    </a>
-                                    <input type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco"
-                                           name="elimina_disco">
-                                    <br>
-                                    <br>
                                     <a href="disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
-                                       class="btn poca-btn mt-10">Visualizza</a>
+                                       class="btn btn-success mt-10"><img src="images/templateimg/imgFont/arrow-up.svg"
+                                                                          alt="Bootstrap" width="24" height="24" ></a>
+                                    <a href="modificaDisco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}" class="btn btn-secondary">
+                                        <img src="images/templateimg/imgFont/pencil-fill.svg" alt="Bootstrap"
+                                             width="24" height="24" class="text-light" fill="currentColor">
+                                    </a>
+                                    <button type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco"
+                                           name="elimina_disco">
+                                        <img
+                                                src="images/templateimg/imgFont/trash3-fill.svg" alt="elimina" width="24"
+                                                height="24">
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -163,7 +167,7 @@
                         <select class="selectpicker" data-live-search="true" id="discoID" name="discoID">
                             <option selected>Seleziona disco</option>
                             <#list lista_dischi as disco>
-                                <option value="${disco.key}" id="${disco.key}">${disco.nome}</option>
+                                <option value="${disco.key}" id="discoID" name="discoID">${disco.nome}</option>
                             </#list>
                             <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
                         </select>
@@ -401,4 +405,4 @@
 
 <script src="js/jquerySelect.min.js"></script>
 <script src="js/bootstrapSelect.bundle.min.js"></script>
-<script src="js/bootstap-select.min.js"></script>
+<script src="js/bootstrap-select.min.js"></script>

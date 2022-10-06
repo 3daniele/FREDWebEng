@@ -195,23 +195,23 @@
                 <div class="single-footer-widget mb-80">
                     <h4 class="widget-title">Follow Us</h4>
                     <div class="footer-social-info">
-                        <a href="#" class="facebook" data-toggle="tooltip" data-placement="top" title="Facebook">
+                        <a href="#" class="facebook text-light" data-toggle="tooltip" data-placement="top" title="Facebook">
                             <img src="images/templateimg/imgFont/facebook.svg" alt="Bootstrap" width="26" height="26">
                         </a>
-                        <a href="#" class="twitter" data-toggle="tooltip" data-placement="top" title="Twitter">
+                        <a href="#" class="twitter text-light" data-toggle="tooltip" data-placement="top" title="Twitter">
                             <img src="images/templateimg/imgFont/twitter.svg" alt="Bootstrap" width="26" height="26">
                         </a>
-                        <a href="#" class="pinterest" data-toggle="tooltip" data-placement="top"
+                        <a href="#" class="pinterest text-light" data-toggle="tooltip" data-placement="top"
                            title="Pinterest">
                             <img src="images/templateimg/imgFont/pinterest.svg" alt="Bootstrap" width="26"
                                  height="26">
                         </a>
-                        <a href="#" class="instagram" data-toggle="tooltip" data-placement="top"
+                        <a href="#" class="instagram text-light" data-toggle="tooltip" data-placement="top"
                            title="Instagram">
                             <img src="images/templateimg/imgFont/instagram.svg" alt="Bootstrap" width="26"
                                  height="26">
                         </a>
-                        <a href="#" class="youtube" data-toggle="tooltip" data-placement="top" title="YouTube">
+                        <a href="#" class="youtube text-light" data-toggle="tooltip" data-placement="top" title="YouTube">
                             <img src="images/templateimg/imgFont/youtube.svg" alt="Bootstrap" width="26"
                                  height="26">
                         </a>

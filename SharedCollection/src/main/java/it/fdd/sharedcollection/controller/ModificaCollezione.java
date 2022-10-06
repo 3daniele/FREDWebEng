@@ -31,7 +31,7 @@ import java.util.List;
 public class ModificaCollezione extends SharedCollectionBaseController {
 
     public int collezione_key = 0;
-    public int disco_key = 0;
+    int disco_key = 0;
     int user_key = 0;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
@@ -171,7 +171,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                 // email di notifica
                 try {
                     String text = " ha rimosso la condivisione con lei della sua collezione ";
-                    UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/email" + i.getNickname() + ".txt", i, collezione, text);
+                    UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/" + i.getNickname() + ".txt", i, collezione, text);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -190,7 +190,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                     Utente utente = u.getUtente();
                     try {
                         String text = " ha condiviso con lei la sua collezione ";
-                        UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/email" + utente.getNickname() + ".txt", utente, collezione, text);
+                        UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/" + utente.getNickname() + ".txt", utente, collezione, text);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -319,29 +319,30 @@ public class ModificaCollezione extends SharedCollectionBaseController {
             PrintWriter out = response.getWriter();
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Uno o più file superano le dimesioni consetite");
-            processRequest(request, response);
         }
 
 
         Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key);
         Disco disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key);
 
-        // insert
-        ListaDischi listaDischi = new ListaDischiImpl();
-        listaDischi.setCollezione(collezione);
-        listaDischi.setDisco(disco);
-        listaDischi.setNumeroCopie(numeroCopie);
-        listaDischi.setFormato(formato);
-        listaDischi.setStato(stato);
-        listaDischi.setBarcode(barcode);
-        listaDischi.setImgCopertina(imgCopertina);
-        listaDischi.setImgFronte(imgFronte);
-        listaDischi.setImgRetro(imgRetro);
-        listaDischi.setImgLibretto(imgLibretto);
-        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
+        if (((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDisco(collezione_key, disco_key, formato) == null) {
+            // insert
+            ListaDischi listaDischi = new ListaDischiImpl();
+            listaDischi.setCollezione(collezione);
+            listaDischi.setDisco(disco);
+            listaDischi.setNumeroCopie(numeroCopie);
+            listaDischi.setFormato(formato);
+            listaDischi.setStato(stato);
+            listaDischi.setBarcode(barcode);
+            listaDischi.setImgCopertina(imgCopertina);
+            listaDischi.setImgFronte(imgFronte);
+            listaDischi.setImgRetro(imgRetro);
+            listaDischi.setImgLibretto(imgLibretto);
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
+        }
 
         response.sendRedirect("modificaCollezione?numero=" + collezione_key);
+
     }
 
     private void action_delete(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {

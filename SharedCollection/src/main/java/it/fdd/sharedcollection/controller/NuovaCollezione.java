@@ -105,7 +105,7 @@ public class NuovaCollezione extends SharedCollectionBaseController {
                     Utente utente = utentiAutorizzati.getUtente();
                     try {
                         String text = " ha condiviso con lei la sua collezione ";
-                        UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/email" + utente.getNickname() + ".txt", utente, collezione, text);
+                        UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/" + utente.getNickname() + ".txt", utente, collezione, text);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

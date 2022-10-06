@@ -29,7 +29,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
             sListeDischi = connection.prepareStatement("SELECT * FROM listaDischi");
             sListaDisco = connection.prepareStatement("SELECT * FROM ListaDischi WHERE collezione = ? AND disco = ? AND formato = ?");
             sDischiByCollezione = connection.prepareStatement("SELECT * FROM ListaDischi WHERE collezione=?");
-            iListaDischi = connection.prepareStatement("INSERT INTO listaDischi (collezione, disco, numeroCopie,stato,formato,barcode,imgCopertina,imgFronte,imgRetro,imgLibretto) VALUES(?, ?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            iListaDischi = connection.prepareStatement("INSERT INTO listaDischi (collezione, disco, numeroCopie,stato,formato,barcode,imgCopertina,imgFronte,imgRetro,imgLibretto) VALUES(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uListaDischi = connection.prepareStatement("UPDATE listaDischi SET collezione=?,disco = ?, numeroCopie = ?, stato=?,formato=?,barcode=?,imgCopertina=?,imgFronte=?,imgRetro=?,imgLibretto=? WHERE id = ?");
             dListaDischi = connection.prepareStatement("DELETE FROM listaDischi WHERE id = ?");
         } catch (SQLException ex) {
@@ -193,15 +193,10 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
                 iListaDischi.setInt(1, listaDischi.getCollezione().getKey());
                 iListaDischi.setInt(2, listaDischi.getDisco().getKey());
 
-
-                if (listaDischi.getImgCopertina() == null || listaDischi.getImgCopertina().equals("")){
-                    iListaDischi.setString(7, "images/templateimg/core-img/disco_default.jpeg");
-                }else{
-                    iListaDischi.setString(7, listaDischi.getImgCopertina());
-                }
+                iListaDischi.setString(7, listaDischi.getImgCopertina());
 
                 if (listaDischi.getStato() == null || listaDischi.getStato().equals("")) {
-                    iListaDischi.setInt(3,  1);
+                    iListaDischi.setInt(3, 1);
                     iListaDischi.setString(4, "Buono");
                     iListaDischi.setString(5, "Digitale");
                     iListaDischi.setString(6, null);

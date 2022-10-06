@@ -407,3 +407,7 @@
         </div>
     </div>
 </div>
+
+<script src="js/jquerySelect.min.js"></script>
+<script src="js/bootstrapSelect.bundle.min.js"></script>
+<script src="js/bootstrap-select.min.js"></script>

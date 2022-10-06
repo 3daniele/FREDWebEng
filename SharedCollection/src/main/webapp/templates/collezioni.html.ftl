@@ -22,7 +22,6 @@
                     <th scope="col">Autore</th>
                     <th scope="col">Data creazione</th>
                     <th scope="col"></th>
-                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,21 +47,26 @@
                         <td>${strip_slashes(collezione.utente.nickname)}&nbsp</td>
                         <td>${strip_slashes(collezione.dataCreazione)}&nbsp</td>
                         <td>
-                            <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-outline-danger"
-                               role="button">Modifica</a>
+                            <noscript>
+                                <style type="text/css">
+                                    .pagecontainer {
+                                        display: none;
+                                    }
+                                </style>
+                                <a href="collezione?numero=${collezione.key}"
+                                   class="btn btn-success">
+                                    <img src="images/templateimg/imgFont/arrow-up.svg"
+                                         alt="Bootstrap" width="24" height="24" ></a>
+
+
+                            </noscript>
+                            <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-secondary"
+                               role="button"><img src="images/templateimg/imgFont/pencil-fill.svg" alt="Bootstrap"
+                                                  width="24" height="24" class="text-light" fill="currentColor"></a>
+                            <button type="submit" class="btn btn-danger"><img
+                                        src="images/templateimg/imgFont/trash3-fill.svg" alt="elimina" width="24"
+                                        height="24"></button>
                         </td>
-                        <noscript>
-                            <style type="text/css">
-                                .pagecontainer {
-                                    display: none;
-                                }
-                            </style>
-                            <div class="noscriptmsg">
-                                <td>
-                                    <a href="collezione?numero=${collezione.key}" class="btn btn-outline-danger">Visualizza</a>
-                                </td>
-                            </div>
-                        </noscript>
                     </tr>
                 </#list>
                 </tbody>
@@ -115,7 +119,10 @@
                             </style>
                             <div class="noscriptmsg">
                                 <td>
-                                    <a href="collezione?numero=${collezione.key}" class="btn btn-outline-danger">Visualizza</a>
+                                    <a href="collezione?numero=${collezione.key}"
+                                       class="btn btn-success">
+                                        <img src="images/templateimg/imgFont/arrow-up.svg"
+                                             alt="Bootstrap" width="24" height="24" f></a>
                                 </td>
                             </div>
                         </noscript>
@@ -179,7 +186,10 @@
                         </style>
                         <div class="noscriptmsg">
                             <td>
-                                <a href="collezione?numero=${collezione.key}" class="btn btn-outline-danger">Visualizza</a>
+                                <a href="collezione?numero=${collezione.key}"
+                                   class="btn btn-success">
+                                    <img src="images/templateimg/imgFont/arrow-up.svg"
+                                         alt="Bootstrap" width="24" height="24" f></a>
                             </td>
                         </div>
                     </noscript>
