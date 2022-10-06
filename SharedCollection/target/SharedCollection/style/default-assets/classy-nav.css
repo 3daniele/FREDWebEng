@@ -140,45 +140,7 @@ body {
     line-height: 1;
   }
   /* Down Arrow Icon for Megamenu */
-  @font-face {
-    font-family: 'classyfonts';
-    src: url("https://preview.colorlib.com/theme/poca/fonts/classy.eot?fftrrv");
-    src: url("https://preview.colorlib.com/theme/poca/fonts/classy.eot?fftrrv#iefix") format("embedded-opentype"), url("https://preview.colorlib.com/theme/poca/fonts/classy.ttf?fftrrv") format("truetype"), url("https://preview.colorlib.com/theme/poca/fonts/classy.woff?fftrrv") format("woff"), url("https://preview.colorlib.com/theme/poca/fonts/classy.svg?fftrrv#classyfonts") format("svg");
-    font-weight: normal;
-    font-style: normal;
-  }
-  .icon-classy-nav-down-arrow {
-    font-family: 'classyfonts';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  .icon-classy-nav-down-arrow:before {
-    content: "\e900";
-  }
-  .classynav ul li.megamenu-item>a:after,
-  .classynav ul li.has-down>a:after {
-    font-family: 'classyfonts';
-    content: "\e900";
-    font-size: 12px;
-    color: #000000;
-    padding-left: 5px;
-    -webkit-transition-duration: 500ms;
-    transition-duration: 500ms;
-  }
-  .classynav ul li ul li.has-down>a::after {
-    -webkit-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-    position: absolute;
-    top: 0;
-    right: 10px;
-    z-index: 3;
-  }
+
   /* button css */
   .classy-btn {
     position: relative;

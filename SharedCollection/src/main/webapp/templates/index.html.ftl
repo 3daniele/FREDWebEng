@@ -195,21 +195,30 @@
                 <div class="single-footer-widget mb-80">
                     <h4 class="widget-title">Follow Us</h4>
                     <div class="footer-social-info">
-                        <a href="#" class="facebook" data-toggle="tooltip" data-placement="top" title="Facebook"><i
-                                    class="fa fa-facebook"></i></a>
-                        <a href="#" class="twitter" data-toggle="tooltip" data-placement="top" title="Twitter"><i
-                                    class="fa fa-twitter"></i></a>
+                        <a href="#" class="facebook" data-toggle="tooltip" data-placement="top" title="Facebook">
+                            <img src="images/templateimg/imgFont/facebook.svg" alt="Bootstrap" width="26" height="26">
+                        </a>
+                        <a href="#" class="twitter" data-toggle="tooltip" data-placement="top" title="Twitter">
+                            <img src="images/templateimg/imgFont/twitter.svg" alt="Bootstrap" width="26" height="26">
+                        </a>
                         <a href="#" class="pinterest" data-toggle="tooltip" data-placement="top"
-                           title="Pinterest"><i class="fa fa-pinterest"></i></a>
+                           title="Pinterest">
+                            <img src="images/templateimg/imgFont/pinterest.svg" alt="Bootstrap" width="26"
+                                 height="26">
+                        </a>
                         <a href="#" class="instagram" data-toggle="tooltip" data-placement="top"
-                           title="Instagram"><i class="fa fa-instagram"></i></a>
-                        <a href="#" class="youtube" data-toggle="tooltip" data-placement="top" title="YouTube"><i
-                                    class="fa fa-youtube-play"></i></a>
+                           title="Instagram">
+                            <img src="images/templateimg/imgFont/instagram.svg" alt="Bootstrap" width="26"
+                                 height="26">
+                        </a>
+                        <a href="#" class="youtube" data-toggle="tooltip" data-placement="top" title="YouTube">
+                            <img src="images/templateimg/imgFont/youtube.svg" alt="Bootstrap" width="26"
+                                 height="26">
+                        </a>
                     </div>
                     <div class="copywrite-content">
                         <p>&copy;
-                            Copyright
-                            <script>document.write(new Date().getFullYear());</script>
+                            Copyright 2022
                             All rights reserved | This
                             template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by ${defaults.author}
                         </p>
