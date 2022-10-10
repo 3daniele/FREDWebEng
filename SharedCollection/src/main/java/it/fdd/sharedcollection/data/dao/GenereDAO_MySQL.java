@@ -33,7 +33,7 @@ public class GenereDAO_MySQL extends DAO implements GenereDAO {
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
             sGenereByID = connection.prepareStatement("SELECT * FROM Genere WHERE id = ?");
-            sGeneri = connection.prepareStatement("SELECT id AS genereID FROM Genere");
+            sGeneri = connection.prepareStatement("SELECT * FROM Genere");
             iGenere = connection.prepareStatement("INSERT INTO Genere (nome) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
             uGenere = connection.prepareStatement("UPDATE Genere SET nome = ? WHERE id = ?");
             dGenere = connection.prepareStatement("DELETE FROM Genere WHERE id = ?");
@@ -108,7 +108,7 @@ public class GenereDAO_MySQL extends DAO implements GenereDAO {
 
         try (ResultSet rs = sGeneri.executeQuery()) {
             while (rs.next()) {
-                result.add((Genere) getGenere(rs.getInt("genereID")));
+                result.add((Genere) getGenere(rs.getInt("id")));
             }
         } catch (SQLException ex) {
             throw new DataException("Impossibile caricare i generi", ex);

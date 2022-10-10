@@ -34,7 +34,7 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
             sGenereByID = connection.prepareStatement("SELECT * FROM ListaGeneri WHERE id = ?");
-            sGenere = connection.prepareStatement("SELECT id as ListaGeneri_id FROM ListaGeneri WHERE id = ?");
+            sGenere = connection.prepareStatement("SELECT * FROM ListaGeneri");
             sGenereByCanzone = connection.prepareStatement("SELECT * FROM ListaGeneri WHERE canzone = ?");
             iLista = connection.prepareStatement(" INSERT INTO ListaGeneri ( genere,canzone) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             uLista = connection.prepareStatement("UPDATE ListaGeneri SET   genere = ?, canzone = ? WHERE id = ?");
@@ -109,7 +109,7 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
 
         try (ResultSet rs = sGenere.executeQuery()) {
             while (rs.next()) {
-                result.add((ListaGeneri) getGenere(rs.getInt("ListaArtisti_id")));
+                result.add((ListaGeneri) getGenere(rs.getInt("id")));
             }
         } catch (SQLException ex) {
             throw new DataException("Impossibile caricare ", ex);

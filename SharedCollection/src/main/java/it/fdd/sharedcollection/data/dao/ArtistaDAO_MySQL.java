@@ -31,7 +31,7 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
             sArtistaByID = connection.prepareStatement("SELECT * FROM Artista WHERE id = ?");
-            sArtisti = connection.prepareStatement("SELECT id AS artistaID FROM Artista");
+            sArtisti = connection.prepareStatement("SELECT * FROM Artista");
             iArtista = connection.prepareStatement("INSERT INTO Artista (nome, cognome, nomeDArte) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uArtista = connection.prepareStatement("UPDATE Artista SET nome = ?, cognome = ?, nomeDArte = ? WHERE id = ?");
             dArtista = connection.prepareStatement("DELETE FROM Artista WHERE id = ?");
@@ -107,7 +107,7 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
 
         try (ResultSet rs = sArtisti.executeQuery()) {
             while (rs.next()) {
-                result.add((Artista) getArtista(rs.getInt("artistaID")));
+                result.add((Artista) getArtista(rs.getInt("id")));
             }
         } catch (SQLException ex) {
             throw new DataException("Impossibile caricare gli artisti", ex);

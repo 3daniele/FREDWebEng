@@ -92,6 +92,8 @@ public class ModificaDisco extends SharedCollectionBaseController {
             Disco disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key);
             List<ListaBrani> listaBrani = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaBraniDAO().getListeBrani(disco_key);
             ListaDischi infoDisco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDisco(collezione_key, disco_key, formato);
+            List<Artista> lista_artisti = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtisti();
+            List<Genere> lista_generi = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getGenereDAO().getListaGeneri();
             List<Canzone> canzoni = new ArrayList<>();
             List<ListaArtisti> artisti = new ArrayList<>();
             List<ListaGeneri> generi = new ArrayList<>();
@@ -109,6 +111,8 @@ public class ModificaDisco extends SharedCollectionBaseController {
             request.setAttribute("disco", disco);
             request.setAttribute("listaBrani", listaBrani);
             request.setAttribute("infoDisco", infoDisco);
+            request.setAttribute("lista_artisti", lista_artisti);
+            request.setAttribute("lista_generi", lista_generi);
             request.setAttribute("canzoni", canzoni);
             request.setAttribute("listaArtisti", artisti);
             request.setAttribute("listaGeneri", generi);
@@ -198,7 +202,7 @@ public class ModificaDisco extends SharedCollectionBaseController {
                 if (!item.isFormField()) {
                     //creazione cartella per le immagini della collezione
                     new File(uploadPath + File.separator + collezione_key).mkdir();
-                    new File(request.getServletContext().getRealPath("/images/upload-img") + File.separator  + collezione_key).mkdir();
+                    new File(request.getServletContext().getRealPath("/images/upload-img") + File.separator + collezione_key).mkdir();
 
                     String fileName = new File(item.getName()).getName();
                     System.out.println("fileName: " + fileName);
@@ -254,4 +258,9 @@ public class ModificaDisco extends SharedCollectionBaseController {
 
         response.sendRedirect("modificaDisco?numero=" + disco_key + "&collezione=" + collezione_key + "&formato=" + formato);
     }
+
+    private void action_updateBrano(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+
+    }
+
 }

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="style/default-assets/multi-select.css" xmlns="http://www.w3.org/1999/html">
 <div class="container">
     <!-- Form iniziale -->
     <form action="modificaDisco" method="post">
@@ -197,7 +198,8 @@
                 <div class="row">
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Copertina</label>
-                        <input type="file" class="form-control" id="imgCopertina" name="imgCopertina" class="form-control form-control-lg"
+                        <input type="file" class="form-control" id="imgCopertina" name="imgCopertina"
+                               class="form-control form-control-lg"
                                 <#if (infoDisco.imgCopertina??)>
                             value="${infoDisco.imgCopertina}"
                                 </#if>>
@@ -207,7 +209,8 @@
                 <div class="row">
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Frontale</label>
-                        <input type="file" class="form-control" id="imgFronte" name="imgFronte" class="form-control form-control-lg"
+                        <input type="file" class="form-control" id="imgFronte" name="imgFronte"
+                               class="form-control form-control-lg"
                                 <#if (infoDisco.imgFronte??)>
                             value="${infoDisco.imgFronte}"
                                 </#if>>
@@ -217,7 +220,8 @@
                 <div class="row">
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Retro</label>
-                        <input type="file" class="form-control" id="imgRetro" name="imgRetro" class="form-control form-control-lg"
+                        <input type="file" class="form-control" id="imgRetro" name="imgRetro"
+                               class="form-control form-control-lg"
                                 <#if (infoDisco.imgRetro??)>
                             value="${infoDisco.imgRetro}"
                                 </#if>>
@@ -227,7 +231,8 @@
                 <div class="row">
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Libretto</label>
-                        <input type="file" class="form-control" id="imgLibretto" name="imgLibretto" class="form-control form-control-lg"
+                        <input type="file" class="form-control" id="imgLibretto" name="imgLibretto"
+                               class="form-control form-control-lg"
                                 <#if (infoDisco.imgLibretto??)>
                             value="${infoDisco.imgLibretto}"
                                 </#if>>
@@ -276,72 +281,161 @@
                             <#list listaBrani as brano>
                                 <#assign n++>
                                 <tr>
-                                    <form action="nuovoDisco" method="POST">
-                                        <th scope="row">${n}</th>
-                                        <td>${brano.canzone.nome}</td>
-                                        <td>${brano.canzone.durata?substring(3)}</td>
-                                        <td>
-                                            <#list listaArtisti as artisti>
-                                                <#if (artisti.canzone.key = brano.canzone.key)>
-                                                    ${artisti.artista.nomeArte}
-                                                    <br>
-                                                </#if>
-                                            </#list>
-                                        </td>
-                                        <td>
-                                            <#list listaGeneri as generi>
-                                                <#if (generi.canzone.key = brano.canzone.key)>
-                                                    ${generi.genere.nome}
-                                                    <br>
-                                                </#if>
-                                            </#list>
-                                        </td>
-                                        <td class="text-end">
-                                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                                </svg>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button type="submit" class="btn btn-danger">
-                                                <svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-trash3-fill"
-                                                        viewBox="0 0 16 16">
-                                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
-                                                </svg>
-                                            </button>
-                                        </td>
-                                    </form>
+                                    <th scope="row">${n}</th>
+                                    <td>${brano.canzone.nome}</td>
+                                    <td>${brano.canzone.durata?substring(3)}</td>
+                                    <td>
+                                        <#list listaArtisti as artisti>
+                                            <#if (artisti.canzone.key = brano.canzone.key)>
+                                                ${artisti.artista.nomeArte}
+                                                <br>
+                                            </#if>
+                                        </#list>
+                                    </td>
+                                    <td>
+                                        <#list listaGeneri as generi>
+                                            <#if (generi.canzone.key = brano.canzone.key)>
+                                                ${generi.genere.nome}
+                                                <br>
+                                            </#if>
+                                        </#list>
+                                    </td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                                data-bs-target="#editModal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                            </svg>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-danger">
+                                            <svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-trash3-fill"
+                                                    viewBox="0 0 16 16">
+                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                                            </svg>
+                                        </button>
+                                    </td>
                                 </tr>
+                                <!-- Modal modifica brano -->
+                                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="modificaDisco" method="POST">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica
+                                                        brano</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <label class="form-label">
+                                                            <h5>Nome</h5>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control"
+                                                                   aria-label="Sizing example input"
+                                                                   aria-describedby="inputGroup-sizing-default"
+                                                                   id="nome"
+                                                                   name="nome"
+                                                                   value="${brano.canzone.nome}"
+                                                            >
+                                                        </div>
+                                                        <div class="form-text mb-3">
+                                                            Inserisci il nome del brano.
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6 col-lg-6">
+                                                            <label class="form-label">
+                                                                <h5>Durata</h5>
+                                                            </label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control"
+                                                                       aria-label="Sizing example input"
+                                                                       aria-describedby="inputGroup-sizing-default"
+                                                                       id="durata"
+                                                                       name="durata"
+                                                                       value="${brano.canzone.durata?substring(3)}"
+                                                                >
+                                                            </div>
+                                                            <div class="form-text">
+                                                                Inserisci la durata del brano (es. 03:45).
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 col-lg-6">
+                                                            <label class="form-label">
+                                                                <h5>Genere</h5>
+                                                            </label>
+                                                            <select class="selectpicker" multiple
+                                                                    data-live-search="true"
+                                                                    id="genereID" name="genereID">
+                                                                <#list lista_generi as genere>
+                                                                    <#list listaGeneri as selectGenere>
+                                                                        <#if (selectGenere.canzone.key = brano.canzone.key && genere.nome==selectGenere.genere.nome)>
+                                                                            <option value="${genere.key}"
+                                                                                    id="${genere.key}"
+                                                                                    selected>${genere.nome}
+                                                                            </option>
+                                                                        <#else>
+                                                                            <option value="${genere.key}"
+                                                                                    id="${genere.key}">${genere.nome}
+                                                                            </option>
+                                                                        </#if>
+                                                                    </#list>
+                                                                </#list>
+                                                            </select>
+                                                            <div class="form-text">
+                                                                Seleziona i generi da aggiungere al brano.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <label class="form-label">
+                                                            <h5>Artisti</h5>
+                                                        </label>
+                                                        <select class="selectpicker" multiple data-live-search="true"
+                                                                id="artistaID" name="artistaID">
+                                                            <#list lista_artisti as artista>
+                                                                <#if listaArtisti?seq_contains(artista)>
+                                                                    <option value="${artista.key}"
+                                                                            id="${artista.key}"
+                                                                            selected>${artista.nomeArte}</option>
+                                                                <#else>
+                                                                    <option value="${artista.key}"
+                                                                            id="${artista.key}">${artista.nomeArte}</option>
+                                                                </#if>
+                                                            </#list>
+                                                        </select>
+                                                        <div class="form-text">
+                                                            Seleziona gli artisti da aggiungere al brano.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+                                                        Chiudi
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger" name="updateBrano"
+                                                            id="updateBrano">Salva
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </#list>
                             </tbody>
                         </table>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                             aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica brano</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        ...
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi
-                                        </button>
-                                        <button type="button" class="btn btn-danger">Salva</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     <#else>
                         <#assign n = 0>
                         <table class="table custom-table">
