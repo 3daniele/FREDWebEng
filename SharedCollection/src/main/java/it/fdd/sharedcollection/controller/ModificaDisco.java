@@ -14,6 +14,8 @@ import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.impl.DiscoImpl;
+import it.fdd.sharedcollection.data.impl.ListaArtistiImpl;
+import it.fdd.sharedcollection.data.impl.ListaGeneriImpl;
 import it.fdd.sharedcollection.data.model.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.Iterator;
@@ -49,6 +52,8 @@ public class ModificaDisco extends SharedCollectionBaseController {
             } else {
                 if (request.getParameter("updateDisco") != null) {
                     action_modifica(request, response);
+                } else if(request.getParameter("updateBrano") != null){
+                    action_updateBrano(request,response);
                 } else {
                     action_immagini(request, response);
                 }
@@ -261,6 +266,66 @@ public class ModificaDisco extends SharedCollectionBaseController {
 
     private void action_updateBrano(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
 
+        String nome = request.getParameter("nome");
+        String durata_ = request.getParameter("durata");
+        String[] generi = request.getParameterValues("selectGeneri");
+        String[] artisti = request.getParameterValues("selectArtisti");
+        int canzoneID = Integer.parseInt(request.getParameter("canzoneID"));
+
+        Time durata = Time.valueOf("00:" + durata_);
+        List<Integer> generiID = null;
+        List<Integer> artistiID = null;
+
+        System.out.println(generi);
+        System.out.println(artisti);
+        /*
+        for (String genere : generi) {
+            generiID.add(Integer.parseInt(genere));
+        }
+
+        for (String artista : artisti) {
+            artistiID.add(Integer.parseInt(artista));
+        }
+         */
+
+        // update canzone
+        Canzone canzone = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCanzoneDAO().getCanzone(canzoneID);
+        canzone.setNome(nome);
+        canzone.setDurata(durata);
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCanzoneDAO().storeCanzone(canzone);
+
+        /*
+        // eliminazione listaGeneri
+        List<ListaGeneri> listaGeneri = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaGeneriDAO().getListaGeneriByCanzone(canzoneID);
+        for (ListaGeneri lista_generi : listaGeneri) {
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaGeneriDAO().deleteListaGeneri(lista_generi);
+        }
+
+        // eliminazione listaBrani
+        List<ListaArtisti> listaArtisti = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaArtistiDAO().getListaArtistiByCanzone(canzoneID);
+        for (ListaArtisti lista_artisti : listaArtisti) {
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaArtistiDAO().deleteListaArtisti(lista_artisti);
+        }
+
+        // aggiunta listaGeneri
+        for (int genereID : generiID) {
+            ListaGeneri listaGenere = new ListaGeneriImpl();
+            listaGenere.setGenere(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getGenereDAO().getGenere(genereID));
+            listaGenere.setCanzone(canzone);
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaGeneriDAO().storeListaGeneri(listaGenere);
+        }
+
+        // aggiunta listaArtisti
+        for (int artistaID : artistiID) {
+            ListaArtisti listaArtista = new ListaArtistiImpl();
+            listaArtista.setArtista(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtista(artistaID));
+            listaArtista.setCanzone(canzone);
+            listaArtista.setRuolo("Entrambi");
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaArtistiDAO().storeListaArtisti(listaArtista);
+        }
+         */
+
+        response.sendRedirect("modificaDisco?numero=" + disco_key + "&collezione=" + collezione_key + "&formato=" + formato);
     }
 
 }

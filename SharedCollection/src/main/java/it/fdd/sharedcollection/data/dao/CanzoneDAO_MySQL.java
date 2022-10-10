@@ -128,6 +128,7 @@ public class CanzoneDAO_MySQL extends DAO implements CanzoneDAO {
                 // update
                 uCanzone.setString(1, canzone.getNome());
                 uCanzone.setTime(2, canzone.getDurata());
+                uCanzone.setInt(3, canzone.getKey());
 
                 if (uCanzone.executeUpdate() == 0) {
                     throw new OptimisticLockException(canzone);

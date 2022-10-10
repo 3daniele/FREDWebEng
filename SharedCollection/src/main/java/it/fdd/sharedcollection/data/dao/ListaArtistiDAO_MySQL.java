@@ -211,5 +211,15 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
         }
     }
 
+    @Override
+    public void deleteListaArtisti(ListaArtisti listaArtisti) throws DataException {
+
+        try {
+            dLista.setInt(1, listaArtisti.getKey());
+            dLista.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile eliminare l'oggetto ListaArtisti", ex);
+        }
+    }
 
 }

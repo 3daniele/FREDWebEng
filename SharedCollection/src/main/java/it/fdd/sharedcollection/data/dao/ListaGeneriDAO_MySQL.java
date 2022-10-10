@@ -1,9 +1,7 @@
 package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.*;
-import it.fdd.sharedcollection.data.model.ListaArtisti;
 import it.fdd.sharedcollection.data.model.ListaGeneri;
-import it.fdd.sharedcollection.data.proxy.ListaArtistiProxy;
 import it.fdd.sharedcollection.data.proxy.ListaGeneriProxy;
 
 import java.sql.PreparedStatement;
@@ -178,6 +176,17 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
             }
         } catch (SQLException | OptimisticLockException ex) {
             throw new DataException("Impossibile salvare la GENERE", ex);
+        }
+    }
+
+    @Override
+    public void deleteListaGeneri(ListaGeneri listaGeneri) throws DataException {
+
+        try {
+            dLista.setInt(1, listaGeneri.getKey());
+            dLista.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile eliminare l'oggetto ListaGeneri", ex);
         }
     }
 }

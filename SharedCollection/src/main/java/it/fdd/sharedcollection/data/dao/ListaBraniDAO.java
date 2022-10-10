@@ -17,4 +17,6 @@ public interface ListaBraniDAO {
 
     void storeListaBrani(ListaBrani listaBrani) throws DataException;
 
+    void deleteListaBrani(ListaBrani listaBrani) throws DataException;
+
 }

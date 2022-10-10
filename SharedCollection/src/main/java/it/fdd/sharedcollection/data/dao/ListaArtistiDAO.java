@@ -28,5 +28,6 @@ public interface ListaArtistiDAO {
 
     void storeListaArtisti(ListaArtisti element) throws DataException;
 
+    void deleteListaArtisti(ListaArtisti listaArtisti) throws DataException;
 
 }

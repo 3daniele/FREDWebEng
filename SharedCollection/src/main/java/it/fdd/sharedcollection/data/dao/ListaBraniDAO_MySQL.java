@@ -192,4 +192,15 @@ public class ListaBraniDAO_MySQL extends DAO implements ListaBraniDAO {
             throw new DataException("Impossibile salvare la listaBrani", ex);
         }
     }
+
+    @Override
+    public void deleteListaBrani(ListaBrani listaBrani) throws DataException {
+
+        try {
+            dListaBrani.setInt(1, listaBrani.getKey());
+            dListaBrani.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile eliminare l'oggetto ListaBrani", ex);
+        }
+    }
 }

@@ -46,7 +46,8 @@
                                 <li><a href="showUtenti">Utenti</a></li>
                             </#if>
                             <#if session??>
-                                <li class="cn-dropdown-item"><a href="#">${username}</a>
+                                <li class="cn-dropdown-item"><a href="#">${username}<img src="images/templateimg/imgFont/caret-down-fill.svg" alt="Bootstrap" width="12"
+                                                                                         height="12"></a>
                                     <ul class="dropdown">
                                         <li><a href="utente?id=${userid}">Profilo</a></li>
                                         <li><a href="newCollezione">Nuova Collezione</a></li>

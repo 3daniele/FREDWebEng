@@ -17,5 +17,5 @@ public interface ListaGeneriDAO {
 
     void storeListaGeneri(ListaGeneri element) throws DataException;
 
-
+    void deleteListaGeneri(ListaGeneri listaGeneri) throws DataException;
 }
