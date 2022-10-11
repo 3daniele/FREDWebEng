@@ -34,8 +34,8 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
             sGenereByID = connection.prepareStatement("SELECT * FROM ListaGeneri WHERE id = ?");
             sGenere = connection.prepareStatement("SELECT * FROM ListaGeneri");
             sGenereByCanzone = connection.prepareStatement("SELECT * FROM ListaGeneri WHERE canzone = ?");
-            iLista = connection.prepareStatement(" INSERT INTO ListaGeneri ( genere,canzone) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
-            uLista = connection.prepareStatement("UPDATE ListaGeneri SET   genere = ?, canzone = ? WHERE id = ?");
+            iLista = connection.prepareStatement(" INSERT INTO ListaGeneri (genere,canzone) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
+            uLista = connection.prepareStatement("UPDATE ListaGeneri SET genere = ?, canzone = ? WHERE id = ?");
             dLista = connection.prepareStatement("DELETE FROM ListaGeneri WHERE id = ?");
         } catch (SQLException ex) {
             throw new DataException("Errore nell'inizializzazione del DataLayer", ex);
@@ -69,7 +69,6 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
             listaGenere.setKey(rs.getInt("id"));
             listaGenere.setGenereKey(rs.getInt("genere"));
             listaGenere.setCanzoneKey(rs.getInt("canzone"));
-
         } catch (SQLException ex) {
             throw new DataException("Errore", ex);
         }
@@ -144,18 +143,17 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
                 }
 
                 // update
-
                 uLista.setInt(1, listaGeneri.getGenere().getKey());
                 uLista.setInt(2, listaGeneri.getCanzone().getKey());
+                uLista.setInt(3, listaGeneri.getKey());
 
                 if (uLista.executeUpdate() == 0) {
                     throw new OptimisticLockException(listaGeneri);
                 }
             } else {
                 // insert
-                uLista.setInt(1, listaGeneri.getGenere().getKey());
-                uLista.setInt(2, listaGeneri.getCanzone().getKey());
-
+                iLista.setInt(1, listaGeneri.getGenere().getKey());
+                iLista.setInt(2, listaGeneri.getCanzone().getKey());
 
                 if (iLista.executeUpdate() == 1) {
                     // get della chiave generata
@@ -175,7 +173,7 @@ public class ListaGeneriDAO_MySQL extends DAO implements ListaGeneriDAO {
                 ((DataItemProxy) listaGeneri).setModified(false);
             }
         } catch (SQLException | OptimisticLockException ex) {
-            throw new DataException("Impossibile salvare la GENERE", ex);
+            throw new DataException("Impossibile salvare la ListaGeneri", ex);
         }
     }
 

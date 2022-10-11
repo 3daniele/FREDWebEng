@@ -31,7 +31,7 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
             sArtistaByID = connection.prepareStatement("SELECT * FROM Artista WHERE id = ?");
-            sArtisti = connection.prepareStatement("SELECT * FROM Artista");
+            sArtisti = connection.prepareStatement("SELECT * FROM Artista ORDER BY nomeDArte");
             iArtista = connection.prepareStatement("INSERT INTO Artista (nome, cognome, nomeDArte) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uArtista = connection.prepareStatement("UPDATE Artista SET nome = ?, cognome = ?, nomeDArte = ? WHERE id = ?");
             dArtista = connection.prepareStatement("DELETE FROM Artista WHERE id = ?");

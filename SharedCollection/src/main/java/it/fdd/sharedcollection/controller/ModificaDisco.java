@@ -52,8 +52,12 @@ public class ModificaDisco extends SharedCollectionBaseController {
             } else {
                 if (request.getParameter("updateDisco") != null) {
                     action_modifica(request, response);
-                } else if(request.getParameter("updateBrano") != null){
-                    action_updateBrano(request,response);
+                } else if (request.getParameter("updateBrano") != null) {
+                    action_updateBrano(request, response);
+                } else if (request.getParameter("deleteBrano") != null) {
+                    action_deleteBrano(request, response);
+                } else if (request.getParameter("newBrano") != null) {
+                    action_newBrano(request, response);
                 } else {
                     action_immagini(request, response);
                 }
@@ -242,7 +246,7 @@ public class ModificaDisco extends SharedCollectionBaseController {
             PrintWriter out = response.getWriter();
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Uno o più file superano le dimesioni consetite");
+            request.setAttribute("error", "Uno o più file superano le dimesioni consentite");
             action_default(request, response);
         }
 
@@ -273,12 +277,10 @@ public class ModificaDisco extends SharedCollectionBaseController {
         int canzoneID = Integer.parseInt(request.getParameter("canzoneID"));
 
         Time durata = Time.valueOf("00:" + durata_);
-        List<Integer> generiID = null;
-        List<Integer> artistiID = null;
+        List<Integer> generiID = new ArrayList<>();
+        List<Integer> artistiID = new ArrayList<>();
 
-        System.out.println(generi);
-        System.out.println(artisti);
-        /*
+
         for (String genere : generi) {
             generiID.add(Integer.parseInt(genere));
         }
@@ -286,7 +288,6 @@ public class ModificaDisco extends SharedCollectionBaseController {
         for (String artista : artisti) {
             artistiID.add(Integer.parseInt(artista));
         }
-         */
 
         // update canzone
         Canzone canzone = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCanzoneDAO().getCanzone(canzoneID);
@@ -294,7 +295,7 @@ public class ModificaDisco extends SharedCollectionBaseController {
         canzone.setDurata(durata);
         ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCanzoneDAO().storeCanzone(canzone);
 
-        /*
+
         // eliminazione listaGeneri
         List<ListaGeneri> listaGeneri = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaGeneriDAO().getListaGeneriByCanzone(canzoneID);
         for (ListaGeneri lista_generi : listaGeneri) {
@@ -323,9 +324,18 @@ public class ModificaDisco extends SharedCollectionBaseController {
             listaArtista.setRuolo("Entrambi");
             ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaArtistiDAO().storeListaArtisti(listaArtista);
         }
-         */
 
         response.sendRedirect("modificaDisco?numero=" + disco_key + "&collezione=" + collezione_key + "&formato=" + formato);
+    }
+
+    private void action_deleteBrano(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+        ListaBrani brano = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaBraniDAO().getListaBrani(Integer.parseInt(request.getParameter("branoID")));
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaBraniDAO().deleteListaBrani(brano);
+        response.sendRedirect("modificaDisco?numero=" + disco_key + "&collezione=" + collezione_key + "&formato=" + formato);
+    }
+
+    private void action_newBrano(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException{
+        ;
     }
 
 }
