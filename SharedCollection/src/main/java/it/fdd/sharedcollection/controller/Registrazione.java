@@ -10,7 +10,7 @@ import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.impl.UtenteImpl;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.utility.UtilityMethods;
-import it.fdd.sharedcollection.utility.BCrypt;
+import it.fdd.sharedcollection.data.utility.BCrypt;
 
 
 import javax.servlet.ServletException;

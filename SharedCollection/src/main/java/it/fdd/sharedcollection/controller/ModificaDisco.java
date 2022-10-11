@@ -13,9 +13,7 @@ import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
-import it.fdd.sharedcollection.data.impl.DiscoImpl;
-import it.fdd.sharedcollection.data.impl.ListaArtistiImpl;
-import it.fdd.sharedcollection.data.impl.ListaGeneriImpl;
+import it.fdd.sharedcollection.data.impl.*;
 import it.fdd.sharedcollection.data.model.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -73,9 +71,7 @@ public class ModificaDisco extends SharedCollectionBaseController {
     }
 
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
-        if (request.getAttribute("exception") != null) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-        } else {
+        if (request.getAttribute("message") != null) {
             (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
         }
     }
@@ -334,8 +330,97 @@ public class ModificaDisco extends SharedCollectionBaseController {
         response.sendRedirect("modificaDisco?numero=" + disco_key + "&collezione=" + collezione_key + "&formato=" + formato);
     }
 
-    private void action_newBrano(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException{
-        ;
+    private void action_newBrano(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+
+        String nome = request.getParameter("nome");
+        String durata_ = request.getParameter("durata");
+        String[] generi = request.getParameterValues("selectGeneri");
+
+        int[] artista = new int[4];
+        artista[0] = Integer.parseInt(request.getParameter("selectArtisti1"));
+        artista[1] = Integer.parseInt(request.getParameter("selectArtisti2"));
+        artista[2] = Integer.parseInt(request.getParameter("selectArtisti3"));
+        artista[3] = Integer.parseInt(request.getParameter("selectArtisti4"));
+        String[] ruolo = new String[4];
+        ruolo[0] = request.getParameter("ruolo1");
+        ruolo[1] = request.getParameter("ruolo2");
+        ruolo[2] = request.getParameter("ruolo3");
+        ruolo[3] = request.getParameter("ruolo4");
+
+        if (durata_.isEmpty()) {
+            request.setAttribute("message", "Dati inseriti non validi!");
+            action_error(request, response);
+        }
+        Time durata = Time.valueOf("00:" + durata_);
+
+        if (generi == null) {
+            request.setAttribute("message", "Dati inseriti non validi!");
+            action_error(request, response);
+        }
+        List<Integer> generiID = new ArrayList<>();
+        for (String genere : generi) {
+            generiID.add(Integer.parseInt(genere));
+        }
+
+        if (nome.isEmpty()) {
+            request.setAttribute("message", "Dati inseriti non validi!");
+            action_error(request, response);
+        }
+        // aggiunta nuovo brano
+        Canzone canzone = new CanzoneImpl();
+        canzone.setNome(nome);
+        canzone.setDurata(durata);
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCanzoneDAO().storeCanzone(canzone);
+
+        // istanza completa del brano appena creato
+        Canzone nuova_canzone = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCanzoneDAO().getLast();
+
+        if (generiID.isEmpty() || nuova_canzone == null) {
+            request.setAttribute("message", "Dati inseriti non validi!");
+            action_error(request, response);
+        }
+        // aggiunta dei generi in listaGeneri
+        for (Integer id : generiID) {
+            ListaGeneri listaGeneri = new ListaGeneriImpl();
+            listaGeneri.setCanzone(nuova_canzone);
+            listaGeneri.setGenere(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getGenereDAO().getGenere(id));
+            ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaGeneriDAO().storeListaGeneri(listaGeneri);
+        }
+
+        if (nuova_canzone == null) {
+            request.setAttribute("message", "Dati inseriti non validi!");
+            action_error(request, response);
+        }
+        // aggiunta in listaBrani del disco
+        ListaBrani listaBrani = new ListaBraniImpl();
+        listaBrani.setCanzone(nuova_canzone);
+        listaBrani.setDisco(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key));
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaBraniDAO().storeListaBrani(listaBrani);
+
+        for (int i = 0; i < 4; i++) {
+            if (artista[i] == 0 || ruolo[i].isEmpty()) {
+                if (i == 0) {
+                    request.setAttribute("message", "Dati inseriti non validi!");
+                    action_error(request, response);
+                }
+            } else {
+                List<ListaArtisti> lista = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaArtistiDAO().getListaArtistiByCanzone(nuova_canzone.getKey());
+                for (ListaArtisti a : lista) {
+                    if (a.getArtista().getKey() == artista[i]) {
+                        request.setAttribute("message", "Artista già presente!");
+                        action_error(request, response);
+                    }
+                }
+                // aggiunta in listaArtisti1
+                ListaArtisti listaArtisti = new ListaArtistiImpl();
+                listaArtisti.setArtista(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtista(artista[i]));
+                listaArtisti.setCanzone(nuova_canzone);
+                listaArtisti.setRuolo(ruolo[i]);
+                ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaArtistiDAO().storeListaArtisti(listaArtisti);
+            }
+        }
+
+        response.sendRedirect("modificaDisco?numero=" + disco_key + "&collezione=" + collezione_key + "&formato=" + formato);
     }
 
 }

@@ -11,6 +11,8 @@ public interface ArtistaDAO {
 
     Artista getArtista(int artista_key) throws DataException;
 
+    Artista getArtista(String nomeArte) throws DataException;
+
     List<Artista> getArtisti() throws DataException;
 
     void storeArtista(Artista artista) throws DataException;

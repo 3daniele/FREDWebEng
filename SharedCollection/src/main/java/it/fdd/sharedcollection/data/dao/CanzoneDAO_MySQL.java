@@ -20,6 +20,7 @@ public class CanzoneDAO_MySQL extends DAO implements CanzoneDAO {
     private PreparedStatement sCanzoneByID;
     private PreparedStatement sCanzoni;
     private PreparedStatement iCanzone, uCanzone, dCanzone;
+    private PreparedStatement lCanzone;
 
     public CanzoneDAO_MySQL(DataLayer d) {
         super(d);
@@ -35,6 +36,7 @@ public class CanzoneDAO_MySQL extends DAO implements CanzoneDAO {
             iCanzone = connection.prepareStatement("INSERT INTO Canzone (nome, durata) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             uCanzone = connection.prepareStatement("UPDATE Canzone SET nome = ?, durata = ? WHERE id = ?");
             dCanzone = connection.prepareStatement("DELETE FROM Canzone WHERE id = ?");
+            lCanzone = connection.prepareStatement("SELECT * FROM Canzone ORDER BY id DESC LIMIT 1");
         } catch (SQLException ex) {
             throw new DataException("Errore nell'inizializzazione del DataLayer", ex);
         }
@@ -49,6 +51,7 @@ public class CanzoneDAO_MySQL extends DAO implements CanzoneDAO {
             iCanzone.close();
             uCanzone.close();
             dCanzone.close();
+            lCanzone.close();
         } catch (SQLException ex) {
             //
         }
@@ -95,6 +98,24 @@ public class CanzoneDAO_MySQL extends DAO implements CanzoneDAO {
             } catch (SQLException ex) {
                 throw new DataException("Impossibile caricare canzone dall'ID", ex);
             }
+        }
+        return canzone;
+    }
+
+    @Override
+    public Canzone getLast() throws DataException{
+        Canzone canzone = null;
+
+        try {
+            try (ResultSet rs = lCanzone.executeQuery()) {
+                if (rs.next()) {
+                    canzone = createCanzone(rs);
+                    // aggiunta nella cache
+                    dataLayer.getCache().add(Canzone.class, canzone);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare l'ultima canzone", ex);
         }
         return canzone;
     }

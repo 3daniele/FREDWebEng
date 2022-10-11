@@ -403,19 +403,14 @@
                             <label class="form-label">
                                 <h5>Artisti</h5>
                             </label>
-                            <select class="selectpicker mb-3" data-live-search="true"
-                                    id="selectArtisti1" name="selectArtisti1">
-                                <option selected>Seleziona l'artista</option>
-                                <#list lista_artisti as artista>
-                                    <option value="${artista.key}"
-                                            id="${artista.key}">${artista.nomeArte}
-                                    </option>
-                                </#list>
+                            <select class="selectpicker mb-3" data-live-search="true" disabled>
+                                <option value="${disco.artista.key}" selected>${disco.artista.nomeArte}</option>
+                                <input type="hidden" value="${disco.artista.key}" name="selectArtisti1"/>
                             </select>
                             <br>
                             <select class="selectpicker mb-3" data-live-search="true"
                                     id="selectArtisti2" name="selectArtisti2">
-                                <option selected>Seleziona l'artista</option>
+                                <option value="0" selected>Seleziona l'artista</option>
                                 <#list lista_artisti as artista>
                                     <option value="${artista.key}"
                                             id="${artista.key}">${artista.nomeArte}
@@ -425,7 +420,7 @@
                             <br>
                             <select class="selectpicker mb-3" data-live-search="true"
                                     id="selectArtisti3" name="selectArtisti3">
-                                <option selected>Seleziona l'artista</option>
+                                <option value="0" selected>Seleziona l'artista</option>
                                 <#list lista_artisti as artista>
                                     <option value="${artista.key}"
                                             id="${artista.key}">${artista.nomeArte}
@@ -435,7 +430,7 @@
                             <br>
                             <select class="selectpicker mb-3" data-live-search="true"
                                     id="selectArtisti4" name="selectArtisti4">
-                                <option selected>Seleziona l'artista</option>
+                                <option value="0" selected>Seleziona l'artista</option>
                                 <#list lista_artisti as artista>
                                     <option value="${artista.key}"
                                             id="${artista.key}">${artista.nomeArte}
@@ -447,41 +442,40 @@
                             <label class="form-label">
                                 <h5>Ruolo</h5>
                             </label>
-                            <select class="selectpicker mb-3" aria-label="Default select example"
-                                    id="ruolo1" name="ruolo1">
-                                <option selected>Seleziona il ruolo per l'artista</option>
-                                <option>Compositore</option>
-                                <option>Musicista</option>
-                                <option>Entrambi</option>
+                            <select class="selectpicker mb-3" aria-label="Default select example" disabled>
+                                <option value="Entrambi" selected>Entrambi</option>
+                                <input type="hidden" value="Entrambi" name="ruolo1"/>
                             </select>
                             <br>
                             <select class="selectpicker mb-3" aria-label="Default select example"
                                     id="ruolo2" name="ruolo2">
-                                <option selected>Seleziona il ruolo per l'artista</option>
-                                <option>Compositore</option>
-                                <option>Musicista</option>
-                                <option>Entrambi</option>
+                                <option value="" selected>Seleziona il ruolo per l'artista</option>
+                                <option value="Compositore">Compositore</option>
+                                <option value="Musicista">Musicista</option>
+                                <option value="Entrambi">Entrambi</option>
                             </select>
                             <br>
                             <select class="selectpicker mb-3" aria-label="Default select example"
                                     id="ruolo3" name="ruolo3">
-                                <option selected>Seleziona il ruolo per l'artista</option>
-                                <option>Compositore</option>
-                                <option>Musicista</option>
-                                <option>Entrambi</option>
+                                <option value="" selected>Seleziona il ruolo per l'artista</option>
+                                <option value="Compositore">Compositore</option>
+                                <option value="Musicista">Musicista</option>
+                                <option value="Entrambi">Entrambi</option>
                             </select>
                             <br>
                             <select class="selectpicker mb-3" aria-label="Default select example"
                                     id="ruolo4" name="ruolo4">
-                                <option selected>Seleziona il ruolo per l'artista</option>
-                                <option>Compositore</option>
-                                <option>Musicista</option>
-                                <option>Entrambi</option>
+                                <option value="" selected>Seleziona il ruolo per l'artista</option>
+                                <option value="Compositore">Compositore</option>
+                                <option value="Musicista">Musicista</option>
+                                <option value="Entrambi">Entrambi</option>
                             </select>
                         </div>
                         <div class="form-text">
                             Seleziona gli artisti da aggiungere al brano.<br>
-                            Non hai trovato il tuo artista? <a href="newArtista">clicca qui per aggiungerlo</a>
+                            Non hai trovato il tuo artista? <a
+                                    href="newArtista?n=${disco.key}&c=${collezione.key}&f=${infoDisco.formato}">clicca
+                                qui per aggiungerlo</a>
                         </div>
                     </div>
                 </div>
@@ -609,7 +603,9 @@
                                 </select>
                                 <div class="form-text">
                                     Seleziona gli artisti da aggiungere al brano.<br>
-                                    Non hai trovato il tuo artista? <a href="newArtista">clicca qui per aggiungerlo</a>
+                                    Non hai trovato il tuo artista? <a
+                                            href="newArtista?n=${disco.key}&c=${collezione.key}&f=${infoDisco.formato}">clicca
+                                        qui per aggiungerlo</a>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-package it.fdd.sharedcollection.utility;
+package it.fdd.sharedcollection.data.utility;
 
 import java.io.UnsupportedEncodingException;
 

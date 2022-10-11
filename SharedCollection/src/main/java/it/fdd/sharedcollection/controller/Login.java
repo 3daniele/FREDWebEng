@@ -8,6 +8,7 @@ import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
 import it.fdd.sharedcollection.data.model.Utente;
+import it.fdd.sharedcollection.data.utility.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +66,7 @@ public class Login extends SharedCollectionBaseController {
                     request.setAttribute("email", email);
                     action_default(request, response);
                 }
-                if (it.fdd.sharedcollection.utility.BCrypt.checkpw(password, my_pass)) {
+                if (BCrypt.checkpw(password, my_pass)) {
 
                     try {
                         utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(email);

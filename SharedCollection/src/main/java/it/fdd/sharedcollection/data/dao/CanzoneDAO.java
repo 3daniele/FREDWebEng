@@ -11,6 +11,8 @@ public interface CanzoneDAO {
 
     Canzone getCanzone(int canzone_key) throws DataException;
 
+    Canzone getLast() throws DataException;
+
     List<Canzone> getCanzoni() throws DataException;
 
     void storeCanzone(Canzone canzone) throws DataException;

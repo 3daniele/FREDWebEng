@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
 
-    private PreparedStatement sArtistaByID;
+    private PreparedStatement sArtistaByID, sArtistaByNomeArte;
     private PreparedStatement sArtisti;
     private PreparedStatement iArtista, uArtista, dArtista;
 
@@ -31,6 +31,7 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
             sArtistaByID = connection.prepareStatement("SELECT * FROM Artista WHERE id = ?");
+            sArtistaByNomeArte = connection.prepareStatement("SELECT * FROM Artista WHERE nomeDArte = ?");
             sArtisti = connection.prepareStatement("SELECT * FROM Artista ORDER BY nomeDArte");
             iArtista = connection.prepareStatement("INSERT INTO Artista (nome, cognome, nomeDArte) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uArtista = connection.prepareStatement("UPDATE Artista SET nome = ?, cognome = ?, nomeDArte = ? WHERE id = ?");
@@ -45,6 +46,7 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
     public void destroy() throws DataException {
         try {
             sArtistaByID.close();
+            sArtistaByNomeArte.close();
             sArtisti.close();
             iArtista.close();
             uArtista.close();
@@ -101,6 +103,32 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
     }
 
     @Override
+    public Artista getArtista(String nomeArte) throws DataException {
+
+        Artista artista = null;
+
+        // controllo se l'oggetto è presente nella cache
+        if (dataLayer.getCache().has(Artista.class, nomeArte)) {
+            artista = dataLayer.getCache().get(Artista.class, nomeArte);
+        } else {
+            // altrimenti caricamento dal database
+            try {
+                sArtistaByNomeArte.setString(1, nomeArte);
+                try (ResultSet rs = sArtistaByNomeArte.executeQuery()) {
+                    if (rs.next()) {
+                        artista = createArtista(rs);
+                        // aggiunta nella cache
+                        dataLayer.getCache().add(Artista.class, artista);
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("Impossibile caricare artista dal nome d'arte", ex);
+            }
+        }
+        return artista;
+    }
+
+    @Override
     public List<Artista> getArtisti() throws DataException {
 
         List<Artista> result = new ArrayList<>();
@@ -130,6 +158,7 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
                 uArtista.setString(1, artista.getNome());
                 uArtista.setString(2, artista.getCognome());
                 uArtista.setString(3, artista.getNomeArte());
+                uArtista.setInt(4, artista.getKey());
 
                 if (uArtista.executeUpdate() == 0) {
                     throw new OptimisticLockException(artista);

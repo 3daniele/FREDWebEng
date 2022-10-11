@@ -35,7 +35,7 @@ public class UtilityMethods {
             writer.newLine();
             writer.write(emailText);
 
-            String verification_code = it.fdd.sharedcollection.utility.BCrypt.hashpw(me.getEmail(), it.fdd.sharedcollection.utility.BCrypt.gensalt());
+            String verification_code = BCrypt.hashpw(me.getEmail(), BCrypt.gensalt());
             String refer_code = SecurityLayer.encrypt(me.getEmail(), SecurityLayer.getStaticEncrypyionKey());
             writer.newLine();
 

@@ -56,16 +56,20 @@
                                 <a href="collezione?numero=${collezione.key}"
                                    class="btn btn-success">
                                     <img src="images/templateimg/imgFont/arrow-up.svg"
-                                         alt="Bootstrap" width="24" height="24" ></a>
+                                         alt="Bootstrap" width="24" height="24"></a>
 
 
                             </noscript>
                             <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-secondary"
-                               role="button"><img src="images/templateimg/imgFont/pencil-fill.svg" alt="Bootstrap"
-                                                  width="24" height="24" class="text-light" fill="currentColor"></a>
-                            <button type="submit" class="btn btn-danger"><img
-                                        src="images/templateimg/imgFont/trash3-fill.svg" alt="elimina" width="24"
-                                        height="24"></button>
+                               role="button">
+                                <img src="images/templateimg/imgFont/pencil-fill.svg" alt="modifica"
+                                     width="24" height="24" class="text-light" fill="currentColor">
+                            </a>
+                            <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-danger"
+                               role="button">
+                                <img src="images/templateimg/imgFont/trash3-fill.svg" alt="elimina"
+                                     width="24" height="24">
+                            </a>
                         </td>
                     </tr>
                 </#list>
