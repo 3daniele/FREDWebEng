@@ -22,5 +22,7 @@ public interface CollezioneDAO {
 
     Collezione getLast() throws DataException;
 
+    void deleteCollezione(Collezione collezione) throws DataException;
+
     void storeCollezione(Collezione collezione) throws DataException;
 }

@@ -1,6 +1,7 @@
 package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.DataException;
+import it.fdd.sharedcollection.data.model.Collezione;
 import it.fdd.sharedcollection.data.model.ListaDischi;
 
 import java.util.List;

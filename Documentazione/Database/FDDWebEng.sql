@@ -174,7 +174,13 @@ INSERT INTO `Artista` (`id`, `nome`, `cognome`, `nomeDArte`) VALUES
 (5, 'Achille', 'Lauro', 'Achille Lauro'),
 (6, 'Alessandra ', 'Amoroso', 'Alessandra Amoroso'),
 (7, 'Biagio', 'Antonacci', 'Biagio Antonacci'),
-(8, 'Federico', 'Lucia', 'Fedez');
+(8, 'Federico', 'Lucia', 'Fedez'),
+(9, 'Gianna ', 'Nannini', 'Gianna Nannini'),
+(10, 'Stefano', 'Belisari', 'Elio e le Storie Tese '),
+(11, 'Francesca', 'Michielin', 'Francesca Michielin'),
+(12, 'Alessandro', 'Aleotti', 'J-Ax'),
+(13, 'Dargen', 'D\'Amico', 'Dargen D\'Amico'),
+(14, 'Cosimo', 'Fini', 'Gue Pequeno');
 
 INSERT INTO `Canzone` (`id`, `nome`, `durata`) VALUES
 (1, 'caccia militare', '00:03:11'),
@@ -214,7 +220,20 @@ INSERT INTO `Canzone` (`id`, `nome`, `durata`) VALUES
 (35, 'Il peso della valigia', '00:04:38'),
 (36, 'Taca banda', '00:02:30'),
 (37, 'Quando mi vieni a prendere', '00:07:05'),
-(38, 'Il meglio deve ancora venire', '00:04:20');
+(38, 'Il meglio deve ancora venire', '00:04:20'),
+(39, 'Nuvole di fango', '07:03:06'),
+(40, 'Cambia', '07:03:20'),
+(41, 'Questa vita', '07:03:06'),
+(42, 'Si scrive schiavitÃ¹ ma si legge libertÃ ', '07:03:10'),
+(43, 'Polaroid', '07:03:17'),
+(44, 'Alfonso signorini', '07:03:13'),
+(45, 'Cigno nero', '07:03:21'),
+(46, 'SignorsÃ¬', '07:03:20'),
+(47, 'Non ci pensi mai', '07:03:44'),
+(48, 'Sembra semplice', '07:03:54'),
+(49, 'Pensavo fossa amore e invece...', '07:04:23'),
+(50, 'Nel mio piccolo', '07:03:32'),
+(51, 'Mentine', '07:03:15');
 
 INSERT INTO `Collezione` (`id`, `nome`, `condivisione`, `dataDiCreazione`, `utente`) VALUES
 (1, 'Il meglio di Rovere', 'pubblica', '2022-08-12 09:04:05', 1),
@@ -229,7 +248,8 @@ INSERT INTO `Disco` (`id`, `nome`, `etichetta`, `anno`, `artista`, `creatore`) V
 (4, 'Giovani Wannabe', 'Sony Music', '2022-06-15', 3, 2),
 (5, 'Arrivederci mostro', 'Warner music', '2011-05-10', 2, 2),
 (6, 'Sottaqua', 'Sony Music', '2022-10-03', 1, 1),
-(7, 'Nuovo!', 'Sony music', '2022-10-12', 3, 1);
+(7, 'Nuovo!', 'Sony music', '2022-10-12', 3, 1),
+(8, 'Sig. Brainwash', 'Diamond Record', '2013-01-18', 8, 1);
 
 INSERT INTO `Genere` (`id`, `nome`) VALUES
 (1, 'acoustic'),
@@ -400,7 +420,25 @@ INSERT INTO `ListaArtisti` (`id`, `artista`, `canzone`, `ruolo`) VALUES
 (40, 4, 37, 'Musicista'),
 (41, 2, 32, 'Entrambi'),
 (42, 3, 32, 'Entrambi'),
-(43, 3, 26, 'Entrambi');
+(43, 3, 26, 'Entrambi'),
+(44, 8, 39, 'Entrambi'),
+(45, 9, 39, 'Entrambi'),
+(46, 8, 40, 'Entrambi'),
+(47, 8, 41, 'Entrambi'),
+(48, 8, 42, 'Entrambi'),
+(49, 8, 43, 'Entrambi'),
+(50, 8, 44, 'Entrambi'),
+(51, 10, 44, 'Entrambi'),
+(52, 8, 45, 'Entrambi'),
+(53, 11, 45, 'Entrambi'),
+(54, 8, 46, 'Entrambi'),
+(55, 8, 47, 'Entrambi'),
+(56, 8, 48, 'Entrambi'),
+(57, 12, 48, 'Entrambi'),
+(58, 8, 49, 'Entrambi'),
+(59, 14, 49, 'Entrambi'),
+(60, 8, 50, 'Entrambi'),
+(61, 8, 51, 'Entrambi');
 
 INSERT INTO `ListaBrani` (`id`, `disco`, `canzone`) VALUES
 (1, 1, 1),
@@ -440,7 +478,20 @@ INSERT INTO `ListaBrani` (`id`, `disco`, `canzone`) VALUES
 (35, 5, 35),
 (36, 5, 36),
 (37, 5, 37),
-(38, 5, 38);
+(38, 5, 38),
+(39, 8, 39),
+(40, 8, 40),
+(41, 8, 41),
+(42, 8, 42),
+(43, 8, 43),
+(44, 8, 44),
+(45, 8, 45),
+(46, 8, 46),
+(47, 8, 47),
+(48, 8, 48),
+(49, 8, 49),
+(50, 8, 50),
+(51, 8, 51);
 
 INSERT INTO `ListaDischi` (`id`, `collezione`, `disco`, `numeroCopie`, `Stato`, `formato`, `barcode`, `imgCopertina`, `imgFronte`, `imgRetro`, `imgLibretto`) VALUES
 (1, 1, 2, 5, 'Ottimo', 'Vinile', '0213456789', 'images/upload-img/1/91iHBQuDJ-L._AC_SY450_.jpg', NULL, NULL, NULL),
@@ -452,7 +503,8 @@ INSERT INTO `ListaDischi` (`id`, `collezione`, `disco`, `numeroCopie`, `Stato`, 
 (7, 2, 4, 1, 'Sufficiente', 'Vinile', NULL, 'images/upload-img/2/maxresdefault.jpg', NULL, NULL, NULL),
 (8, 4, 3, 1, 'Ottimo', 'Digitale', NULL, 'images/upload-img/4/hqdefault.jpg', NULL, NULL, NULL),
 (9, 4, 4, 1, 'Ottimo', 'Digitale', NULL, 'images/upload-img/4/102108393-6e304f53-db11-4bb7-b10b-31874facef80.jpg', NULL, NULL, NULL),
-(10, 4, 5, 1, 'Ottimo', 'Vinile', NULL, 'images/upload-img/4/51f2020w9rL._AC_SX466_-2.jpg', NULL, NULL, NULL);
+(10, 4, 5, 1, 'Ottimo', 'Vinile', NULL, 'images/upload-img/4/51f2020w9rL._AC_SX466_-2.jpg', NULL, NULL, NULL),
+(11, 1, 8, 4, 'Buono', 'CD', '', 'images/upload-img/1/71kvtKk7htL._AC_SL1500_.jpg', '', '', '');
 
 INSERT INTO `ListaGeneri` (`id`, `canzone`, `genere`) VALUES
 (1, 1, 60),
@@ -496,7 +548,21 @@ INSERT INTO `ListaGeneri` (`id`, `canzone`, `genere`) VALUES
 (41, 30, 15),
 (43, 32, 5),
 (44, 32, 100),
-(46, 26, 60);
+(46, 26, 60),
+(47, 39, 87),
+(48, 40, 87),
+(49, 41, 87),
+(50, 42, 87),
+(51, 43, 87),
+(52, 44, 87),
+(53, 45, 87),
+(54, 46, 87),
+(55, 47, 87),
+(56, 48, 53),
+(57, 48, 87),
+(58, 49, 87),
+(59, 50, 87),
+(60, 51, 87);
 
 INSERT INTO `Utente` (`id`, `nickname`, `email`, `password`, `nome`, `cognome`, `token`, `link`) VALUES
 (1, 'user', 'utente@utente.it', '$2a$12$bvRMGZxAa0r4mW/8yCH1HOq9kfuNYWLjlBwc5SR/beauhTV4P5zz2', 'Utente', 'Utente', 1, NULL),
@@ -532,6 +598,12 @@ ALTER TABLE `UtentiAutorizzati`
   ADD CONSTRAINT `utentiautorizzati_ibfk_1` FOREIGN KEY (`collezione`) REFERENCES `Collezione` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `utentiautorizzati_ibfk_2` FOREIGN KEY (`utente`) REFERENCES `Utente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
+
+/* ----- View ----- */
+CREATE VIEW ricercaTable AS
+SELECT Collezione.id AS collezioneId, Collezione.nome AS nomeCollezione, Collezione.condivisione AS condivisione, Utente.id AS utenteId, Utente.nickname as username, Disco.nome as nomeDisco, Disco.anno AS annoDisco, Disco.id AS discoId, ListaDischi.numeroCopie AS numeroCopie, ListaDischi.Stato AS statoDisco, ListaDischi.formato AS formatoDisco, ListaDischi.barcode AS barcode, ListaDischi.imgCopertina as imgCopertina, Canzone.nome as nomeCanzone, Canzone.id AS canzoneId, Canzone.durata AS durata, Artista.id as artistaId, Artista.nomeDArte as nomeDArte, Genere.id as genereId, Genere.nome as nomeGenere
+FROM Artista, ListaGeneri, Genere, Canzone, Utente, ListaArtisti, Collezione, Disco, ListaBrani, ListaDischi
+WHERE ((Collezione.utente = Utente.id)AND(Collezione.id = ListaDischi.collezione)AND(ListaDischi.disco = Disco.id)AND(Disco.id = ListaBrani.disco)AND(ListaBrani.canzone = Canzone.id)AND(ListaGeneri.canzone=Canzone.id)AND(ListaGeneri.genere=Genere.id)AND(Canzone.id=ListaArtisti.canzone)AND(ListaArtisti.artista=Artista.id));
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

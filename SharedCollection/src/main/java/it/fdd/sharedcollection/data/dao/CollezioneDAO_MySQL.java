@@ -2,6 +2,7 @@ package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.*;
 import it.fdd.sharedcollection.data.model.Collezione;
+import it.fdd.sharedcollection.data.model.ListaDischi;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
 import it.fdd.sharedcollection.data.proxy.CollezioneProxy;
@@ -178,6 +179,16 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             throw new DataException("Unable to load Collezioni", ex);
         }
         return result;
+    }
+
+    @Override
+    public void deleteCollezione(Collezione collezione) throws DataException {
+        try {
+            dCollezione.setInt(1, collezione.getKey());
+            dCollezione.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile eliminare l'oggetto ListaDischi", ex);
+        }
     }
 
     @Override

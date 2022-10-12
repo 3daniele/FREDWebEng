@@ -7,6 +7,7 @@ import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
+import it.fdd.sharedcollection.data.model.Collezione;
 import it.fdd.sharedcollection.data.model.ListaDischi;
 import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
 
@@ -64,15 +65,31 @@ public class Collezioni extends SharedCollectionBaseController {
         request.setAttribute("page_title", "Collezioni");
 
         try {
-            action_default(request, response);
+            if (request.getParameter("eliminaCollezione") != null) {
+                action_eliminaCollezione(request, response);
+            } else {
+                action_default(request, response);
+            }
         } catch (NumberFormatException ex) {
             request.setAttribute("message", "Invalid number submitted");
             action_error(request, response);
         } catch (IOException | TemplateManagerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
+        }catch (DataException ex) {
+            request.setAttribute("exception", ex);
+            action_error(request, response);
         }
     }
+
+    private void action_eliminaCollezione(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
+        Integer collezioneid = Integer.parseInt(request.getParameter("collezioneID"));
+        Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezioneid);
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().deleteCollezione(collezione);
+
+        response.sendRedirect("collezioni");
+    }
+
 
     /**
      * Returns a short description of the servlet.

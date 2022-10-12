@@ -47,29 +47,33 @@
                         <td>${strip_slashes(collezione.utente.nickname)}&nbsp</td>
                         <td>${strip_slashes(collezione.dataCreazione)}&nbsp</td>
                         <td>
-                            <noscript>
-                                <style type="text/css">
-                                    .pagecontainer {
-                                        display: none;
-                                    }
-                                </style>
-                                <a href="collezione?numero=${collezione.key}"
-                                   class="btn btn-success">
-                                    <img src="images/templateimg/imgFont/arrow-up.svg"
-                                         alt="Bootstrap" width="24" height="24"></a>
+                            <form action="collezioni" method="post">
+                                <noscript>
+                                    <style type="text/css">
+                                        .pagecontainer {
+                                            display: none;
+                                        }
+                                    </style>
+                                    <a href="collezione?numero=${collezione.key}"
+                                       class="btn btn-success">
+                                        <img src="images/templateimg/imgFont/arrow-up.svg"
+                                             alt="Bootstrap" width="24" height="24"></a>
 
 
-                            </noscript>
-                            <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-secondary"
-                               role="button">
-                                <img src="images/templateimg/imgFont/pencil-fill.svg" alt="modifica"
-                                     width="24" height="24" class="text-light" fill="currentColor">
-                            </a>
-                            <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-danger"
-                               role="button">
-                                <img src="images/templateimg/imgFont/trash3-fill.svg" alt="elimina"
-                                     width="24" height="24">
-                            </a>
+                                </noscript>
+                                <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-secondary"
+                                   role="button">
+                                    <img src="images/templateimg/imgFont/pencil-fill.svg" alt="modifica"
+                                         width="24" height="24" class="text-light" fill="currentColor">
+                                </a>
+
+                                <input type="hidden" id="collezioneID" name="collezioneID" value="${collezione.key}">
+                                <button type="submit" class="btn btn-danger" id="eliminaCollezione"
+                                        name="eliminaCollezione"><img src="images/templateimg/imgFont/trash3-fill.svg"
+                                                                      alt="modifica"
+                                                                      width="24" height="24" class="text-light"
+                                                                      fill="currentColor"></button>
+                            </form>
                         </td>
                     </tr>
                 </#list>
