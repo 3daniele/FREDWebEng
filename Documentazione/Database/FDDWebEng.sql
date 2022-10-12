@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Sep 28, 2022 at 01:27 PM
--- Server version: 5.7.34
--- PHP Version: 7.4.21
+-- Creato il: Ott 12, 2022 alle 11:00
+-- Versione del server: 5.7.34
+-- Versione PHP: 7.4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,33 +25,16 @@ USE `FDDWebEng`;
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `Artista`
---
+/* ----- CREATE TABLE ----- */
 
 CREATE TABLE IF NOT EXISTS `Artista` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `cognome` varchar(100) NOT NULL,
   `nomeDArte` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `Artista`
---
-
-INSERT INTO `Artista` (`id`, `nome`, `cognome`, `nomeDArte`) VALUES
-(1, 'Nelson', 'Venceslai', 'Rovere'),
-(2, 'Luciano', 'Ligabue', 'Ligabue'),
-(3, 'Riccardo', 'Zanotti', 'Pinguini tattici nucleari'),
-(4, 'Elisa', 'Toffoli', 'Elisa');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Canzone`
---
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nomeDArte` (`nomeDArte`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `Canzone` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -60,9 +43,138 @@ CREATE TABLE IF NOT EXISTS `Canzone` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `Canzone`
---
+CREATE TABLE IF NOT EXISTS `Collezione` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `condivisione` enum('pubblica','privata') NOT NULL DEFAULT 'privata',
+  `dataDiCreazione` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `utente` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `utente` (`utente`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `Disco` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `etichetta` varchar(50) NOT NULL,
+  `anno` date NOT NULL,
+  `artista` int(11) NOT NULL,
+  `creatore` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artista` (`artista`),
+  KEY `creatore` (`creatore`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `Genere` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ListaArtisti` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `artista` int(11) NOT NULL,
+  `canzone` int(11) NOT NULL,
+  `ruolo` enum('Compositore','Musicista','Entrambi') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artista` (`artista`),
+  KEY `canzone` (`canzone`),
+  UNIQUE KEY `artistaP` (`artista`,`canzone`)
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ListaBrani` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `disco` int(11) NOT NULL,
+  `canzone` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `canzone` (`canzone`),
+  KEY `disco` (`disco`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ListaDischi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `collezione` int(11) NOT NULL,
+  `disco` int(11) NOT NULL,
+  `numeroCopie` int(11) NOT NULL,
+  `Stato` enum('Ottimo','Buono','Discreto','Sufficiente','Pessimo') NOT NULL,
+  `formato` enum('Vinile','CD','Digitale','Cassetta','Altro') NOT NULL,
+  `barcode` varchar(11) DEFAULT NULL,
+  `imgCopertina` text,
+  `imgFronte` text,
+  `imgRetro` text,
+  `imgLibretto` text,
+  PRIMARY KEY (`id`),
+  KEY `collezione` (`collezione`),
+  KEY `disco` (`disco`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ListaGeneri` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `canzone` int(11) NOT NULL,
+  `genere` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `canzone` (`canzone`),
+  KEY `genere` (`genere`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `Utente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nickname` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(500) NOT NULL,
+  `nome` varchar(50) DEFAULT NULL,
+  `cognome` varchar(50) DEFAULT NULL,
+  `token` tinyint(1) NOT NULL DEFAULT '0',
+  `link` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nickname` (`nickname`,`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `UtentiAutorizzati` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `collezione` int(11) NOT NULL,
+  `utente` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `collezione` (`collezione`),
+  KEY `utente` (`utente`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+
+/* ----- TRUNCATE TABLE ----- */
+
+TRUNCATE TABLE `Artista`;
+
+TRUNCATE TABLE `Canzone`;
+
+TRUNCATE TABLE `Collezione`;
+
+TRUNCATE TABLE `Disco`;
+
+TRUNCATE TABLE `Genere`;
+
+TRUNCATE TABLE `ListaArtisti`;
+
+TRUNCATE TABLE `ListaBrani`;
+
+TRUNCATE TABLE `ListaDischi`;
+
+TRUNCATE TABLE `ListaGeneri`;
+
+TRUNCATE TABLE `Utente`;
+
+TRUNCATE TABLE `UtentiAutorizzati`;
+
+
+/* ----- INSERT ----- */
+
+INSERT INTO `Artista` (`id`, `nome`, `cognome`, `nomeDArte`) VALUES
+(1, 'Nelson', 'Venceslai', 'Rovere'),
+(2, 'Luciano', 'Ligabue', 'Ligabue'),
+(3, 'Riccardo', 'Zanotti', 'Pinguini tattici nucleari'),
+(4, 'Elisa', 'Toffoli', 'Elisa'),
+(5, 'Achille', 'Lauro', 'Achille Lauro'),
+(6, 'Alessandra ', 'Amoroso', 'Alessandra Amoroso'),
+(7, 'Biagio', 'Antonacci', 'Biagio Antonacci'),
+(8, 'Federico', 'Lucia', 'Fedez');
 
 INSERT INTO `Canzone` (`id`, `nome`, `durata`) VALUES
 (1, 'caccia militare', '00:03:11'),
@@ -90,91 +202,34 @@ INSERT INTO `Canzone` (`id`, `nome`, `durata`) VALUES
 (23, 'crescere', '00:03:46'),
 (24, 'precipitare', '00:05:13'),
 (25, 'Giovani Wannabe', '00:03:33'),
-(26, 'Dentista Croazia', '00:04:23'),
-(27, 'Quando canterai la tua canzone', '00:03:33'),
-(28, 'La linea sottile', '00:04:03'),
+(26, 'Dentista Croazia', '07:04:23'),
+(27, 'Quando canterai la tua canzone', '07:03:33'),
+(28, 'La linea sottile', '07:04:03'),
 (29, 'Nel tempo', '00:03:47'),
 (30, 'Ci sei sempre stata', '00:04:58'),
 (31, 'La verità è una scelta', '00:04:17'),
-(32, 'Caro il mio francesco', '00:05:58'),
+(32, 'Caro il mio francesco', '07:05:58'),
 (33, 'Atto di fede', '00:04:09'),
-(34, 'Un colpo all\'anima', '00:03:22'),
+(34, 'Un colpo all\'anima', '07:03:22'),
 (35, 'Il peso della valigia', '00:04:38'),
 (36, 'Taca banda', '00:02:30'),
 (37, 'Quando mi vieni a prendere', '00:07:05'),
 (38, 'Il meglio deve ancora venire', '00:04:20');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Collezione`
---
-
-CREATE TABLE IF NOT EXISTS `Collezione` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL,
-  `condivisione` enum('pubblica','privata','condivisa') NOT NULL DEFAULT 'privata',
-  `dataDiCreazione` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `utente` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `utente` (`utente`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `Collezione`
---
-
 INSERT INTO `Collezione` (`id`, `nome`, `condivisione`, `dataDiCreazione`, `utente`) VALUES
 (1, 'Il meglio di Rovere', 'pubblica', '2022-08-12 09:04:05', 1),
-(3, 'Nuovi pinguini', 'pubblica', '2022-08-25 14:28:08', 2),
-(8, 'Antonio\'s collection', 'pubblica', '2022-09-07 10:55:43', 3),
-(11, 'My collection', 'privata', '2022-09-17 12:12:13', 3),
-(12, 'Prova', 'privata', '2022-09-27 13:55:52', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Disco`
---
-
-CREATE TABLE IF NOT EXISTS `Disco` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL,
-  `etichetta` varchar(50) NOT NULL,
-  `anno` date NOT NULL,
-  `artista` int(11) NOT NULL,
-  `creatore` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `artista` (`artista`),
-  KEY `creatore` (`creatore`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `Disco`
---
+(2, 'Nuovi pinguini', 'pubblica', '2022-08-25 14:28:08', 2),
+(3, 'Antonio\'s collection', 'pubblica', '2022-09-07 10:55:43', 3),
+(4, 'My collection', 'pubblica', '2022-09-17 12:12:13', 3);
 
 INSERT INTO `Disco` (`id`, `nome`, `etichetta`, `anno`, `artista`, `creatore`) VALUES
 (1, 'Disponibile in mogano', 'Sony Music', '2019-03-29', 1, 2),
 (2, 'Dalla terra a Marte', 'Sony Music', '2022-02-18', 1, 2),
-(3, 'Dentista Croazia', 'Sony Music', '2022-08-24', 3, 2),
+(3, 'Dentista Croazia', 'Sony Music', '2022-08-23', 3, 2),
 (4, 'Giovani Wannabe', 'Sony Music', '2022-06-15', 3, 2),
-(5, 'Arrivederci mostro', 'Warner music', '2011-05-11', 2, 2);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Genere`
---
-
-CREATE TABLE IF NOT EXISTS `Genere` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `Genere`
---
+(5, 'Arrivederci mostro', 'Warner music', '2011-05-10', 2, 2),
+(6, 'Sottaqua', 'Sony Music', '2022-10-03', 1, 1),
+(7, 'Nuovo!', 'Sony music', '2022-10-12', 3, 1);
 
 INSERT INTO `Genere` (`id`, `nome`) VALUES
 (1, 'acoustic'),
@@ -304,26 +359,6 @@ INSERT INTO `Genere` (`id`, `nome`) VALUES
 (125, 'work-out'),
 (126, 'world-music');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ListaArtisti`
---
-
-CREATE TABLE IF NOT EXISTS `ListaArtisti` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `artista` int(11) NOT NULL,
-  `canzone` int(11) NOT NULL,
-  `ruolo` enum('Compositore','Musicista','Entrambi') NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `artista` (`artista`),
-  KEY `canzone` (`canzone`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `ListaArtisti`
---
-
 INSERT INTO `ListaArtisti` (`id`, `artista`, `canzone`, `ruolo`) VALUES
 (1, 1, 1, 'Entrambi'),
 (2, 1, 2, 'Entrambi'),
@@ -350,13 +385,11 @@ INSERT INTO `ListaArtisti` (`id`, `artista`, `canzone`, `ruolo`) VALUES
 (23, 1, 23, 'Entrambi'),
 (24, 1, 24, 'Entrambi'),
 (25, 3, 25, 'Entrambi'),
-(26, 3, 26, 'Entrambi'),
 (27, 2, 27, 'Entrambi'),
 (28, 2, 28, 'Entrambi'),
 (29, 2, 29, 'Entrambi'),
 (30, 2, 30, 'Entrambi'),
 (31, 2, 31, 'Entrambi'),
-(32, 2, 32, 'Entrambi'),
 (33, 2, 33, 'Entrambi'),
 (34, 2, 34, 'Entrambi'),
 (35, 2, 35, 'Entrambi'),
@@ -365,27 +398,9 @@ INSERT INTO `ListaArtisti` (`id`, `artista`, `canzone`, `ruolo`) VALUES
 (38, 2, 38, 'Entrambi'),
 (39, 4, 27, 'Musicista'),
 (40, 4, 37, 'Musicista'),
-(41, 4, 32, 'Musicista'),
-(42, 3, 32, 'Musicista');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ListaBrani`
---
-
-CREATE TABLE IF NOT EXISTS `ListaBrani` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `disco` int(11) NOT NULL,
-  `canzone` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `canzone` (`canzone`),
-  KEY `disco` (`disco`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `ListaBrani`
---
+(41, 2, 32, 'Entrambi'),
+(42, 3, 32, 'Entrambi'),
+(43, 3, 26, 'Entrambi');
 
 INSERT INTO `ListaBrani` (`id`, `disco`, `canzone`) VALUES
 (1, 1, 1),
@@ -427,65 +442,17 @@ INSERT INTO `ListaBrani` (`id`, `disco`, `canzone`) VALUES
 (37, 5, 37),
 (38, 5, 38);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ListaDischi`
---
-
-CREATE TABLE IF NOT EXISTS `ListaDischi` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `collezione` int(11) NOT NULL,
-  `disco` int(11) NOT NULL,
-  `numeroCopie` int(11) NOT NULL,
-  `Stato` enum('Ottimo','Buono','Discreto','Sufficiente','Pessimo') NOT NULL,
-  `formato` enum('Vinile','CD','Digitale','Cassetta','Altro') NOT NULL,
-  `barcode` varchar(11) DEFAULT NULL,
-  `imgCopertina` text,
-  `imgFronte` text,
-  `imgRetro` text,
-  `imgLibretto` text,
-  PRIMARY KEY (`id`),
-  KEY `collezione` (`collezione`),
-  KEY `disco` (`disco`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `ListaDischi`
---
-
 INSERT INTO `ListaDischi` (`id`, `collezione`, `disco`, `numeroCopie`, `Stato`, `formato`, `barcode`, `imgCopertina`, `imgFronte`, `imgRetro`, `imgLibretto`) VALUES
-(1, 1, 2, 5, 'Ottimo', 'Vinile', '0213456789', 'https://m.media-amazon.com/images/I/91iHBQuDJ-L._AC_SY450_.jpg', '', '', ''),
-(2, 1, 1, 8, 'Ottimo', 'CD', '0123456789', 'https://is3-ssl.mzstatic.com/image/thumb/Music113/v4/f2/68/aa/f268aa06-1da7-84e9-f7eb-384b9fbc7f27/886447616475.jpg/600x600bf-60.jpg', '', '', ''),
-(5, 8, 5, 25, 'Discreto', 'CD', NULL, 'https://m.media-amazon.com/images/I/51f2020w9rL._AC_SX466_.jpg', NULL, 'https://m.media-amazon.com/images/I/6169scxiiHL._AC_SX466_.jpg', 'https://www.picclickimg.com/d/l400/pict/172933603868_/Luciano-Ligabue-%E2%80%8E–-Arrivederci-Mostro-vinile-blu-sigillato.jpg'),
-(6, 8, 1, 12, 'Ottimo', 'Digitale', NULL, 'https://www.diregiovani.it/wp-content/uploads/2019/04/Rovere-2-no-scritta.jpeg', NULL, NULL, NULL),
-(7, 8, 2, 2, 'Discreto', 'CD', NULL, 'https://www.angolotesti.it/cover/297286.jpg', NULL, 'https://images.genius.com/5daa166c35d4c8d7d1978bc230e49cb2.1000x1000x1.jpg', NULL),
-(8, 3, 3, 2, 'Ottimo', 'Digitale', NULL, 'https://i.ytimg.com/vi/KfaEg4bfx_A/hqdefault.jpg', NULL, NULL, NULL),
-(9, 3, 4, 1, 'Sufficiente', 'Vinile', NULL, 'https://i.ytimg.com/vi/_8FRkoqKVhk/maxresdefault.jpg', NULL, NULL, NULL),
-(10, 11, 1, 1, 'Ottimo', 'Vinile', NULL, 'https://i.scdn.co/image/ab67616d0000b2736d8c3e309ec1c8c9f9e827cd', NULL, 'https://images.genius.com/6f459c8504e7794da54a2cc4b4ec49d8.520x520x1.jpg', NULL),
-(11, 11, 2, 1, 'Ottimo', 'Vinile', NULL, 'https://i.discogs.com/3i683fZphgglkY6uQDDhg85fYYxjdo-C0Hc1Z2AdPJg/rs:fit/g:sm/q:90/h:600/w:577/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyMzU5/MjcxLTE2NDYyMzUw/MjgtMzMyMC5qcGVn.jpeg', NULL, 'https://images.genius.com/5daa166c35d4c8d7d1978bc230e49cb2.1000x1000x1.jpg', NULL),
-(12, 11, 3, 1, 'Ottimo', 'Digitale', NULL, 'https://i.ytimg.com/vi/KfaEg4bfx_A/hqdefault.jpg', NULL, NULL, NULL),
-(13, 11, 4, 1, 'Ottimo', 'Digitale', NULL, 'https://binaries.radioitalia.it/2022/06/06/102108393-6e304f53-db11-4bb7-b10b-31874facef80.jpg', NULL, NULL, NULL),
-(14, 11, 5, 1, 'Ottimo', 'Vinile', NULL, 'https://m.media-amazon.com/images/I/51f2020w9rL._AC_SX466_.jpg', NULL, 'https://m.media-amazon.com/images/I/6169scxiiHL._AC_SX466_.jpg', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ListaGeneri`
---
-
-CREATE TABLE IF NOT EXISTS `ListaGeneri` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `canzone` int(11) NOT NULL,
-  `genere` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `canzone` (`canzone`),
-  KEY `genere` (`genere`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `ListaGeneri`
---
+(1, 1, 2, 5, 'Ottimo', 'Vinile', '0213456789', 'images/upload-img/1/91iHBQuDJ-L._AC_SY450_.jpg', NULL, NULL, NULL),
+(2, 1, 1, 8, 'Ottimo', 'CD', '0123456789', 'images/upload-img/1/600x600bf-60.jpg', NULL, NULL, NULL),
+(3, 3, 5, 25, 'Discreto', 'CD', NULL, 'images/upload-img/3/51f2020w9rL._AC_SX466_-2.jpg', NULL, NULL, NULL),
+(4, 3, 1, 12, 'Ottimo', 'Digitale', NULL, 'images/upload-img/3/Rovere-2-no-scritta.jpeg', NULL, NULL, NULL),
+(5, 3, 2, 2, 'Discreto', 'CD', NULL, 'images/upload-img/3/297286.jpg', NULL, NULL, NULL),
+(6, 2, 3, 3, 'Ottimo', 'Digitale', '', 'images/upload-img/2/hqdefault.jpg', NULL, NULL, NULL),
+(7, 2, 4, 1, 'Sufficiente', 'Vinile', NULL, 'images/upload-img/2/maxresdefault.jpg', NULL, NULL, NULL),
+(8, 4, 3, 1, 'Ottimo', 'Digitale', NULL, 'images/upload-img/4/hqdefault.jpg', NULL, NULL, NULL),
+(9, 4, 4, 1, 'Ottimo', 'Digitale', NULL, 'images/upload-img/4/102108393-6e304f53-db11-4bb7-b10b-31874facef80.jpg', NULL, NULL, NULL),
+(10, 4, 5, 1, 'Ottimo', 'Vinile', NULL, 'images/upload-img/4/51f2020w9rL._AC_SX466_-2.jpg', NULL, NULL, NULL);
 
 INSERT INTO `ListaGeneri` (`id`, `canzone`, `genere`) VALUES
 (1, 1, 60),
@@ -513,13 +480,11 @@ INSERT INTO `ListaGeneri` (`id`, `canzone`, `genere`) VALUES
 (23, 23, 60),
 (24, 24, 60),
 (25, 25, 60),
-(26, 26, 60),
 (27, 27, 100),
 (28, 28, 100),
 (29, 29, 100),
 (30, 30, 100),
 (31, 31, 100),
-(32, 32, 100),
 (33, 33, 100),
 (34, 34, 100),
 (35, 35, 100),
@@ -528,113 +493,44 @@ INSERT INTO `ListaGeneri` (`id`, `canzone`, `genere`) VALUES
 (38, 38, 100),
 (39, 28, 15),
 (40, 33, 15),
-(41, 30, 15);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Utente`
---
-
-CREATE TABLE IF NOT EXISTS `Utente` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nickname` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(500) NOT NULL,
-  `nome` varchar(50) DEFAULT NULL,
-  `cognome` varchar(50) DEFAULT NULL,
-  `token` tinyint(1) NOT NULL DEFAULT '0',
-  `link` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nickname` (`nickname`,`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `Utente`
---
+(41, 30, 15),
+(43, 32, 5),
+(44, 32, 100),
+(46, 26, 60);
 
 INSERT INTO `Utente` (`id`, `nickname`, `email`, `password`, `nome`, `cognome`, `token`, `link`) VALUES
 (1, 'user', 'utente@utente.it', '$2a$12$bvRMGZxAa0r4mW/8yCH1HOq9kfuNYWLjlBwc5SR/beauhTV4P5zz2', 'Utente', 'Utente', 1, NULL),
-(2, 'gestore', 'gestore@gestore.it', '$2a$12$WarrbFzzniyiEv26H2gZVe.RTFStpAHdGuyBA.EiYj2ANS.vDxsoi', 'Gestore', 'Gestore', 1, NULL),
-(3, 'antonio', 'antonio@site.it', '$2a$10$pTeOgmfUIdNwML4PvKHfxOxaetREbug8rQxANjn9P87aWhOpRjbI6', 'Antonio', 'De Amicis', 1, NULL),
-(4, 'danieledd', 'daniele@danieledd.it', '$2a$10$E1vFy59Mx9bzbnNOYpW2mu69faBol7IwgP1jJaOEiIRopbV0sqLty', 'Daniele', 'Di Desidero', 1, NULL),
-(5, 'test', 'test@test.it', '$2a$10$vdhVv7S/KxmawTmFbKbXUO4h5tXOV0YUrfggw.TZN8FSQz/hS2BWq', 'test', 'test', 1, '$2a$10$NgxIzMlykJH61CxMLmR0pOEhRBbuqAYCxcpWsjr8eO/jmMlg3eDDe');
+(2, 'gestore', 'admin@admin.it', '$2a$10$DPXMRdH4AbW8QToxaIK/j.EFj1yWGG4ro122brNDcnpTyR27gFBuG', 'Gestore', 'Gestore', 1, NULL),
+(3, 'antonio', 'antonio@site.it', '$2a$10$pTeOgmfUIdNwML4PvKHfxOxaetREbug8rQxANjn9P87aWhOpRjbI6', 'Antonio', 'De Amicis', 1, NULL);
 
--- --------------------------------------------------------
+/* ----- ALTER TABLE ----- */
 
---
--- Table structure for table `UtentiAutorizzati`
---
-
-CREATE TABLE IF NOT EXISTS `UtentiAutorizzati` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `collezione` int(11) NOT NULL,
-  `utente` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `collezione` (`collezione`),
-  KEY `utente` (`utente`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `UtentiAutorizzati`
---
-
-INSERT INTO `UtentiAutorizzati` (`id`, `collezione`, `utente`) VALUES
-(3, 3, 1),
-(6, 8, 2),
-(7, 12, 5);
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `Collezione`
---
 ALTER TABLE `Collezione`
-  ADD CONSTRAINT `collezione_ibfk_1` FOREIGN KEY (`utente`) REFERENCES `Utente` (`id`);
+  ADD CONSTRAINT `collezione_ibfk_1` FOREIGN KEY (`utente`) REFERENCES `Utente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `Disco`
---
 ALTER TABLE `Disco`
   ADD CONSTRAINT `disco_ibfk_1` FOREIGN KEY (`artista`) REFERENCES `Artista` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `disco_ibfk_2` FOREIGN KEY (`creatore`) REFERENCES `Utente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `ListaArtisti`
---
 ALTER TABLE `ListaArtisti`
-  ADD CONSTRAINT `listaartisti_ibfk_1` FOREIGN KEY (`artista`) REFERENCES `Artista` (`id`),
-  ADD CONSTRAINT `listaartisti_ibfk_2` FOREIGN KEY (`canzone`) REFERENCES `Canzone` (`id`);
+  ADD CONSTRAINT `listaartisti_ibfk_1` FOREIGN KEY (`artista`) REFERENCES `Artista` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `listaartisti_ibfk_2` FOREIGN KEY (`canzone`) REFERENCES `Canzone` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `ListaBrani`
---
 ALTER TABLE `ListaBrani`
-  ADD CONSTRAINT `listabrani_ibfk_1` FOREIGN KEY (`canzone`) REFERENCES `Canzone` (`id`),
-  ADD CONSTRAINT `listabrani_ibfk_2` FOREIGN KEY (`disco`) REFERENCES `Disco` (`id`);
+  ADD CONSTRAINT `listabrani_ibfk_1` FOREIGN KEY (`canzone`) REFERENCES `Canzone` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `listabrani_ibfk_2` FOREIGN KEY (`disco`) REFERENCES `Disco` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `ListaDischi`
---
 ALTER TABLE `ListaDischi`
-  ADD CONSTRAINT `listadischi_ibfk_1` FOREIGN KEY (`collezione`) REFERENCES `Collezione` (`id`),
-  ADD CONSTRAINT `listadischi_ibfk_2` FOREIGN KEY (`disco`) REFERENCES `Disco` (`id`);
+  ADD CONSTRAINT `listadischi_ibfk_1` FOREIGN KEY (`collezione`) REFERENCES `Collezione` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `listadischi_ibfk_2` FOREIGN KEY (`disco`) REFERENCES `Disco` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `ListaGeneri`
---
 ALTER TABLE `ListaGeneri`
-  ADD CONSTRAINT `listageneri_ibfk_1` FOREIGN KEY (`canzone`) REFERENCES `Canzone` (`id`),
-  ADD CONSTRAINT `listageneri_ibfk_2` FOREIGN KEY (`genere`) REFERENCES `Genere` (`id`);
+  ADD CONSTRAINT `listageneri_ibfk_1` FOREIGN KEY (`canzone`) REFERENCES `Canzone` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `listageneri_ibfk_2` FOREIGN KEY (`genere`) REFERENCES `Genere` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `UtentiAutorizzati`
---
 ALTER TABLE `UtentiAutorizzati`
-  ADD CONSTRAINT `utentiautorizzati_ibfk_1` FOREIGN KEY (`collezione`) REFERENCES `Collezione` (`id`),
-  ADD CONSTRAINT `utentiautorizzati_ibfk_2` FOREIGN KEY (`utente`) REFERENCES `Utente` (`id`);
+  ADD CONSTRAINT `utentiautorizzati_ibfk_1` FOREIGN KEY (`collezione`) REFERENCES `Collezione` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `utentiautorizzati_ibfk_2` FOREIGN KEY (`utente`) REFERENCES `Utente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -244,9 +244,9 @@ public class ModificaCollezione extends SharedCollectionBaseController {
 
         final long serialVersionUID = 1L;
 
-        final int THRESHOLD_SIZE = 1024 * 1024 * 3;
-        final int MAX_FILE_SIZE = 1024 * 1024 * 15;
-        final int MAX_REQUEST_SIZE = 1024 * 1024 * 20;
+        final int THRESHOLD_SIZE = 3096 * 3096 * 3;
+        final int MAX_FILE_SIZE = 3096 * 3096 * 15;
+        final int MAX_REQUEST_SIZE = 3096 * 3096 * 20;
 
 
         DiskFileItemFactory factory = new DiskFileItemFactory();
