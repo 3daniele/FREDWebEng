@@ -585,12 +585,21 @@ ul {
     font-size: 18px;
     color: #ffffff;
     margin-bottom: 40px; }
-
+  .portrait{
+    margin:auto;
+  }
 /* :: 9.0 Music CSS */
+
 .poca-music-area {
   position: relative;
   z-index: 2;
-  background-color: #ffffff; }
+  background-color: #ffffff;
+}
+.poca-music-thumbnail{
+  flex: auto;
+  align-items: center;
+  justify-content: center;
+}
   .poca-music-area .poca-music-thumbnail {
     position: relative;
     z-index: 1;
@@ -598,7 +607,8 @@ ul {
     -ms-flex: 0 0 260px;
     flex: 0 0 260px;
     max-width: 260px;
-    width: 260px; }
+    width: 260px;
+    }
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       .poca-music-area .poca-music-thumbnail {
         -webkit-box-flex: 0;

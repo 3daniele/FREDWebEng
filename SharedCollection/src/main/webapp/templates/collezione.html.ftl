@@ -45,7 +45,10 @@
                      style="cursor:pointer" onclick="location.href='disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}'">
                     <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
                         <div class="poca-music-thumbnail">
-                            <img src="${dettaglio.imgCopertina}" alt="">
+                            <div class="portrait" style="height: 400px;  width:100%;">
+                                <img src="${dettaglio.imgCopertina}" alt="" style="width:100%; height: 100%">
+                            </div>
+
                         </div>
                         <div class="poca-music-content text-center">
                             <span class="music-published-date mb-2">${disco.anno}</span>
