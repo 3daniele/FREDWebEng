@@ -3,7 +3,6 @@ package it.fdd.framework.security;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Calendar;
 import java.util.regex.Pattern;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -59,14 +58,17 @@ public class SecurityLayer {
 
     public static HttpSession createSession(HttpServletRequest request, String username, int userid, String email) {
         HttpSession s = request.getSession(true);
+
         s.setAttribute("username", username);
         s.setAttribute("email", email);
         s.setAttribute("userid", userid);
+
         return s;
     }
 
     public static void disposeSession(HttpServletRequest request) {
         HttpSession s = request.getSession(false);
+
         if (s != null) {
             s.invalidate();
         }

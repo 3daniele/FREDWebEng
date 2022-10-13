@@ -174,6 +174,9 @@
                         <a href="showUtenti" class="episodes-title">Utenti</a>
                     </div>
                     <#if session??>
+                        <div class="single-latest-episodes">
+                            <a href="logout" class="episodes-title">Logout</a>
+                        </div>
                     <#else>
                         <div class="single-latest-episodes">
                             <a href="login" class="episodes-title">Login</a>

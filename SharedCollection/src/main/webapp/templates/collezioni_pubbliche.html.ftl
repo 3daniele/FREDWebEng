@@ -1,4 +1,8 @@
 <#if collezioni_home??>
+    <#if !(collezioni_home?size>0)>
+        Nessuna collezione disponibile...
+        <br>
+    </#if>
     <#assign n = 5>
     <div class="row poca-portfolio">
         <#list collezioni_home as collezione>

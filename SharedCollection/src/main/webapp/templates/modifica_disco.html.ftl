@@ -260,9 +260,12 @@
                         </button>
                     </div>
                 </#if>
-
             </div>
 
+            <#if !(listaBrani?size>0)>
+                <a class="text-black">Nessun brano presente...</a>
+                <br>
+            </#if>
             <#if (listaBrani?size>0)>
                 <#assign n = 0>
                 <table class="table custom-table">

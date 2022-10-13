@@ -10,7 +10,10 @@
             </div>
         </div>
 
-        <#if (collezioniPersonali?size>0)>
+        <#if !(collezioniPersonali?size>0)>
+            Al momento non hai collezioni personali...
+            <br>
+        <#else>
             <#assign n = 0>
             <table class="table custom-table">
                 <thead class="thead-dark">
@@ -83,7 +86,10 @@
 
         <br>
         <h2>Collezioni condivise con me</h2>
-        <#if (collezioniCondivise?size>0)>
+        <#if !(collezioniCondivise?size>0)>
+            Al momento non sono presenti collezioni condivise con te...
+            <br>
+        <#else>
             <#assign n = 0>
             <table class="table custom-table">
                 <thead class="thead-dark">
@@ -143,7 +149,10 @@
 
     <br>
     <h2>Collezioni pubbliche</h2>
-    <#if (collezioniPubbliche?size>0)>
+    <#if !(collezioniPubbliche?size>0)>
+        Nessuna collezione pubblica disponibile...
+        <br>
+    <#else>
         <#assign n = 0>
         <table class="table custom-table">
             <thead class="thead-dark">

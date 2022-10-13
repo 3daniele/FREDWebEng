@@ -348,7 +348,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
     private void action_delete(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
 
         int listaDisco_key = SecurityLayer.checkNumeric(request.getParameter("listaDiscoID"));
-        System.out.println(listaDisco_key);
+
         ListaDischi listaDischi = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDischi(listaDisco_key);
         int collezione_key = listaDischi.getCollezione().getKey();
 

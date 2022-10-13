@@ -1,0 +1,13 @@
+[ 2022-10-13T16:09:04.583468 ]  test@test.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile test test,
+Conferma la tua email cliccando sul link in basso
+ http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=$2a$10$aTTXvNke4wUfe1g5M6kEe.166Nk0SajKUjkoKl5XelxhiaxQBDPa2&refer_code=aNAkTrKrTL+bOamltVaI+w==
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+

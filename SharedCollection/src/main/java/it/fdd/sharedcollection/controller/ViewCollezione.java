@@ -149,6 +149,18 @@ public class ViewCollezione extends SharedCollectionBaseController {
 
     }
 
+    private void action_delete(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
+
+        int listaDisco_key = SecurityLayer.checkNumeric(request.getParameter("listaDiscoID"));
+
+        ListaDischi listaDischi = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDischi(listaDisco_key);
+        int collezione_key = listaDischi.getCollezione().getKey();
+
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().deleteListaDischi(listaDischi);
+
+        response.sendRedirect("collezione?numero=" + collezione_key);
+    }
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
@@ -159,6 +171,10 @@ public class ViewCollezione extends SharedCollectionBaseController {
                 request.setAttribute("collezioneID", collezione_key);
                 action_default(request, response);
             } else {
+                if (request.getParameter("elimina_disco") != null) {
+                    System.out.println("nope");
+                    action_delete(request, response);
+                }
                 response.sendRedirect("collezioni");
             }
         } catch (NumberFormatException ex) {
@@ -167,6 +183,8 @@ public class ViewCollezione extends SharedCollectionBaseController {
         } catch (IOException | TemplateManagerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
+        } catch (DataException e) {
+            throw new RuntimeException(e);
         }
     }
 

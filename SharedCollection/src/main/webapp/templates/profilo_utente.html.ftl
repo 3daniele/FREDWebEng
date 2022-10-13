@@ -102,11 +102,17 @@
             <div class="row">
                 <h5>Artisti preferiti:</h5>
             </div>
+            <#if !(artisti?size>0)>
+                Statistiche non disponibili...
+                <br>
+            </#if>
             <#assign n=0>
             <#list artisti as artista>
                 <p>${artista.nomeArte}</p>
                 <div class="progress mb-2">
-                    <div class="progress-bar bg-success" role="progressbar" aria-label="Danger striped example" style="width: ${percentualiA[n]}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">${percentualiA[n]}</div>
+                    <div class="progress-bar bg-success" role="progressbar" aria-label="Danger striped example"
+                         style="width: ${percentualiA[n]}" aria-valuenow="100" aria-valuemin="0"
+                         aria-valuemax="100">${percentualiA[n]}</div>
                 </div>
                 <#assign n++>
             </#list>
@@ -115,11 +121,17 @@
             <div class="row">
                 <h5>Generi preferiti:</h5>
             </div>
+            <#if !(generi?size>0)>
+                Statistiche non disponibili...
+                <br>
+            </#if>
             <#assign n=0>
             <#list generi as genere>
                 <p>${genere.nome}</p>
                 <div class="progress mb-2">
-                    <div class="progress-bar bg-danger" role="progressbar" aria-label="Danger striped example" style="width: ${percentuali[n]}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">${percentuali[n]}</div>
+                    <div class="progress-bar bg-danger" role="progressbar" aria-label="Danger striped example"
+                         style="width: ${percentuali[n]}" aria-valuenow="100" aria-valuemin="0"
+                         aria-valuemax="100">${percentuali[n]}</div>
                 </div>
                 <#assign n++>
             </#list>
@@ -129,6 +141,12 @@
 <hr>
 <div class="row">
     <h2 class="text-danger">Ultime collezioni</h2>
+    <#if !(ultimeCollezioniPubbliche?size>0)>
+        <div class="col-12 col-md-6 col-lg-6">
+            Nessuna collezione recente...
+            <br>
+        </div>
+    </#if>
     <#assign n = 8>
     <div class="row poca-portfolio">
         <#list ultimeCollezioniPubbliche as collezione>
@@ -143,7 +161,9 @@
                         <h2>${collezione.nome}</h2>
                         <noscript>
                             <style type="text/css">
-                                .pagecontainer {display:none;}
+                                .pagecontainer {
+                                    display: none;
+                                }
                             </style>
                             <div class="noscriptmsg">
                                 <a href="collezione?numero=${collezione.key}" class="btn poca-btn mt-10">Visualizza</a>

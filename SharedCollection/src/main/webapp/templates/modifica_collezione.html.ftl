@@ -100,6 +100,12 @@
     </div>
     <br>
     <div class="row">
+        <#if !(dettagliDischi?size>0)>
+            <div class="col-12 col-md-6 col-lg-6">
+                Nessun disco presente...
+            </div>
+            <br>
+        </#if>
         <#list dettagliDischi as dettaglio>
             <#assign formato = "formato">
             <#list dischi as disco>
@@ -109,7 +115,9 @@
                         <form action="modificaCollezione" method="POST">
                             <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
                                 <div class="poca-music-thumbnail">
-                                    <img src="${dettaglio.imgCopertina}" alt="">
+                                    <div class="portrait" style="height: 400px;  width:100%;">
+                                        <img src="${dettaglio.imgCopertina}" alt="" style="width:100%; height: 100%">
+                                    </div>
                                 </div>
                                 <div class="poca-music-content text-center">
                                     <span class="music-published-date mb-2">${disco.anno}</span>
@@ -128,15 +136,17 @@
                                     <br>
                                     <a href="disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
                                        class="btn btn-success mt-10"><img src="images/templateimg/imgFont/arrow-up.svg"
-                                                                          alt="Bootstrap" width="24" height="24" ></a>
-                                    <a href="modificaDisco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}" class="btn btn-secondary">
+                                                                          alt="Bootstrap" width="24" height="24"></a>
+                                    <a href="modificaDisco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
+                                       class="btn btn-secondary">
                                         <img src="images/templateimg/imgFont/pencil-fill.svg" alt="Bootstrap"
                                              width="24" height="24" class="text-light" fill="currentColor">
                                     </a>
                                     <button type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco"
-                                           name="elimina_disco">
+                                            name="elimina_disco">
                                         <img
-                                                src="images/templateimg/imgFont/trash3-fill.svg" alt="elimina" width="24"
+                                                src="images/templateimg/imgFont/trash3-fill.svg" alt="elimina"
+                                                width="24"
                                                 height="24">
                                     </button>
                                 </div>

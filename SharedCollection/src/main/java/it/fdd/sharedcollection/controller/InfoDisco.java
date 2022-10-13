@@ -19,12 +19,14 @@ import java.util.List;
 
 public class InfoDisco extends SharedCollectionBaseController {
 
+    int user_key = 0;
+    int disco_key;
+    int collezione_key;
+    String formato;
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
-        int disco_key;
-        int collezione_key;
-        String formato;
         try {
             if (request.getParameter("numero") != null) {
                 disco_key = SecurityLayer.checkNumeric(request.getParameter("numero"));
@@ -35,6 +37,9 @@ public class InfoDisco extends SharedCollectionBaseController {
                 request.setAttribute("formato", formato);
                 action_default(request, response);
             } else {
+                if (request.getParameter("elimina_disco") != null) {
+                    action_delete(request, response);
+                }
                 response.sendRedirect("collezioni");
             }
         } catch (NumberFormatException ex) {
@@ -43,6 +48,8 @@ public class InfoDisco extends SharedCollectionBaseController {
         } catch (IOException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
+        } catch (DataException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -67,22 +74,24 @@ public class InfoDisco extends SharedCollectionBaseController {
             request.setAttribute("username", sessione.getAttribute("username"));
             request.setAttribute("email", sessione.getAttribute("email"));
             request.setAttribute("userid", sessione.getAttribute("userid"));
+            user_key = Integer.parseInt(sessione.getAttribute("userid").toString());
         }
 
         try {
-            Integer disco_key = (Integer) request.getAttribute("discoID");
-            Integer collezione_key = (Integer) request.getAttribute("collezioneID");
-            String formato = request.getAttribute("formato").toString();
             Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key);
             Disco disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key);
+            List<Integer> utentiAutorizzati = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByCollezione(collezione_key);
             List<ListaBrani> listaBrani = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaBraniDAO().getListeBrani(disco_key);
             ListaDischi infoDisco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDisco(collezione_key, disco_key, formato);
             List<Canzone> canzoni = new ArrayList<>();
             List<ListaArtisti> artisti = new ArrayList<>();
             List<ListaGeneri> generi = new ArrayList<>();
 
-            request.setAttribute("page_title", disco.getNome());
+            if (collezione.getCondivisione().equals("privata") && user_key != collezione.getUtente().getKey() && !utentiAutorizzati.contains(user_key)) {
+                response.sendRedirect("home");
+            }
 
+            request.setAttribute("page_title", disco.getNome());
 
             for (ListaBrani brano : listaBrani) {
                 canzoni.add(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCanzoneDAO().getCanzone(brano.getCanzone().getKey()));
@@ -105,5 +114,16 @@ public class InfoDisco extends SharedCollectionBaseController {
         } catch (TemplateManagerException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void action_delete(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
+
+        int listaDisco_key = SecurityLayer.checkNumeric(request.getParameter("listaDiscoID"));
+
+        ListaDischi listaDischi = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListaDischi(listaDisco_key);
+
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().deleteListaDischi(listaDischi);
+
+        response.sendRedirect("collezione?numero=" + collezione_key);
     }
 }
