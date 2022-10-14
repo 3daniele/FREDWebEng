@@ -93,6 +93,10 @@
         <servlet-name>Nuovo Artista</servlet-name>
         <servlet-class>it.fdd.sharedcollection.controller.NuovoArtista</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Ricerca</servlet-name>
+        <servlet-class>it.fdd.sharedcollection.controller.Ricerca</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -148,6 +152,10 @@
     <servlet-mapping>
         <servlet-name>Nuovo Artista</servlet-name>
         <url-pattern>/newArtista</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Ricerca</servlet-name>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

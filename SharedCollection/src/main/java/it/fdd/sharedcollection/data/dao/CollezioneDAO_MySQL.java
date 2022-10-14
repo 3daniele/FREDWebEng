@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     private PreparedStatement sCollezioneByID;
-    private PreparedStatement sCollezioni, sCollezioniByUtente, sCollezioniPubbliche, sLastCollezione;
+    private PreparedStatement sCollezioni, sCollezioniByUtente, sCollezioniPubbliche, sLastCollezione, sCollezioneByNome;
     private PreparedStatement iCollezione, uCollezione, dCollezione;
 
     public CollezioneDAO_MySQL(DataLayer d) {
@@ -31,6 +31,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sCollezioniByUtente = connection.prepareStatement("SELECT * FROM collezione WHERE utente=?");
             sCollezioniPubbliche = connection.prepareStatement("SELECT * FROM collezione WHERE condivisione='pubblica' ORDER BY id DESC LIMIT 6");
             sLastCollezione = connection.prepareStatement("SELECT * FROM collezione ORDER BY id DESC LIMIT 1");
+            sCollezioneByNome = connection.prepareStatement("SELECT * FROM collezione WHERE nome = ? AND condivisione='pubblica'");
 
             iCollezione = connection.prepareStatement("INSERT INTO collezione (nome,condivisione,utente) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uCollezione = connection.prepareStatement("UPDATE collezione SET nome=?,condivisione=? WHERE ID=?");
@@ -50,6 +51,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sCollezioniByUtente.close();
             sCollezioniPubbliche.close();
             sLastCollezione.close();
+            sCollezioneByNome.close();
 
             iCollezione.close();
             uCollezione.close();
@@ -159,6 +161,24 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
                     while (rs.next()) {
                         result.add((Collezione) getCollezione(rs.getInt("id")));
                     }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Collezione by Utente", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Collezione> getCollezioniByNome(String nome) throws DataException {
+
+        List<Collezione> result = new ArrayList<>();
+
+        try {
+            sCollezioneByNome.setString(1, nome);
+            try (ResultSet rs = sCollezioneByNome.executeQuery()) {
+                while (rs.next()) {
+                    result.add((Collezione) getCollezione(rs.getInt("id")));
                 }
             }
         } catch (SQLException ex) {

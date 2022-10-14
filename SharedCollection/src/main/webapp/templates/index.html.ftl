@@ -46,8 +46,10 @@
                                 <li><a href="showUtenti">Utenti</a></li>
                             </#if>
                             <#if session??>
-                                <li class="cn-dropdown-item"><a href="#">${username}<img src="images/templateimg/imgFont/caret-down-fill.svg" alt="Bootstrap" width="12"
-                                                                                         height="12"></a>
+                                <li class="cn-dropdown-item"><a href="#">${username}<img
+                                                src="images/templateimg/imgFont/caret-down-fill.svg" alt="Bootstrap"
+                                                width="12"
+                                                height="12"></a>
                                     <ul class="dropdown">
                                         <li><a href="utente?id=${userid}">Profilo</a></li>
                                         <li><a href="newCollezione">Nuova Collezione</a></li>
@@ -70,8 +72,8 @@
                             </#if>
                         </ul>
                         <div class="top-search-area">
-                            <form action="home" method="post">
-                                <input type="search" name="top-search-bar" class="form-control"
+                            <form action="search" method="post">
+                                <input type="text" id="campo" name="campo" class="form-control"
                                        placeholder="Cerca">
                             </form>
                         </div>
@@ -138,9 +140,13 @@
     </div>
 
     <!-- ===== COLLEZIONI ===== -->
-    <div class="container">
+    <#if ! ricerca??>
+        <div class="container">
+            <#include content_tpl>
+        </div>
+    <#else>
         <#include content_tpl>
-    </div>
+    </#if>
 </section>
 
 <!-- ===== BANNER FINALE ===== -->
@@ -199,10 +205,12 @@
                 <div class="single-footer-widget mb-80">
                     <h4 class="widget-title">Follow Us</h4>
                     <div class="footer-social-info">
-                        <a href="#" class="facebook text-light" data-toggle="tooltip" data-placement="top" title="Facebook">
+                        <a href="#" class="facebook text-light" data-toggle="tooltip" data-placement="top"
+                           title="Facebook">
                             <img src="images/templateimg/imgFont/facebook.svg" alt="Bootstrap" width="26" height="26">
                         </a>
-                        <a href="#" class="twitter text-light" data-toggle="tooltip" data-placement="top" title="Twitter">
+                        <a href="#" class="twitter text-light" data-toggle="tooltip" data-placement="top"
+                           title="Twitter">
                             <img src="images/templateimg/imgFont/twitter.svg" alt="Bootstrap" width="26" height="26">
                         </a>
                         <a href="#" class="pinterest text-light" data-toggle="tooltip" data-placement="top"
@@ -215,7 +223,8 @@
                             <img src="images/templateimg/imgFont/instagram.svg" alt="Bootstrap" width="26"
                                  height="26">
                         </a>
-                        <a href="#" class="youtube text-light" data-toggle="tooltip" data-placement="top" title="YouTube">
+                        <a href="#" class="youtube text-light" data-toggle="tooltip" data-placement="top"
+                           title="YouTube">
                             <img src="images/templateimg/imgFont/youtube.svg" alt="Bootstrap" width="26"
                                  height="26">
                         </a>
