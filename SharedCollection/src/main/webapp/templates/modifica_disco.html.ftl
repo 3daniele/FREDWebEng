@@ -4,6 +4,11 @@
 <form action="modificaDisco" method="post">
     <div class="row">
         <div class="row">
+            <#if error_??>
+                <div class="alert alert-danger text-center" role="alert">
+                    ${error_}
+                </div>
+            </#if>
             <label class="form-label text-danger">
                 <h2 class="text-danger">Informazioni disco:</h2>
             </label>
@@ -77,7 +82,6 @@
                 <div class="input-group mb-3">
                     <select class="form-select" aria-label="Default select example"
                             id="stato" name="stato">
-                        <option selected>Seleziona stato</option>
                         <#if (infoDisco.stato == "Ottimo")>
                             <option value="Ottimo" selected>Ottimo</option>
                         <#else>

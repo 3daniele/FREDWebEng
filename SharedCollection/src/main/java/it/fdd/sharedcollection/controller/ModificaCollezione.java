@@ -30,9 +30,9 @@ import java.util.List;
 
 public class ModificaCollezione extends SharedCollectionBaseController {
 
-    public int collezione_key = 0;
-    int disco_key = 0;
-    int user_key = 0;
+    private int collezione_key = 0;
+    private int disco_key = 0;
+    private int user_key = 0;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 

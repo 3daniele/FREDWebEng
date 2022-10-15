@@ -31,9 +31,9 @@ import java.util.List;
 
 public class ModificaDisco extends SharedCollectionBaseController {
 
-    public int collezione_key = 0;
-    public int disco_key = 0;
-    public String formato;
+    private int collezione_key = 0;
+    private int disco_key = 0;
+    private String formato;
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
@@ -137,6 +137,7 @@ public class ModificaDisco extends SharedCollectionBaseController {
         String titolo = request.getParameter("titolo");
         String etichetta = request.getParameter("etichetta");
         Date anno = Date.valueOf(request.getParameter("anno"));
+        String error_msg;
 
         int numeroCopie = Integer.parseInt(request.getParameter("numeroCopie"));
         String stato = request.getParameter("stato");
@@ -152,6 +153,21 @@ public class ModificaDisco extends SharedCollectionBaseController {
         Disco disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key);
 
         if (userID == disco.getCreatore().getKey()) {
+
+            if (titolo.isEmpty()) {
+                error_msg = "Inserisci un nome per il disco!";
+                request.setAttribute("error_", error_msg);
+                action_default(request, response);
+                return;
+            }
+
+            if (etichetta.isEmpty()) {
+                error_msg = "Inserisci un'etichetta per il disco!";
+                request.setAttribute("error_", error_msg);
+                action_default(request, response);
+                return;
+            }
+
             // update disco
             disco.setNome(titolo);
             disco.setEtichetta(etichetta);

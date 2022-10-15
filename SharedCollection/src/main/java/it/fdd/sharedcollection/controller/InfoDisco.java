@@ -19,9 +19,9 @@ import java.util.List;
 
 public class InfoDisco extends SharedCollectionBaseController {
 
-    int user_key = 0;
-    int disco_key;
-    int collezione_key;
+    private int user_key = 0;
+    private int disco_key;
+    private int collezione_key;
     String formato;
 
     @Override
