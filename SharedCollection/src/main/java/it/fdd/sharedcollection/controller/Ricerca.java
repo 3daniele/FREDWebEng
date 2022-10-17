@@ -6,12 +6,13 @@ import it.fdd.framework.result.SplitSlashesFmkExt;
 import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
-import it.fdd.sharedcollection.data.model.Collezione;
+import it.fdd.sharedcollection.data.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 public class Ricerca extends SharedCollectionBaseController {
@@ -35,9 +36,30 @@ public class Ricerca extends SharedCollectionBaseController {
             request.setAttribute("autori", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtisti());
             request.setAttribute("utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
 
-            List<Collezione> collezioni = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByNome(request.getParameter("campo"));
+            String keyword = request.getParameter("campo");
 
+            HashSet<Disco> dischi = new HashSet<>();
+            HashSet<Collezione> collezioni = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByNome(keyword);
+
+            Artista artista = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtista(keyword);
+            if (artista != null) {
+                dischi = new HashSet<>(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDischi(artista));
+            }
+            HashSet<ListaDischi> listaDischi = new HashSet<>();
+            for (Disco disco : dischi) {
+                listaDischi.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getListeDischi(disco));
+            }
+
+            Utente utente = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenteByUsername(keyword);
+            if (utente != null) {
+                collezioni.addAll((((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByUtente(utente.getKey())));
+            }
+
+            request.setAttribute("keyword", keyword);
             request.setAttribute("collezioni", collezioni);
+            request.setAttribute("dischi", dischi);
+            request.setAttribute("dettagliDischi", listaDischi);
+            request.setAttribute("utente", utente);
 
             res.activate("ricerca.html.ftl", request, response);
 

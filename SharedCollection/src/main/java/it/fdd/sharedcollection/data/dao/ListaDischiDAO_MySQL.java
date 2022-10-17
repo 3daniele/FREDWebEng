@@ -1,6 +1,7 @@
 package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.*;
+import it.fdd.sharedcollection.data.model.Disco;
 import it.fdd.sharedcollection.data.model.ListaDischi;
 import it.fdd.sharedcollection.data.proxy.ListaDischiProxy;
 
@@ -9,11 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
     private PreparedStatement sListaDischiByID;
-    private PreparedStatement sListeDischi, sDischiByCollezione, sListaDisco;
+    private PreparedStatement sListeDischi, sDischiByCollezione, sDischiByDisco, sListaDisco;
     private PreparedStatement iListaDischi, uListaDischi, dListaDischi;
 
     public ListaDischiDAO_MySQL(DataLayer d) {
@@ -29,6 +31,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
             sListeDischi = connection.prepareStatement("SELECT * FROM listaDischi");
             sListaDisco = connection.prepareStatement("SELECT * FROM ListaDischi WHERE collezione = ? AND disco = ? AND formato = ?");
             sDischiByCollezione = connection.prepareStatement("SELECT * FROM ListaDischi WHERE collezione=?");
+            sDischiByDisco = connection.prepareStatement("SELECT * FROM ListaDischi WHERE disco = ?");
             iListaDischi = connection.prepareStatement("INSERT INTO listaDischi (collezione, disco, numeroCopie,stato,formato,barcode,imgCopertina,imgFronte,imgRetro,imgLibretto) VALUES(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uListaDischi = connection.prepareStatement("UPDATE listaDischi SET collezione=?,disco = ?, numeroCopie = ?, stato=?,formato=?,barcode=?,imgCopertina=?,imgFronte=?,imgRetro=?,imgLibretto=? WHERE id = ?");
             dListaDischi = connection.prepareStatement("DELETE FROM listaDischi WHERE id = ?");
@@ -43,6 +46,7 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
             sListaDischiByID.close();
             sListeDischi.close();
             sDischiByCollezione.close();
+            sDischiByDisco.close();
             sListaDisco.close();
             iListaDischi.close();
             uListaDischi.close();
@@ -135,6 +139,24 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
             sDischiByCollezione.setInt(1, collezione_key);
 
             try (ResultSet rs = sDischiByCollezione.executeQuery()) {
+                while (rs.next()) {
+                    result.add((ListaDischi) getListaDischi(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare la lista dei dischi", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public HashSet<ListaDischi> getListeDischi(Disco disco) throws DataException {
+
+        HashSet<ListaDischi> result = new HashSet<>();
+        try {
+            sDischiByDisco.setInt(1, disco.getKey());
+
+            try (ResultSet rs = sDischiByDisco.executeQuery()) {
                 while (rs.next()) {
                     result.add((ListaDischi) getListaDischi(rs.getInt("id")));
                 }

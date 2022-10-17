@@ -2,8 +2,10 @@ package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.DataException;
 import it.fdd.sharedcollection.data.model.Collezione;
+import it.fdd.sharedcollection.data.model.Disco;
 import it.fdd.sharedcollection.data.model.ListaDischi;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface ListaDischiDAO {
@@ -17,6 +19,8 @@ public interface ListaDischiDAO {
     List<ListaDischi> getListeDischi() throws DataException;
 
     List<ListaDischi> getDischiByCollezione(int collezione_key) throws DataException;
+
+    HashSet<ListaDischi> getListeDischi(Disco disco) throws DataException;
 
     void storeListaDischi(ListaDischi listaDischi) throws DataException;
 

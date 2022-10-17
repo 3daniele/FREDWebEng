@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
-    private PreparedStatement sUtenti, sUtenteByID;
+    private PreparedStatement sUtenti, sUtenteByID, sUtenteByNickname;
     private PreparedStatement iUtente;
 
     private PreparedStatement uUtente;
@@ -39,7 +39,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             login = connection.prepareStatement("SELECT * FROM Utente WHERE email = ? AND password = ?");
             iUtente = connection.prepareStatement("INSERT INTO utente (nickname,email,password,nome,cognome) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
-            getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE nickname = ?");
+            getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE MATCH (nickname) AGAINST (? IN NATURAL LANGUAGE MODE)");
 
             loginUtente = connection.prepareStatement("SELECT id, password FROM Utente WHERE email = ?");
 

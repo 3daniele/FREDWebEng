@@ -10,6 +10,7 @@ import it.fdd.sharedcollection.data.proxy.CollezioneProxy;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
@@ -31,7 +32,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
             sCollezioniByUtente = connection.prepareStatement("SELECT * FROM collezione WHERE utente=?");
             sCollezioniPubbliche = connection.prepareStatement("SELECT * FROM collezione WHERE condivisione='pubblica' ORDER BY id DESC LIMIT 6");
             sLastCollezione = connection.prepareStatement("SELECT * FROM collezione ORDER BY id DESC LIMIT 1");
-            sCollezioneByNome = connection.prepareStatement("SELECT * FROM collezione WHERE nome = ? AND condivisione='pubblica'");
+            sCollezioneByNome = connection.prepareStatement("SELECT DISTINCT id, nome, condivisione, dataDiCreazione, utente FROM Collezione WHERE condivisione = 'pubblica' AND MATCH (nome) AGAINST (? IN NATURAL LANGUAGE MODE)");
 
             iCollezione = connection.prepareStatement("INSERT INTO collezione (nome,condivisione,utente) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uCollezione = connection.prepareStatement("UPDATE collezione SET nome=?,condivisione=? WHERE ID=?");
@@ -170,9 +171,9 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     }
 
     @Override
-    public List<Collezione> getCollezioniByNome(String nome) throws DataException {
+    public HashSet<Collezione> getCollezioniByNome(String nome) throws DataException {
 
-        List<Collezione> result = new ArrayList<>();
+        HashSet<Collezione> result = new HashSet<>();
 
         try {
             sCollezioneByNome.setString(1, nome);

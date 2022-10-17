@@ -4,6 +4,7 @@ import it.fdd.framework.data.DataException;
 import it.fdd.sharedcollection.data.model.Collezione;
 import it.fdd.sharedcollection.data.model.UtentiAutorizzati;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface CollezioneDAO {
@@ -22,7 +23,7 @@ public interface CollezioneDAO {
 
     Collezione getLast() throws DataException;
 
-    List<Collezione> getCollezioniByNome(String nome) throws DataException;
+    HashSet<Collezione> getCollezioniByNome(String nome) throws DataException;
 
     void deleteCollezione(Collezione collezione) throws DataException;
 

@@ -5,6 +5,7 @@ import it.fdd.framework.data.DataException;
 import it.fdd.framework.data.DataItemProxy;
 import it.fdd.framework.data.DataLayer;
 import it.fdd.framework.data.OptimisticLockException;
+import it.fdd.sharedcollection.data.model.Artista;
 import it.fdd.sharedcollection.data.model.Disco;
 import it.fdd.sharedcollection.data.model.ListaDischi;
 import it.fdd.sharedcollection.data.proxy.DiscoProxy;
@@ -15,12 +16,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
 
     private PreparedStatement sDiscoByID;
-    private PreparedStatement sDischi;
+    private PreparedStatement sDischi, sDischiByArtista;
     private PreparedStatement iDisco, uDisco, dDisco;
 
     private PreparedStatement lDisco;
@@ -36,6 +38,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
             // precompilazione di tutte le query utilizzate nella classe
             sDiscoByID = connection.prepareStatement("SELECT * FROM Disco WHERE id = ?");
             sDischi = connection.prepareStatement("SELECT id AS discoID FROM Disco");
+            sDischiByArtista = connection.prepareStatement("SELECT * FROM Disco WHERE artista = ?");
             iDisco = connection.prepareStatement("INSERT INTO Disco (nome, etichetta, anno, artista, creatore) VALUES(?,?,?, ?,?)", Statement.RETURN_GENERATED_KEYS);
             uDisco = connection.prepareStatement("UPDATE Disco SET nome = ?, etichetta = ?, anno = ? WHERE id = ?");
             dDisco = connection.prepareStatement("DELETE FROM Disco WHERE id = ?");
@@ -51,6 +54,7 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
         try {
             sDiscoByID.close();
             sDischi.close();
+            sDischiByArtista.close();
             iDisco.close();
             uDisco.close();
             dDisco.close();
@@ -137,6 +141,25 @@ public class DiscoDAO_MySQL extends DAO implements DiscoDAO {
                 result.add((Disco) getDisco(rs.getInt("discoID")));
             }
         } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare i dischi", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public HashSet<Disco> getDischi(Artista artista) throws DataException {
+
+        HashSet<Disco> result = new HashSet<>();
+
+        try {
+            sDischiByArtista.setInt(1, artista.getKey());
+            try (ResultSet rs = sDischiByArtista.executeQuery()) {
+                while (rs.next()) {
+                    result.add((Disco) getDisco(rs.getInt("id")));
+                }
+            }
+        }
+        catch (SQLException ex) {
             throw new DataException("Impossibile caricare i dischi", ex);
         }
         return result;
