@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
-    private PreparedStatement sCollezioneByID;
+    private PreparedStatement sCollezioneByID, sCollezioneByIDPub;
     private PreparedStatement sCollezioni, sCollezioniByUtente, sCollezioniPubbliche, sLastCollezione, sCollezioneByNome;
     private PreparedStatement iCollezione, uCollezione, dCollezione;
 
@@ -26,8 +26,8 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
     public void init() throws DataException {
         try {
             super.init();
-
             sCollezioneByID = connection.prepareStatement("SELECT * FROM collezione WHERE id=?");
+            sCollezioneByIDPub = connection.prepareStatement("SELECT * FROM collezione WHERE id = ? AND condivisione = 'pubblica'");
             sCollezioni = connection.prepareStatement("SELECT * FROM collezione");
             sCollezioniByUtente = connection.prepareStatement("SELECT * FROM collezione WHERE utente=?");
             sCollezioniPubbliche = connection.prepareStatement("SELECT * FROM collezione WHERE condivisione='pubblica' ORDER BY id DESC LIMIT 6");
@@ -48,6 +48,7 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
         try {
 
             sCollezioneByID.close();
+            sCollezioneByIDPub.close();
             sCollezioni.close();
             sCollezioniByUtente.close();
             sCollezioniPubbliche.close();
@@ -98,10 +99,33 @@ public class CollezioneDAO_MySQL extends DAO implements CollezioneDAO {
                     }
                 }
             } catch (SQLException ex) {
-                throw new DataException("Unable to load article by ID", ex);
+                throw new DataException("Unable to load Collezione by ID", ex);
             }
         }
         return a;
+    }
+
+    @Override
+    public Collezione getCollezione(Collezione collezione) throws DataException {
+
+        Collezione collezione_ = null;
+
+        if (dataLayer.getCache().has(Collezione.class, collezione)) {
+            collezione_ = dataLayer.getCache().get(Collezione.class, collezione.getKey());
+        } else {
+            try {
+                sCollezioneByIDPub.setInt(1, collezione.getKey());
+                try (ResultSet rs = sCollezioneByIDPub.executeQuery()) {
+                    if (rs.next()) {
+                        collezione_ = createCollezione(rs);
+                        dataLayer.getCache().add(Collezione.class, collezione_);
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("Unable to load Collezione", ex);
+            }
+        }
+        return collezione_;
     }
 
     @Override

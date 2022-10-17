@@ -200,40 +200,44 @@
         <!-- UTENTI -->
         <div class="row">
             <h3>Utenti:</h3>
-            <#if !(utente??)>
+            <#if !(utenti?size>0)>
                 <p>Nessun utente trovato per ${keyword}...</p>
-            <#else>
-                <div class="col-12 col-md-4 col-lg-4 entre wow fadeInUp" data-wow-delay="0.2s"
-                     style="cursor:pointer"
-                     onclick="location.href='utente?id=${utente.key}'">
-                    <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
-                        <div class="poca-music-thumbnail">
-                            <div class="portrait text-center text-danger" style="height: 400px;  width:100%;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="380" height="380" fill="currentColor" class="bi bi-person-circle"
-                                     viewBox="0 0 16 16">
-                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                    <path fill-rule="evenodd"
-                                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                </svg>
-                            </div>
-
-                        </div>
-                        <div class="poca-music-content text-center">
-                            <h2>${utente.nickname}</h2>
-                            <noscript>
-                                <style type="text/css">
-                                    .pagecontainer {
-                                        display: none;
-                                    }
-                                </style>
-                                <div class="noscriptmsg">
-                                    <a href="utente?id=${utente.key}"
-                                       class="btn poca-btn mt-10">Visualizza</a>
+            </#if>
+            <#if utenti??>
+                <#list utenti as utente>
+                    <div class="col-12 col-md-4 col-lg-4 entre wow fadeInUp" data-wow-delay="0.2s"
+                         style="cursor:pointer"
+                         onclick="location.href='utente?id=${utente.key}'">
+                        <div class="poca-music-area style-2 d-flex align-items-center flex-wrap">
+                            <div class="poca-music-thumbnail">
+                                <div class="portrait text-center text-danger" style="height: 400px;  width:100%;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="380" height="380" fill="currentColor"
+                                         class="bi bi-person-circle"
+                                         viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                    </svg>
                                 </div>
-                            </noscript>
+
+                            </div>
+                            <div class="poca-music-content text-center">
+                                <h2>${utente.nickname}</h2>
+                                <noscript>
+                                    <style type="text/css">
+                                        .pagecontainer {
+                                            display: none;
+                                        }
+                                    </style>
+                                    <div class="noscriptmsg">
+                                        <a href="utente?id=${utente.key}"
+                                           class="btn poca-btn mt-10">Visualizza</a>
+                                    </div>
+                                </noscript>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </#list>
             </#if>
         </div>
     </div>

@@ -1,6 +1,7 @@
 package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.*;
+import it.fdd.sharedcollection.data.model.Canzone;
 import it.fdd.sharedcollection.data.model.ListaBrani;
 import it.fdd.sharedcollection.data.proxy.ListaBraniProxy;
 
@@ -9,12 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ListaBraniDAO_MySQL extends DAO implements ListaBraniDAO {
 
     private PreparedStatement sListaBraniByID;
-    private PreparedStatement sListeBrani, sListeBraniByDisco;
+    private PreparedStatement sListeBrani, sListeBraniByDisco, sListeBraniByCanzone;
     private PreparedStatement iListaBrani, uListaBrani, dListaBrani;
 
     public ListaBraniDAO_MySQL(DataLayer d) {
@@ -29,6 +31,7 @@ public class ListaBraniDAO_MySQL extends DAO implements ListaBraniDAO {
             sListaBraniByID = connection.prepareStatement("SELECT * FROM ListaBrani WHERE id = ?");
             sListeBrani = connection.prepareStatement("SELECT id AS listaBraniID FROM ListaBrani");
             sListeBraniByDisco = connection.prepareStatement("SELECT * FROM ListaBrani WHERE disco = ? ORDER BY id");
+            sListeBraniByCanzone = connection.prepareStatement("SELECT * FROM ListaBrani WHERE canzone = ? ORDER BY id");
             iListaBrani = connection.prepareStatement("INSERT INTO ListaBrani (disco, canzone) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
             uListaBrani = connection.prepareStatement("UPDATE ListaBrani SET disco = ?, canzone = ? WHERE id = ?");
             dListaBrani = connection.prepareStatement("DELETE FROM ListaBrani WHERE id = ?");
@@ -43,6 +46,7 @@ public class ListaBraniDAO_MySQL extends DAO implements ListaBraniDAO {
         try {
             sListaBraniByID.close();
             sListeBraniByDisco.close();
+            sListeBraniByCanzone.close();
             sListeBrani.close();
             iListaBrani.close();
             uListaBrani.close();
@@ -120,6 +124,24 @@ public class ListaBraniDAO_MySQL extends DAO implements ListaBraniDAO {
         try {
             sListeBraniByDisco.setInt(1, disco_key);
             try (ResultSet rs = sListeBraniByDisco.executeQuery()) {
+                while (rs.next()) {
+                    result.add((ListaBrani) getListaBrani(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare la lista dei brani", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public HashSet<ListaBrani> getListeBrani(Canzone canzone) throws DataException {
+
+        HashSet<ListaBrani> result = new HashSet<>();
+
+        try {
+            sListeBraniByCanzone.setInt(1, canzone.getKey());
+            try (ResultSet rs = sListeBraniByCanzone.executeQuery()) {
                 while (rs.next()) {
                     result.add((ListaBrani) getListaBrani(rs.getInt("id")));
                 }

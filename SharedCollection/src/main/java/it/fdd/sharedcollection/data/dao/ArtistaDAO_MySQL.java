@@ -13,12 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
 
     private PreparedStatement sArtistaByID, sArtistaByNomeArte;
-    private PreparedStatement sArtisti;
+    private PreparedStatement sArtisti, sArtistiByNomeArte;
     private PreparedStatement iArtista, uArtista, dArtista;
 
     public ArtistaDAO_MySQL(DataLayer d) {
@@ -31,8 +32,9 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
             super.init();
             // precompilazione di tutte le query utilizzate nella classe
             sArtistaByID = connection.prepareStatement("SELECT * FROM Artista WHERE id = ?");
-            sArtistaByNomeArte = connection.prepareStatement("SELECT * FROM Artista WHERE MATCH (nomeDArte) AGAINST (? IN NATURAL LANGUAGE MODE)");
+            sArtistaByNomeArte = connection.prepareStatement("SELECT * FROM Artista WHERE nomeDArte = ?");
             sArtisti = connection.prepareStatement("SELECT * FROM Artista ORDER BY nomeDArte");
+            sArtistiByNomeArte = connection.prepareStatement("SELECT * FROM Artista WHERE MATCH (nomeDArte) AGAINST (? IN NATURAL LANGUAGE MODE)");
             iArtista = connection.prepareStatement("INSERT INTO Artista (nome, cognome, nomeDArte) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uArtista = connection.prepareStatement("UPDATE Artista SET nome = ?, cognome = ?, nomeDArte = ? WHERE id = ?");
             dArtista = connection.prepareStatement("DELETE FROM Artista WHERE id = ?");
@@ -48,6 +50,7 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
             sArtistaByID.close();
             sArtistaByNomeArte.close();
             sArtisti.close();
+            sArtistiByNomeArte.close();
             iArtista.close();
             uArtista.close();
             dArtista.close();
@@ -141,6 +144,24 @@ public class ArtistaDAO_MySQL extends DAO implements ArtistaDAO {
             throw new DataException("Impossibile caricare gli artisti", ex);
         }
         return result;
+    }
+
+    @Override
+    public HashSet<Artista> getArtisti(String nomeArte) throws DataException {
+
+        HashSet<Artista> artisti = new HashSet<>();
+
+        try {
+            sArtistiByNomeArte.setString(1, nomeArte);
+            try (ResultSet rs = sArtistiByNomeArte.executeQuery()) {
+                while (rs.next()) {
+                    artisti.add((Artista) getArtista(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare artista dal nome d'arte", ex);
+        }
+        return artisti;
     }
 
     @Override

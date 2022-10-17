@@ -9,10 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
-    private PreparedStatement sUtenti, sUtenteByID, sUtenteByNickname;
+    private PreparedStatement sUtenti, sUtenteByID, sUtentiByNickname;
     private PreparedStatement iUtente;
 
     private PreparedStatement uUtente;
@@ -39,7 +40,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             login = connection.prepareStatement("SELECT * FROM Utente WHERE email = ? AND password = ?");
             iUtente = connection.prepareStatement("INSERT INTO utente (nickname,email,password,nome,cognome) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
-            getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE MATCH (nickname) AGAINST (? IN NATURAL LANGUAGE MODE)");
+            getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE nickname = ?");
+            sUtentiByNickname = connection.prepareStatement("SELECT * FROM Utente WHERE MATCH (nickname) AGAINST (? IN NATURAL LANGUAGE MODE)");
 
             loginUtente = connection.prepareStatement("SELECT id, password FROM Utente WHERE email = ?");
 
@@ -71,6 +73,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             uUtente.close();
             loginUtente.close();
             getUtenteByUsername.close();
+            sUtentiByNickname.close();
             sCollezioni.close();
             sNCollezioni.close();
             sDischi.close();
@@ -163,6 +166,24 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             throw new DataException("Unable to load Utentes", ex);
         }
         return result;
+    }
+
+    @Override
+    public HashSet<Utente> getUtenti(String nickname) throws DataException {
+
+        HashSet<Utente> utenti = new HashSet<>();
+
+        try {
+            sUtentiByNickname.setString(1, nickname);
+            try (ResultSet rs = sUtentiByNickname.executeQuery()) {
+                while (rs.next()) {
+                    utenti.add(getUtente(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Utenti", ex);
+        }
+        return utenti;
     }
 
     @Override

@@ -13,6 +13,8 @@ public interface CollezioneDAO {
 
     Collezione getCollezione(int collezione_key) throws DataException;
 
+    Collezione getCollezione(Collezione collezione) throws DataException;
+
     List<Collezione> getCollezioni() throws DataException;
 
     List<Collezione> getCollezioniPubbliche() throws DataException;

@@ -3,6 +3,7 @@ package it.fdd.sharedcollection.data.dao;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.framework.data.DataException;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface UtenteDAO {
@@ -12,6 +13,8 @@ public interface UtenteDAO {
     Utente getUtente(int utente_key) throws DataException;
 
     List<Utente> getUtenti() throws DataException;
+
+    HashSet<Utente> getUtenti(String nickname) throws DataException;
 
     List<Integer> getUtenteInfo(int utente_key) throws DataException;
 

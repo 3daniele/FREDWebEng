@@ -1,8 +1,10 @@
 package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.DataException;
+import it.fdd.sharedcollection.data.model.Artista;
 import it.fdd.sharedcollection.data.model.ListaArtisti;
 
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -10,9 +12,11 @@ public interface ListaArtistiDAO {
 
     ListaArtisti createListaArtisti();
 
-    ListaArtisti getArtista(int key) throws DataException;
+    ListaArtisti getListaArtisti(int key) throws DataException;
 
     List<ListaArtisti> getListaArtisti() throws DataException;
+
+    HashSet<ListaArtisti> getListaArtisti(Artista artista) throws DataException;
 
     List<ListaArtisti> getListaCanzoniByArtista(int artista_key) throws DataException;
 

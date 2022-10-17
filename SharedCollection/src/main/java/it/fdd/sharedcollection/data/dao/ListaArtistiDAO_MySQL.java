@@ -1,7 +1,9 @@
 package it.fdd.sharedcollection.data.dao;
 
 import it.fdd.framework.data.*;
+import it.fdd.sharedcollection.data.model.Artista;
 import it.fdd.sharedcollection.data.model.ListaArtisti;
+import it.fdd.sharedcollection.data.model.ListaDischi;
 import it.fdd.sharedcollection.data.proxy.ListaArtistiProxy;
 
 import java.sql.PreparedStatement;
@@ -9,11 +11,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
     private PreparedStatement sArtistaByID, sArtistaByCanzone;
-    private PreparedStatement sArtista;
+    private PreparedStatement sArtista, sListaArtisti;
 
     private PreparedStatement iLista;
     private PreparedStatement uLista;
@@ -32,6 +35,7 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
             // precompilazione di tutte le query utilizzate nella classe
             sArtistaByID = connection.prepareStatement("SELECT * FROM ListaArtisti WHERE id = ?");
             sArtista = connection.prepareStatement("SELECT * FROM ListaArtisti");
+            sListaArtisti = connection.prepareStatement("SELECT * FROM ListaArtisti WHERE artista = ?");
             sArtistaByCanzone = connection.prepareStatement("SELECT * FROM ListaArtisti WHERE canzone = ?");
             iLista = connection.prepareStatement(" INSERT INTO ListaArtisti (ruolo, artista,canzone) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
             uLista = connection.prepareStatement("UPDATE ListaArtisti SET ruolo = ?, artista = ?, canzone = ? WHERE id = ?");
@@ -48,6 +52,7 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
             sArtistaByID.close();
             sArtistaByCanzone.close();
             sArtista.close();
+            sListaArtisti.close();
             iLista.close();
             uLista.close();
             dLista.close();
@@ -77,7 +82,7 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
 
 
     @Override
-    public ListaArtisti getArtista(int key) throws DataException {
+    public ListaArtisti getListaArtisti(int key) throws DataException {
 
         ListaArtisti listaArtisti = null;
 
@@ -110,7 +115,7 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
 
         try (ResultSet rs = sArtista.executeQuery()) {
             while (rs.next()) {
-                result.add((ListaArtisti) getArtista(rs.getInt("id")));
+                result.add((ListaArtisti) getListaArtisti(rs.getInt("id")));
             }
         } catch (SQLException ex) {
             throw new DataException("Impossibile caricare ", ex);
@@ -118,6 +123,23 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
         return result;
     }
 
+    @Override
+    public HashSet<ListaArtisti> getListaArtisti(Artista artista) throws DataException {
+
+        HashSet<ListaArtisti> listaArtisti = new HashSet<>();
+
+        try {
+            sListaArtisti.setInt(1, artista.getKey());
+            try (ResultSet rs = sListaArtisti.executeQuery()) {
+                while (rs.next()) {
+                    listaArtisti.add((ListaArtisti) getListaArtisti(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Impossibile caricare la lista dei dischi", ex);
+        }
+        return listaArtisti;
+    }
 
     public List<ListaArtisti> getListaCanzoniByArtista(int artista_key) throws DataException {
 
@@ -133,7 +155,7 @@ public class ListaArtistiDAO_MySQL extends DAO implements ListaArtistiDAO {
             sArtistaByCanzone.setInt(1, canzone_key);
             try (ResultSet rs = sArtistaByCanzone.executeQuery()) {
                 while (rs.next()) {
-                    result.add((ListaArtisti) getArtista(rs.getInt("id")));
+                    result.add((ListaArtisti) getListaArtisti(rs.getInt("id")));
                 }
             }
         } catch (SQLException ex) {
