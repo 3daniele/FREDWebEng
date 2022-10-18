@@ -42,6 +42,20 @@ public class Ricerca extends SharedCollectionBaseController {
             request.setAttribute("utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
 
             String keyword = request.getParameter("campo");
+            String formato = request.getParameter("formato");
+            String stato = request.getParameter("stato");
+
+            boolean flagFormato = false;
+            boolean flagStato = false;
+
+            if (formato != null) {
+                flagFormato = true;
+            }
+
+            if (stato != null) {
+                flagStato = true;
+            }
+
             int user_key = 0;
 
             if (SecurityLayer.checkSession(request) != null) {
@@ -72,7 +86,7 @@ public class Ricerca extends SharedCollectionBaseController {
 
             // aggiunta collezioni degli utenti che corrispondono alla parola cercata
             for (Utente utente : utenti) {
-                collezioni.addAll((((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByUtente(utente.getKey())));
+                collezioni.addAll((((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByUtenteForRicerca(utente.getKey())));
             }
 
             // aggiunta artisti che contengono la parola cercata
@@ -122,6 +136,11 @@ public class Ricerca extends SharedCollectionBaseController {
             request.setAttribute("dischi", dischi);
             request.setAttribute("dettagliDischi", listaDischi);
             request.setAttribute("utenti", utenti);
+            request.setAttribute("flagStato", flagStato);
+            request.setAttribute("flagFormato", flagFormato);
+            request.setAttribute("stato", stato);
+            request.setAttribute("formato", formato);
+            request.setAttribute("allUtenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
 
             res.activate("ricerca.html.ftl", request, response);
 

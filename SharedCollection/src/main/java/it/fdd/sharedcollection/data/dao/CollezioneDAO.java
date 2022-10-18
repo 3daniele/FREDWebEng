@@ -21,6 +21,8 @@ public interface CollezioneDAO {
 
     List<Collezione> getCollezioniByUtente(int utente_key) throws DataException;
 
+    List<Collezione> getCollezioniByUtenteForRicerca(int utente_key) throws DataException;
+
     List<Collezione> getCollezioniCondivise(List<UtentiAutorizzati> utenti) throws DataException;
 
     Collezione getLast() throws DataException;
