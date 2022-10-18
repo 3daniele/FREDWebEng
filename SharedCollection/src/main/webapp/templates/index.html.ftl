@@ -140,13 +140,10 @@
     </div>
 
     <!-- ===== COLLEZIONI ===== -->
-    <#if ! ricerca??>
+
         <div class="container">
             <#include content_tpl>
         </div>
-    <#else>
-        <#include content_tpl>
-    </#if>
 </section>
 
 <!-- ===== BANNER FINALE ===== -->
@@ -178,6 +175,9 @@
                     </div>
                     <div class="single-latest-episodes">
                         <a href="showUtenti" class="episodes-title">Utenti</a>
+                    </div>
+                    <div class="single-latest-episodes">
+                        <a href="search" class="episodes-title">Cerca</a>
                     </div>
                     <#if session??>
                         <div class="single-latest-episodes">
