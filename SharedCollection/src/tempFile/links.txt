@@ -1,0 +1,26 @@
+[ 2022-10-24T13:41:23.225404 ]  francy@nuova.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile francy@nuova.it francy@nuova.it,
+Conferma la tua email cliccando sul link in basso
+ http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=$2a$10$9UBOeTestdkamDj3U3NweuKIPsWFe9sQtVdJRodr9I5pHtPbphDBW&refer_code=exXRBLST27rxwc6JCauF4Q==
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+
+[ 2022-10-24T13:59:54.334086 ]  francy.nuova@hotmail.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile francy.nuova@hotmail.it francy.nuova@hotmail.it,
+Conferma la tua email cliccando sul link in basso
+ http://localhost:8080/SharedCollection_war_exploded/confermaEmail?verification_code=$2a$10$J1hjRgYMpTtvA2K2eEqEIOmlAtHR2zxg/rSZDr9ODlGI0Pb1Zm.Cy&refer_code=A1eG3MAWIDwQSGjA4Rpl5KyTiDzWw1JO
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+
