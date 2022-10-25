@@ -231,96 +231,12 @@ public class ModificaCollezione extends SharedCollectionBaseController {
 
     private void action_disco(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException, TemplateManagerException, ServletException {
 
-        int disco_key = 0; //SecurityLayer.checkNumeric(request.getParameter("discoID"));
-        //int collezione_key = 0; //SecurityLayer.checkNumeric(request.getParameter("collezioneID"));
-        int numeroCopie = 0; //SecurityLayer.checkNumeric(request.getParameter("numeroCopie"));
-        String formato = null;
-        String stato = null;
-        String barcode = null;
+        int disco_key = SecurityLayer.checkNumeric(request.getParameter("discoID"));
+        int numeroCopie = SecurityLayer.checkNumeric(request.getParameter("numeroCopie"));
+        String formato = request.getParameter("formato");
+        String stato = request.getParameter("stato");
+        String barcode = request.getParameter("barcode");
         String imgCopertina = "images/templateimg/core-img/disco_default.jpeg";
-        String imgFronte = null;
-        String imgRetro = null;
-        String imgLibretto = null;
-
-        final long serialVersionUID = 1L;
-
-        final int THRESHOLD_SIZE = 3096 * 3096 * 3;
-        final int MAX_FILE_SIZE = 3096 * 3096 * 15;
-        final int MAX_REQUEST_SIZE = 3096 * 3096 * 20;
-
-
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setSizeThreshold(THRESHOLD_SIZE);
-        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setFileSizeMax(MAX_FILE_SIZE);
-        upload.setSizeMax(MAX_REQUEST_SIZE);
-        String uploadPath = System.getenv("PROJECT_IMG") + "/upload-img";
-
-        File uploaddir = new File(uploadPath);
-        if (!uploaddir.exists()) {
-            uploaddir.mkdirs();
-        }
-
-        try {
-            List formItems = upload.parseRequest(request);
-            Iterator it = formItems.iterator();
-            // iterates over form's fields
-            while (it.hasNext()) {
-                FileItem item = (FileItem) it.next();
-                // processes only fields that are not form fields
-                if (!item.isFormField()) {
-                    //creazione cartella per le immagini della collezione
-                    new File(uploadPath + File.separator + collezione_key).mkdir();
-                    new File(request.getServletContext().getRealPath("/images/upload-img/") + collezione_key).mkdir();
-
-                    String fileName = new File(item.getName()).getName();
-                    String filePath = uploadPath + File.separator + collezione_key + File.separator + fileName;
-                    String filePath_ = request.getServletContext().getRealPath("/images/upload-img") + File.separator + collezione_key + File.separator + fileName;
-
-
-                    File storeFile = new File(filePath);
-                    File storeFile_ = new File(filePath_);
-                    // saves the file on disk
-                    item.write(storeFile);
-                    item.write(storeFile_);
-
-                    if ("imgCopertina".equals(item.getFieldName())) {
-                        imgCopertina = "images/upload-img" + File.separator + collezione_key + File.separator + fileName;
-                    }
-
-                    if ("imgFronte".equals(item.getFieldName())) {
-                        imgFronte = "images/upload-img" + File.separator + collezione_key + File.separator + fileName;
-                    }
-
-                    if ("imgRetro".equals(item.getFieldName())) {
-                        imgRetro = "images/upload-img" + File.separator + collezione_key + File.separator + fileName;
-                    }
-
-                    if ("imgLibretto".equals(item.getFieldName())) {
-                        imgLibretto = "images/upload-img" + File.separator + collezione_key + File.separator + fileName;
-                    }
-                } else {
-                    if ("formato".equals(item.getFieldName()))
-                        formato = item.getString();
-                    else if ("stato".equals(item.getFieldName()))
-                        stato = item.getString();
-                    else if ("barcode".equals(item.getFieldName()))
-                        barcode = item.getString();
-                    else if ("discoID".equals(item.getFieldName()))
-                        disco_key = Integer.parseInt(item.getString());
-                        // else if ("collezioneID".equals(item.getFieldName()))
-                        //    collezione_key = Integer.parseInt(item.getString());
-                    else if ("numeroCopie".equals(item.getFieldName()))
-                        numeroCopie = Integer.parseInt(item.getString());
-                }
-            }
-
-            PrintWriter out = response.getWriter();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
         Collezione collezione = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key);
         Disco disco = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDisco(disco_key);
@@ -335,9 +251,6 @@ public class ModificaCollezione extends SharedCollectionBaseController {
             listaDischi.setStato(stato);
             listaDischi.setBarcode(barcode);
             listaDischi.setImgCopertina(imgCopertina);
-            listaDischi.setImgFronte(imgFronte);
-            listaDischi.setImgRetro(imgRetro);
-            listaDischi.setImgLibretto(imgLibretto);
             ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().storeListaDischi(listaDischi);
         }
 

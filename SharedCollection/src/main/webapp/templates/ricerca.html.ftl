@@ -10,107 +10,10 @@
             </#if>
         </div>
     </div>
-    <!--
-    <div class="row">
-        <div class="col-12 col-md-5 col-lg-5">
-            <div class="card" style="border: none">
-                <div class="card-body">
-                    <h5 class="card-title">Formato:</h5>
-                    <#if flagFormato = true>
-                        <input type="radio" class="btn-check" id="Vinile" name="formato" value="Vinile"
-                               autocomplete="off" <#if formato = "Vinile" >checked</#if>>
-                        <label class="btn btn-outline-success" for="Vinile">Vinile</label>
-                        <input type="radio" class="btn-check" id="CD" name="formato" value="CD" autocomplete="off"
-                               <#if formato = "CD">checked</#if>>
-                        <label class="btn btn-outline-success" for="CD">CD</label>
-                        <input type="radio" class="btn-check" id="Digitale" name="formato" value="Digitale"
-                               autocomplete="off" <#if formato = "Digitale" >checked</#if>>
-                        <label class="btn btn-outline-success" for="Digitale">Digitale</label>
-                        <input type="radio" class="btn-check" id="Cassetta" name="formato" value="Cassetta"
-                               autocomplete="off" <#if formato = "Cassetta">checked</#if>>
-                        <label class="btn btn-outline-success" for="Cassetta">Cassetta</label>
-                        <input type="radio" class="btn-check" id="Altro" name="formato" value="Altro"
-                               autocomplete="off" <#if formato = "Altro">checked</#if>>
-                        <label class="btn btn-outline-success" for="Altro">Altro</label>
-                        <input type="radio" class="btn-check" id="tuttiF" name="formato" value="Tutti"
-                               autocomplete="off" <#if formato = "Tutti"> checked </#if>>
-                        <label class="btn btn-outline-success" for="tuttiF">Tutti</label>
-                    <#else>
-                        <input type="radio" class="btn-check" id="Vinile" name="formato" value="Vinile"
-                               autocomplete="off">
-                        <label class="btn btn-outline-success" for="Vinile">Vinile</label>
-                        <input type="radio" class="btn-check" id="CD" name="formato" value="CD" autocomplete="off">
-                        <label class="btn btn-outline-success" for="CD">CD</label>
-                        <input type="radio" class="btn-check" id="Digitale" name="formato" value="Digitale"
-                               autocomplete="off">
-                        <label class="btn btn-outline-success" for="Digitale">Digitale</label>
-                        <input type="radio" class="btn-check" id="Cassetta" name="formato" value="Cassetta"
-                               autocomplete="off">
-                        <label class="btn btn-outline-success" for="Cassetta">Cassetta</label>
-                        <input type="radio" class="btn-check" id="Altro" name="formato" value="Altro"
-                               autocomplete="off">
-                        <label class="btn btn-outline-success" for="Altro">Altro</label>
-                        <input type="radio" class="btn-check" id="tuttiF" name="formato" value="Tutti"
-                               autocomplete="off" checked>
-                        <label class="btn btn-outline-success" for="tuttiF">Tutti</label>
-                    </#if>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-2 col-lg-2">
 
-        </div>
-        <div class="col-12 col-md-5 col-lg-5">
-            <div class="card" style="border: none">
-                <div class="card-body">
-                    <h5 class="card-title">Stato:</h5>
-                    <#if flagStato = true>
-                        <input type="radio" class="btn-check" id="ottimo" name="stato" value="Ottimo" autocomplete="off"
-                               <#if stato = "Ottimo" >checked</#if>>
-                        <label class="btn btn-outline-danger" for="ottimo">Ottimo</label>
-                        <input type="radio" class="btn-check" id="buono" name="stato" value="Buono" autocomplete="off"
-                               <#if stato = "Buono" >checked</#if>>
-                        <label class="btn btn-outline-danger" for="buono">Buono</label>
-                        <input type="radio" class="btn-check" id="discreto" name="stato" value="Discreto"
-                               autocomplete="off" <#if stato = "Discreto" >checked</#if>>
-                        <label class="btn btn-outline-danger" for="discreto">Discreto</label>
-                        <input type="radio" class="btn-check" id="sufficiente" name="stato" value="Sufficiente"
-                               autocomplete="off" <#if stato = "Sufficiente" >checked</#if>>
-                        <label class="btn btn-outline-danger" for="sufficiente">Sufficiente</label>
-                        <input type="radio" class="btn-check" id="pessimo" name="stato" value="Pessimo"
-                               autocomplete="off" <#if stato = "Pessimo" >checked</#if>>
-                        <label class="btn btn-outline-danger" for="pessimo">Pessimo</label>
-                        <input type="radio" class="btn-check" id="tuttiS" name="stato" value="Tutti" autocomplete="off"
-                               <#if stato = "Tutti" >checked</#if>>
-                        <label class="btn btn-outline-danger" for="tuttiS">Tutti</label>
-                    <#else>
-                        <input type="radio" class="btn-check" id="ottimo" name="stato" value="Ottimo"
-                               autocomplete="off">
-                        <label class="btn btn-outline-danger" for="ottimo">Ottimo</label>
-                        <input type="radio" class="btn-check" id="buono" name="stato" value="Buono" autocomplete="off">
-                        <label class="btn btn-outline-danger" for="buono">Buono</label>
-                        <input type="radio" class="btn-check" id="discreto" name="stato" value="Discreto"
-                               autocomplete="off">
-                        <label class="btn btn-outline-danger" for="discreto">Discreto</label>
-                        <input type="radio" class="btn-check" id="sufficiente" name="stato" value="Sufficiente"
-                               autocomplete="off">
-                        <label class="btn btn-outline-danger" for="sufficiente">Sufficiente</label>
-                        <input type="radio" class="btn-check" id="pessimo" name="stato" value="Pessimo"
-                               autocomplete="off">
-                        <label class="btn btn-outline-danger" for="pessimo">Pessimo</label>
-                        <input type="radio" class="btn-check" id="tuttiS" name="stato" value="Tutti" autocomplete="off"
-                               checked>
-                        <label class="btn btn-outline-danger" for="tuttiS">Tutti</label>
-                    </#if>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
     <br>
     <div class="row">
         <div class="col-lg-3 col-md-3">
-
         </div>
         <div class="col-12 col-lg-5 col-md-5">
             <input type="submit" class="btn btn-danger" id="filtra" name="filtra" value="Cerca" style="width: 100%">
@@ -120,7 +23,9 @@
         </div>
     </div>
 </form>
+
 <#if keyword??>
+    <!-- COLLEZIONI -->
     <div class="row">
         <h3>Collezioni:</h3>
         <#if !(collezioni?size>0)>
@@ -143,13 +48,8 @@
                             <span class="music-published-date mb-2">${collezione.dataCreazione}</span>
                             <h2>${collezione.nome}</h2>
                             <div class="music-meta-data">
-                                <#list allUtenti as utente>
-                                    <#if (utente.key=collezione.utente.key)>
-                                        <p>By <a href="utente?id=${utente.key}" class="music-author">
-                                                ${utente.nickname}
-                                            </a></p>
-                                    </#if>
-                                </#list>
+                                <p>By <a href="utente?id=${collezione.utente.key}" class="music-author">
+                                        ${collezione.utente.nickname}</a></p>
                             </div>
                             <div class="likes-share-download d-flex align-items-center justify-content-between">
                                 <i class="" aria-hidden="true">${collezione.condivisione?upper_case}</i>
@@ -182,6 +82,7 @@
         </#if>
     </div>
     <hr>
+
     <!-- DISCHI -->
     <div class="row">
         <h3>Dischi:</h3>
@@ -203,7 +104,6 @@
                                         <img src="${dettaglio.imgCopertina}" alt=""
                                              style="width:100%; height: 100%">
                                     </div>
-
                                 </div>
                                 <div class="poca-music-content text-center">
                                     <span class="music-published-date mb-2">${disco.anno}</span>
@@ -237,6 +137,7 @@
         </#if>
     </div>
     <hr>
+
     <!-- UTENTI -->
     <div class="row">
         <h3>Utenti:</h3>
@@ -263,7 +164,6 @@
                             </noscript>
                         </div>
                     </div>
-
                 </div>
             </#list>
         </#if>

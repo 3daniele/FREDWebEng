@@ -34,27 +34,10 @@ public class Ricerca extends SharedCollectionBaseController {
             HttpSession sessione = request.getSession(true);
 
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("page_title", "CERCA");
+            request.setAttribute("page_title", "Cerca");
             request.setAttribute("ricerca", true);
 
-            request.setAttribute("generi", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getGenereDAO().getListaGeneri());
-            request.setAttribute("autori", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtisti());
-            request.setAttribute("utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
-
             String keyword = request.getParameter("campo");
-            String formato = request.getParameter("formato");
-            String stato = request.getParameter("stato");
-
-            boolean flagFormato = false;
-            boolean flagStato = false;
-
-            if (formato != null) {
-                flagFormato = true;
-            }
-
-            if (stato != null) {
-                flagStato = true;
-            }
 
             int user_key = 0;
 
@@ -66,11 +49,45 @@ public class Ricerca extends SharedCollectionBaseController {
                 user_key = Integer.parseInt(sessione.getAttribute("userid").toString());
             }
 
-            // aggiunta collezioni che contengono la parola cercata
-            HashSet<Collezione> collezioni = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByNome(keyword);
+            List<Collezione> collezioni_ = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniPubbliche();
+            List<Disco> dischi_ = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDischi();
+            List<Utente> utenti_ = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti();
+            List<Artista> artisti_ = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtisti();
 
-            // aggiunta collezioni dell'utente se loggato
+            // aggiunta dischi che contengono la parola cercata
+            List<Disco> dischi = new ArrayList<>();
+            for (Disco disco : dischi_) {
+                if (disco.getNome().toLowerCase().contains(keyword.toLowerCase())) {
+                    dischi.add(disco);
+                }
+            }
+
+            // aggiunta utenti che contengono la parola cercata
+            List<Utente> utenti = new ArrayList<>();
+            for (Utente utente : utenti_) {
+                if (utente.getNickname().toLowerCase().contains(keyword.toLowerCase())) {
+                    utenti.add(utente);
+                }
+            }
+
+            // aggiunta artisti che contengono la parola cercata
+            List<Artista> artisti = new ArrayList<>();
+            for (Artista artista : artisti_) {
+                if (artista.getNomeArte().toLowerCase().contains(keyword.toLowerCase())) {
+                    artisti.add(artista);
+                }
+            }
+
+            // aggiunta collezioni che contengono la parola cercata
+            List<Collezione> collezioni = new ArrayList<>();
+            for (Collezione collezione : collezioni_) {
+                if (collezione.getNome().toLowerCase().contains(keyword.toLowerCase()) && collezione.getCondivisione().equalsIgnoreCase("pubblica")) {
+                    collezioni.add(collezione);
+                }
+            }
+
             List<UtentiAutorizzati> utentiAutorizzati = new ArrayList<>();
+            // aggiunta collezioni dell'utente se loggato
             if (user_key != 0) {
                 collezioni.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByUtente(user_key));
                 utentiAutorizzati.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByUser(user_key));
@@ -81,21 +98,14 @@ public class Ricerca extends SharedCollectionBaseController {
                 collezioni.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniCondivise(utentiAutorizzati));
             }
 
-            // aggiunta utenti che contengono la parola cercata
-            HashSet<Utente> utenti = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti(keyword);
-
             // aggiunta collezioni degli utenti che corrispondono alla parola cercata
             for (Utente utente : utenti) {
                 collezioni.addAll((((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezioniByUtenteForRicerca(utente.getKey())));
             }
 
-            // aggiunta artisti che contengono la parola cercata
-            HashSet<Artista> artisti = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtisti(keyword);
-
             HashSet<ListaArtisti> listaArtisti = new HashSet<>();
             HashSet<Canzone> canzoni = new HashSet<>();
             HashSet<ListaBrani> listaBrani = new HashSet<>();
-            HashSet<Disco> dischi = new HashSet<>();
             HashSet<ListaDischi> listaDischi = new HashSet<>();
 
             // aggiunta dischi degli artisti che corrispondono alla parola cercata
@@ -126,8 +136,14 @@ public class Ricerca extends SharedCollectionBaseController {
             }
 
             // aggiunta collezioni dei dischi aggiunti
+            List<Collezione> collezioniDischi = new ArrayList<>();
             for (ListaDischi listaDisco : listaDischi) {
-                collezioni.add(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(listaDisco.getCollezione()));
+                collezioniDischi.add(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(listaDisco.getCollezione()));
+            }
+            for (Collezione collezione : collezioniDischi) {
+                if (!(collezioni.contains(collezione)) && collezione.getCondivisione().equalsIgnoreCase("pubblica")) {
+                    collezioni.add(collezione);
+                }
             }
 
             request.setAttribute("keyword", keyword);
@@ -136,11 +152,6 @@ public class Ricerca extends SharedCollectionBaseController {
             request.setAttribute("dischi", dischi);
             request.setAttribute("dettagliDischi", listaDischi);
             request.setAttribute("utenti", utenti);
-            request.setAttribute("flagStato", flagStato);
-            request.setAttribute("flagFormato", flagFormato);
-            request.setAttribute("stato", stato);
-            request.setAttribute("formato", formato);
-            request.setAttribute("allUtenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
 
             res.activate("ricerca.html.ftl", request, response);
 

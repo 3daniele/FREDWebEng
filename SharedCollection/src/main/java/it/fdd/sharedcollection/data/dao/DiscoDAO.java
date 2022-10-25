@@ -20,6 +20,8 @@ public interface DiscoDAO {
 
     HashSet<Disco> getDischi(Artista artista) throws DataException;
 
+    HashSet<Disco> getDischiByNome(String nome) throws DataException;
+
     void storeDisco(Disco disco) throws DataException;
 
 }

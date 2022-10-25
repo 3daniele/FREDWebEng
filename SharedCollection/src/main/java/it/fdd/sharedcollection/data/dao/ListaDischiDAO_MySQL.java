@@ -211,10 +211,8 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
                 }
             } else {
                 // insert
-
                 iListaDischi.setInt(1, listaDischi.getCollezione().getKey());
                 iListaDischi.setInt(2, listaDischi.getDisco().getKey());
-
                 iListaDischi.setString(7, listaDischi.getImgCopertina());
 
                 if (listaDischi.getStato() == null || listaDischi.getStato().equals("")) {
@@ -234,7 +232,6 @@ public class ListaDischiDAO_MySQL extends DAO implements ListaDischiDAO {
                     iListaDischi.setString(9, listaDischi.getImgRetro());
                     iListaDischi.setString(10, listaDischi.getImgLibretto());
                 }
-
 
                 if (iListaDischi.executeUpdate() == 1) {
                     // get della chiave generata

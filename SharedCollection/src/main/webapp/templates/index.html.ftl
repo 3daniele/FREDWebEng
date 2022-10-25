@@ -107,11 +107,7 @@
                                     <h2>${ultima_collezione.nome}</h2>
                                     <div class="music-meta-data">
                                         <p>By <a href="utente?id=${ultima_collezione.utente.key}" class="music-author">
-                                                <#list utenti as utente>
-                                                    <#if (utente.key=ultima_collezione.utente.key)>
-                                                        ${utente.nickname}
-                                                    </#if>
-                                                </#list>
+                                                ${ultima_collezione.utente.nickname}
                                             </a>
                                     </div>
                                 </div>
@@ -141,9 +137,9 @@
 
     <!-- ===== COLLEZIONI ===== -->
 
-        <div class="container">
-            <#include content_tpl>
-        </div>
+    <div class="container">
+        <#include content_tpl>
+    </div>
 </section>
 
 <!-- ===== BANNER FINALE ===== -->

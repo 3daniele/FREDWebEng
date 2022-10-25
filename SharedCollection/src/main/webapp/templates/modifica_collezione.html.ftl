@@ -164,7 +164,7 @@
 <div class="modal fade modal-lg" id="importModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="modificaCollezione" method="POST" enctype="multipart/form-data">
+            <form action="modificaCollezione" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title text-danger" id="exampleModalLabel">Importa disco:</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -243,6 +243,7 @@
                                    aria-describedby="inputGroup-sizing-default" id="barcode" name="barcode">
                         </div>
                     </div>
+                    <!--
                     <br>
                     <div class="row">
                         <label class="form-label">
@@ -283,6 +284,7 @@
                             <input type="file" class="form-control" id="imgLibretto" name="imgLibretto">
                         </div>
                     </div>
+                    -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
