@@ -16,6 +16,8 @@ import java.io.IOException;
 
 public class MostraUtenti extends SharedCollectionBaseController {
 
+    private String letter_key;
+
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
@@ -33,7 +35,8 @@ public class MostraUtenti extends SharedCollectionBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("page_title", "Elenco utenti");
             request.setAttribute("utentiPath", true);
-            request.setAttribute("utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
+
+            request.setAttribute("utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtentiByLettera(letter_key));
 
             if (SecurityLayer.checkSession(request) != null) {
                 request.setAttribute("session", true);
@@ -54,15 +57,10 @@ public class MostraUtenti extends SharedCollectionBaseController {
 
         request.setAttribute("page_title", "Mostra Utente");
 
-        int letter_key;
         try {
-            if (request.getParameter("filter") != null) {
-                letter_key = SecurityLayer.checkNumeric(request.getParameter("filter"));
-                request.setAttribute("filter", letter_key);
-                action_default(request, response);
-            } else {
-                action_default(request, response);
-            }
+            letter_key = request.getParameter("filter");
+            request.setAttribute("filter", letter_key);
+            action_default(request, response);
         } catch (NumberFormatException ex) {
             request.setAttribute("message", "Invalid number submitted");
             action_error(request, response);
@@ -82,6 +80,6 @@ public class MostraUtenti extends SharedCollectionBaseController {
      */
     @Override
     public String getServletInfo() {
-        return "Write Article servlet";
+        return "Servlet per la lista degli utenti";
     }// </editor-fold>
 }

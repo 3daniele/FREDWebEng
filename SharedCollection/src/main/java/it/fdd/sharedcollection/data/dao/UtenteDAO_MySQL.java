@@ -22,6 +22,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
     private PreparedStatement loginUtente;
     private PreparedStatement sToken, sLink, insertLink, insertToken;
 
+    private PreparedStatement getUtentiByLetter;
+
     private PreparedStatement sCollezioni, sNCollezioni, sDischi, sNDischi, sNBrani;
 
     public UtenteDAO_MySQL(DataLayer d) {
@@ -42,6 +44,8 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             uUtente = connection.prepareStatement("UPDATE Utente SET nome = ?, cognome = ?, password = ? WHERE id = ?");
             getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE nickname = ?");
             sUtentiByNickname = connection.prepareStatement("SELECT * FROM Utente WHERE MATCH (nickname) AGAINST (? IN NATURAL LANGUAGE MODE)");
+
+            getUtentiByLetter = connection.prepareStatement("SELECT *FROM Utente WHERE nome LIKE ?");
 
             loginUtente = connection.prepareStatement("SELECT id, password FROM Utente WHERE email = ?");
 
@@ -83,6 +87,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             sLink.close();
             insertLink.close();
             insertToken.close();
+            getUtentiByLetter.close();
         } catch (SQLException ex) {
             //
         }
@@ -426,6 +431,26 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             throw new DataException("Impossibile salvare l'utente", ex);
         }
         return utente;
+    }
+
+    @Override
+    public List<Utente> getUtentiByLettera(String letter) throws DataException {
+
+        List<Utente> utenti = new ArrayList<>();
+
+        String letterk = letter+"%";
+
+        try {
+            getUtentiByLetter.setString(1, letterk);
+            try (ResultSet rs = getUtentiByLetter.executeQuery()) {
+                while (rs.next()) {
+                    utenti.add(getUtente(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Utenti", ex);
+        }
+        return utenti;
     }
 
 

@@ -20,6 +20,8 @@ public interface UtenteDAO {
 
     Utente getUtente(String email) throws DataException;
 
+    List<Utente> getUtentiByLettera(String letter) throws DataException;
+
     Utente getUtenteByUsername(String username) throws DataException;
 
     Utente login(String email, String password) throws DataException;
