@@ -35,13 +35,15 @@
             </#if>
             <#assign n=0>
             <#list generi as genere>
-                <p>${genere.nome}</p>
-                <div class="progress mb-2">
-                    <div class="progress-bar bg-danger" role="progressbar" aria-label="Danger striped example"
-                         style="width: ${percentuali[n]}" aria-valuenow="100" aria-valuemin="0"
-                         aria-valuemax="100">${percentuali[n]}</div>
-                </div>
-                <#assign n++>
+                <#if (n<3)>
+                    <p>${genere.nome}</p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-danger" role="progressbar" aria-label="Danger striped example"
+                             style="width: ${percentuali[n]}" aria-valuenow="100" aria-valuemin="0"
+                             aria-valuemax="100">${percentuali[n]}</div>
+                    </div>
+                    <#assign n++>
+                </#if>
             </#list>
         </div>
         <div class="col-12 col-md-6 col-lg-6">
@@ -54,13 +56,15 @@
             </#if>
             <#assign n=0>
             <#list artisti as artista>
-                <p>${artista.nomeArte}</p>
-                <div class="progress mb-2">
-                    <div class="progress-bar bg-success" role="progressbar" aria-label="Danger striped example"
-                         style="width: ${percentualiA[n]}" aria-valuenow="100" aria-valuemin="0"
-                         aria-valuemax="100">${percentualiA[n]}</div>
-                </div>
-                <#assign n++>
+                <#if (n<3)>
+                    <p>${artista.nomeArte}</p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-success" role="progressbar" aria-label="Danger striped example"
+                             style="width: ${percentualiA[n]}" aria-valuenow="100" aria-valuemin="0"
+                             aria-valuemax="100">${percentualiA[n]}</div>
+                    </div>
+                    <#assign n++>
+                </#if>
             </#list>
         </div>
     </div>
