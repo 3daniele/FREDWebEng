@@ -41,40 +41,23 @@
 
     <!--MODIFICA UTENTI AUTORIZZATI-->
     <div class="col-12 col-md-6 col-lg-6">
-        <form action="modificaCollezione" method="post">
-            <h2 class="text-danger">Condivisione:</h2>
-            <label class="form-label">
-                <h5>Utenti</h5>
-            </label>
-            <select class="selectpicker" multiple data-live-search="true" id="utentiS" name="utentiS">
-                <#list lista_utenti as utente>
-                    <#if (utente.key != userid)>
-                        <#if utenti_autorizzati?seq_contains(utente.key)>
-                            <option value="${utente.key}" id="${utente.key}" selected>${utente.nickname}</option>
-                        <#else>
-                            <option value="${utente.key}" id="${utente.key}">${utente.nickname}</option>
-                        </#if>
-                    </#if>
+        <h2 class="text-danger">Condivisione:</h2>
+        <label class="form-label">
+            <h5>Condivisa con:</h5>
+        </label>
+        <ul>
+            <#if (utenti_autorizzati?size > 0)>
+                <#list utenti_autorizzati as utente>
+                    <p>${utente.nickname}</p>
                 </#list>
-            </select>
-            <div class="form-text">
-                <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
-                Seleziona gli utenti con cui condividere la tua collezione.
-            </div>
-            <noscript>
-                <style type="text/css">
-                    .pagecontainer {
-                        display: none;
-                    }
-                </style>
-                <div class="noscriptmsg">
-                    Impossibile modificare la condivisione, attiva il javascript!
-                </div>
-            </noscript>
-            <br><br><br><br><br><br>
-            <div class="text-end">
-                <input type="submit" class="btn btn-danger" value="Salva" id="modificaUtenti" name="modificaUtenti">
-            </div>
+            <#else>
+                <p>Attualmente la collezione non è stata condivisa con altri utenti</p>
+            </#if>
+        </ul>
+
+        <form action="modificaCondivisione" method="get" class="text-end">
+            <input type="hidden" name="collezioneId" id="collezioneId" value="${collezione_key}">
+            <input type="submit" class="btn btn-danger" name="modifica" value="Gestisci condivisione">
         </form>
     </div>
 </div>
