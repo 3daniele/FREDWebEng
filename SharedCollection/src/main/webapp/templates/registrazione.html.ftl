@@ -11,7 +11,7 @@
             <form method="POST" action="register">
                 <!-- Username input -->
                 <div class="form-outline mb-4">
-                    <input type="username" name="username" class="form-control form-control-lg"
+                    <input type="text" name="username" class="form-control form-control-lg"
                            placeholder="Username"
                             <#if username??>
                                 value="${username}"

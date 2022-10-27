@@ -32,7 +32,7 @@
                     <#assign n++>
                     <tr style="cursor:pointer" onclick="location.href='collezione?numero=${collezione.key}'">
                         <th scope="row">${n}</th>
-                        <td>${strip_slashes(collezione.nome)}&nbsp</td>
+                        <td>${strip_slashes(collezione.nome)}&nbsp; </td>
                         <td>
                             <#assign i = 0>
                             <#list dischi as disco>
@@ -46,13 +46,13 @@
                                 Nessun disco presente...
                             </#if>
                         </td>
-                        <td>${strip_slashes(collezione.condivisione)}&nbsp</td>
-                        <td>${strip_slashes(collezione.utente.nickname)}&nbsp</td>
-                        <td>${strip_slashes(collezione.dataCreazione)}&nbsp</td>
+                        <td>${strip_slashes(collezione.condivisione)}&nbsp;</td>
+                        <td>${strip_slashes(collezione.utente.nickname)}&nbsp;</td>
+                        <td>${strip_slashes(collezione.dataCreazione)}&nbsp;</td>
                         <td>
                             <form action="collezioni" method="post">
                                 <noscript>
-                                    <style type="text/css">
+                                    <style>
                                         .pagecontainer {
                                             display: none;
                                         }
@@ -67,7 +67,7 @@
                                 <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-secondary"
                                    role="button">
                                     <img src="images/templateimg/imgFont/pencil-fill.svg" alt="modifica"
-                                         width="24" height="24" class="text-light" fill="currentColor">
+                                         width="24" height="24" class="text-light" >
                                 </a>
 
                                 <input type="hidden" id="collezioneID" name="collezioneID" value="${collezione.key}">
@@ -75,7 +75,7 @@
                                         name="eliminaCollezione"><img src="images/templateimg/imgFont/trash3-fill.svg"
                                                                       alt="modifica"
                                                                       width="24" height="24" class="text-light"
-                                                                      fill="currentColor"></button>
+                                    ></button>
                             </form>
                         </td>
                     </tr>
@@ -108,7 +108,7 @@
                     <#assign n++>
                     <tr style="cursor:pointer" onclick="location.href='collezione?numero=${collezione.key}'">
                         <th scope="row">${n}</th>
-                        <td>${strip_slashes(collezione.nome)}&nbsp</td>
+                        <td>${strip_slashes(collezione.nome)}&nbsp;</td>
                         <td>
                             <#assign i = 0>
                             <#list dischi as disco>
@@ -122,9 +122,9 @@
                                 Nessun disco presente...
                             </#if>
                         </td>
-                        <td>${strip_slashes(collezione.condivisione)}&nbsp</td>
-                        <td>${strip_slashes(collezione.utente.nickname)}&nbsp</td>
-                        <td>${strip_slashes(collezione.dataCreazione)}&nbsp</td>
+                        <td>${strip_slashes(collezione.condivisione)}&nbsp;</td>
+                        <td>${strip_slashes(collezione.utente.nickname)}&nbsp;</td>
+                        <td>${strip_slashes(collezione.dataCreazione)}&nbsp;</td>
                         <noscript>
                             <style type="text/css">
                                 .pagecontainer {
@@ -179,7 +179,7 @@
                 <#assign n++>
                 <tr style="cursor:pointer" onclick="location.href='collezione?numero=${collezione.key}'">
                     <th scope="row">${n}</th>
-                    <td>${strip_slashes(collezione.nome)}&nbsp</td>
+                    <td>${strip_slashes(collezione.nome)}&nbsp;</td>
                     <td>
                         <#assign i = 0>
                         <#list dischi as disco>
@@ -193,8 +193,8 @@
                             Nessun disco presente...
                         </#if>
                     </td>
-                    <td>${strip_slashes(collezione.utente.nickname)}&nbsp</td>
-                    <td>${strip_slashes(collezione.dataCreazione)}&nbsp</td>
+                    <td>${strip_slashes(collezione.utente.nickname)}&nbsp;</td>
+                    <td>${strip_slashes(collezione.dataCreazione)}&nbsp;</td>
                     <noscript>
                         <style type="text/css">
                             .pagecontainer {
@@ -206,7 +206,7 @@
                                 <a href="collezione?numero=${collezione.key}"
                                    class="btn btn-success">
                                     <img src="images/templateimg/imgFont/arrow-up.svg"
-                                         alt="Bootstrap" width="24" height="24" f></a>
+                                         alt="Bootstrap" width="24" height="24" ></a>
                             </td>
                         </div>
                     </noscript>

@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <noscript>
-                                <style type="text/css">
+                                <style >
                                     .pagecontainer {
                                         display: none;
                                     }
@@ -118,7 +118,7 @@
                                         </div>
                                     </div>
                                     <noscript>
-                                        <style type="text/css">
+                                        <style >
                                             .pagecontainer {
                                                 display: none;
                                             }

@@ -9,17 +9,15 @@
     <div class="col-12 col-md-6 col-lg-6">
         <form action="modificaCollezione" method="post">
             <h2 class="text-danger">Informazioni:</h2>
-            <label class="form-label">
-                <h5>Nome collezione</h5>
-            </label>
+            <h5 class="form-label">Nome collezione</h5>
+
             <input type="text" class="form-control" id="nome" name="nome" value="${collezione.nome}"/>
             <div class="form-text">
                 Modifica il nome della collezione.
             </div>
             <br>
-            <label class="form-label">
-                <h5>Condivisione</h5>
-            </label>
+            <h5 class="form-label">Condivisione</h5>
+
             <select id="condivisione" name="condivisione" class="form-select">
                 <#if (collezione.condivisione == "privata")>
                     <option value="privata" selected>Privata</option>
@@ -41,40 +39,21 @@
 
     <!--MODIFICA UTENTI AUTORIZZATI-->
     <div class="col-12 col-md-6 col-lg-6">
-        <form action="modificaCollezione" method="post">
-            <h2 class="text-danger">Condivisione:</h2>
-            <label class="form-label">
-                <h5>Utenti</h5>
-            </label>
-            <select class="selectpicker" multiple data-live-search="true" id="utentiS" name="utentiS">
-                <#list lista_utenti as utente>
-                    <#if (utente.key != userid)>
-                        <#if utenti_autorizzati?seq_contains(utente.key)>
-                            <option value="${utente.key}" id="${utente.key}" selected>${utente.nickname}</option>
-                        <#else>
-                            <option value="${utente.key}" id="${utente.key}">${utente.nickname}</option>
-                        </#if>
-                    </#if>
+        <h2 class="text-danger">Condivisione:</h2>
+        <h5 class="form-label">Condivisa con:</h5>
+        <ul>
+            <#if (utenti_autorizzati?size > 0)>
+                <#list utenti_autorizzati as utente>
+                    <p>${utente.nickname}</p>
                 </#list>
-            </select>
-            <div class="form-text">
-                <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
-                Seleziona gli utenti con cui condividere la tua collezione.
-            </div>
-            <noscript>
-                <style type="text/css">
-                    .pagecontainer {
-                        display: none;
-                    }
-                </style>
-                <div class="noscriptmsg">
-                    Impossibile modificare la condivisione, attiva il javascript!
-                </div>
-            </noscript>
-            <br><br><br><br><br><br>
-            <div class="text-end">
-                <input type="submit" class="btn btn-danger" value="Salva" id="modificaUtenti" name="modificaUtenti">
-            </div>
+            <#else>
+                <p>Attualmente la collezione non è stata condivisa con altri utenti</p>
+            </#if>
+        </ul>
+
+        <form action="modificaCondivisione" method="get" class="text-end">
+            <input type="hidden" name="collezioneId" id="collezioneId" value="${collezione_key}">
+            <input type="submit" class="btn btn-danger" name="modifica" value="Gestisci condivisione">
         </form>
     </div>
 </div>
@@ -140,7 +119,7 @@
                                     <a href="modificaDisco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
                                        class="btn btn-secondary">
                                         <img src="images/templateimg/imgFont/pencil-fill.svg" alt="Bootstrap"
-                                             width="24" height="24" class="text-light" fill="currentColor">
+                                             width="24" height="24" class="text-light" >
                                     </a>
                                     <button type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco"
                                             name="elimina_disco">
@@ -171,9 +150,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Dischi</h5>
-                        </label>
+                        <h5 class="form-label">Dischi</h5>
+
                         <select class="selectpicker" data-live-search="true" id="discoID" name="discoID">
                             <option selected>Seleziona disco</option>
                             <#list lista_dischi as disco>
@@ -188,9 +166,8 @@
                     <br>
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-4">
-                            <label class="form-label">
-                                <h5>Numero copie</h5>
-                            </label>
+                            <h5 class="form-label">Numero copie</h5>
+
                             <select class="form-select" aria-label="Default select example" id="numeroCopie"
                                     name="numeroCopie">
                                 <option selected>Seleziona quantità</option>
@@ -207,9 +184,8 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-4 col-lg-4">
-                            <label class="form-label">
-                                <h5>Formato</h5>
-                            </label>
+                            <h5 class="form-label">Formato</h5>
+
                             <select class="form-select" aria-label="Default select example" id="formato" name="formato">
                                 <option selected>Seleziona formato</option>
                                 <option value="Vinile">Vinile</option>
@@ -220,9 +196,8 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-4 col-lg-4">
-                            <label class="form-label">
-                                <h5>Stato</h5>
-                            </label>
+                            <h5 class="form-label">Stato</h5>
+
                             <select class="form-select" aria-label="Default select example" id="stato" name="stato">
                                 <option selected>Seleziona stato</option>
                                 <option value="Ottimo">Ottimo</option>
@@ -235,9 +210,8 @@
                     </div>
                     <br>
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Barcode</h5>
-                        </label>
+                        <h5 class="form-label">Barcode</h5>
+
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" aria-label="Sizing example input"
                                    aria-describedby="inputGroup-sizing-default" id="barcode" name="barcode">
@@ -246,9 +220,8 @@
                     <!--
                     <br>
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Immagine di copertina:</h5>
-                        </label>
+                     <h5 class="form-label">Immagine copertina :</h5>
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="inputGroupFile01">Upload</label>
                             <input type="file" class="form-control" id="imgCopertina" name="imgCopertina">
@@ -256,9 +229,8 @@
                     </div>
                     <br>
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Immagine frontale:</h5>
-                        </label>
+                     <h5 class="form-label">Immagine frontale</h5>
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="inputGroupFile01">Upload</label>
                             <input type="file" class="form-control" id="imgFronte" name="imgFronte">
@@ -266,9 +238,8 @@
                     </div>
                     <br>
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Immagine retro:</h5>
-                        </label>
+                     <h5 class="form-label">Immagine</h5>
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="inputGroupFile01">Upload</label>
                             <input type="file" class="form-control" id="imgRetro" name="imgRetro">
@@ -276,9 +247,8 @@
                     </div>
                     <br>
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Immagine libretto:</h5>
-                        </label>
+                     <h5 class="form-label">Immagine libretto</h5>
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="inputGroupFile01">Upload</label>
                             <input type="file" class="form-control" id="imgLibretto" name="imgLibretto">
@@ -306,9 +276,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Nome</h5>
-                        </label>
+                        <h5 class="form-label">Nome</h5>
+
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" aria-label="Sizing example input"
                                    aria-describedby="inputGroup-sizing-default" id="nome" name="nome">
@@ -316,18 +285,16 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg-6 col-md-6">
-                            <label class="form-label">
-                                <h5>Etichetta</h5>
-                            </label>
+                            <h5 class="form-label">Etichetta</h5>
+
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" aria-label="Sizing example input"
                                        aria-describedby="inputGroup-sizing-default" id="etichetta" name="etichetta">
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6">
-                            <label class="form-label">
-                                <h5>Data di uscita</h5>
-                            </label>
+                            <h5 class="form-label">Data di uscita</h5>
+
                             <div class="input-group mb-3">
                                 <input type="date" class="form-control" aria-label="Sizing example input"
                                        aria-describedby="inputGroup-sizing-default" id="anno" name="anno">
@@ -335,9 +302,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Artista</h5>
-                        </label>
+                        <h5 class="form-label">Artista</h5>
+
                         <select class="selectpicker" data-live-search="true" id="artistaID" name="artistaID">
                             <option selected>Seleziona artista</option>
                             <#list lista_artisti as artista>
@@ -349,9 +315,8 @@
                     <br>
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-4">
-                            <label class="form-label">
-                                <h5>Numero copie</h5>
-                            </label>
+                            <h5 class="form-label">Nuomero copie</h5>
+
                             <select class="form-select" aria-label="Default select example" id="numeroCopie"
                                     name="numeroCopie">
                                 <option selected>Seleziona quantità</option>
@@ -368,9 +333,8 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-4 col-lg-4">
-                            <label class="form-label">
-                                <h5>Formato</h5>
-                            </label>
+                            <h5 class="form-label">Formato</h5>
+
                             <select class="form-select" aria-label="Default select example" id="formato" name="formato">
                                 <option selected>Seleziona formato</option>
                                 <option value="Vinile">Vinile</option>
@@ -381,9 +345,8 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-4 col-lg-4">
-                            <label class="form-label">
-                                <h5>Stato</h5>
-                            </label>
+                            <h5 class="form-label">Stato</h5>
+
                             <select class="form-select" aria-label="Default select example" id="stato" name="stato">
                                 <option selected>Seleziona stato</option>
                                 <option value="Ottimo">Ottimo</option>
@@ -396,9 +359,8 @@
                     </div>
                     <br>
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Barcode</h5>
-                        </label>
+                        <h5 class="form-label">Barcode</h5>
+
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" aria-label="Sizing example input"
                                    aria-describedby="inputGroup-sizing-default" id="barcode" name="barcode">

@@ -164,7 +164,7 @@
                         <span class="music-published-date mb-2">${collezione.dataCreazione}</span>
                         <h2>${collezione.nome}</h2>
                         <noscript>
-                            <style type="text/css">
+                            <style >
                                 .pagecontainer {
                                     display: none;
                                 }

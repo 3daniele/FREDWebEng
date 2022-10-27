@@ -8,9 +8,9 @@
     <form action="newArtista" method="post">
         <div>
             <div class="mb-3">
-                <label class="form-label">
-                    <h5>Nome</h5>
-                </label>
+
+                    <h5 class="form-label">Nome</h5>
+
                 <input type="text" class="form-control" id="nome" name="nome"
                         <#if nome??>
                             value="${nome}"
@@ -21,9 +21,8 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label">
-                    <h5>Cognome</h5>
-                </label>
+                <h5 class="form-label">Cognome</h5>
+
                 <input type="text" class="form-control" id="cognome" name="cognome"
                         <#if cognome??>
                             value="${cognome}"
@@ -34,9 +33,8 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label">
-                    <h5>Nome d'arte</h5>
-                </label>
+                <h5 class="form-label">Nome d'arte</h5>
+
                 <input type="text" class="form-control" id="nomeArte" name="nomeArte"
                         <#if nomeArte??>
                             value="${nomeArte}"

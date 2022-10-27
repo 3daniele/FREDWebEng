@@ -9,13 +9,12 @@
                     ${error_}
                 </div>
             </#if>
-            <label class="form-label text-danger">
-                <h2 class="text-danger">Informazioni disco:</h2>
-            </label>
+            <h5 class="form-label">Condivisione</h5>
+
+                <h2 class="form-label text-danger">Informazioni disco:</h2>
+
             <div class="row">
-                <label class="form-label">
-                    <h5>Titolo:</h5>
-                </label>
+                <h5 class="form-label">Titolo:</h5>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="titolo"
                            id="titolo" value="${disco.nome}"
@@ -35,9 +34,7 @@
         <br>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-6">
-                <label class="form-label">
-                    <h5>Etichetta:</h5>
-                </label>
+                <h5 class="form-label">Etichetta:</h5>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="etichetta"
                            id="etichetta" value="${disco.etichetta}"
@@ -48,9 +45,8 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6">
-                <label class="form-label">
-                    <h5>Data di uscita:</h5>
-                </label>
+                <h5 class="form-label">Data uscita</h5>
+
                 <div class="input-group mb-3">
                     <input type="date" class="form-control" name="anno"
                            id="anno" value='${disco.anno?iso_local}'
@@ -66,9 +62,7 @@
         <br>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-6">
-                <label class="form-label">
-                    <h5>Numero copie:</h5>
-                </label>
+                <h5 class="form-label">Numero copie :</h5>
                 <div class="input-group mb-3">
                     <input type="number" class="form-control"
                            value="${infoDisco.numeroCopie}"
@@ -76,9 +70,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6">
-                <label class="form-label">
-                    <h5>Stato:</h5>
-                </label>
+                <h5 class="form-label">Stato :</h5>
                 <div class="input-group mb-3">
                     <select class="form-select" aria-label="Default select example"
                             id="stato" name="stato">
@@ -113,9 +105,7 @@
         </div>
         <br>
         <div class="row">
-            <label class="form-label">
-                <h5>Barcode:</h5>
-            </label>
+            <h5 class="form-label">Barcode :</h5>
             <div class="input-group mb-3">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control"
@@ -275,7 +265,7 @@
                 <table class="table custom-table">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">#</th>ere
                         <th scope="col">Nome</th>
                         <th scope="col">Durata</th>
                         <th scope="col">Autore</th>
@@ -314,7 +304,7 @@
                                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                                             data-bs-target="#editModal${brano.canzone.key}">
                                         <img src="images/templateimg/imgFont/pencil-fill.svg" alt="Bootstrap"
-                                             width="16" height="16" class="text-light" fill="currentColor">
+                                             width="16" height="16" class="text-light">
                                     </button>
                                 </td>
                                 <td>
@@ -351,9 +341,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <label class="form-label">
-                            <h5>Nome</h5>
-                        </label>
+                        <h5 class="form-label">Nome</h5>
+
                         <div class="input-group">
                             <input type="text" class="form-control"
                                    aria-label="Sizing example input"
@@ -369,9 +358,7 @@
                     <br>
                     <div class="row">
                         <div class="col-12 col-md-6 col-lg-6">
-                            <label class="form-label">
-                                <h5>Durata</h5>
-                            </label>
+                            <h5 class="form-label">Durata :</h5>
                             <div class="input-group">
                                 <input type="text" class="form-control"
                                        aria-label="Sizing example input"
@@ -386,15 +373,13 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-6">
-                            <label class="form-label">
-                                <h5>Genere</h5>
-                            </label>
+                            <h5 class="form-label">Genere</h5>
                             <select class="selectpicker" multiple
                                     data-live-search="true"
                                     id="selectGeneri" name="selectGeneri">
                                 <#list lista_generi as genere>
                                     <option value="${genere.key}"
-                                            id="${genere.key}">${genere.nome}
+                                           >${genere.nome}
                                     </option>
                                 </#list>
                             </select>
@@ -406,9 +391,7 @@
                     <br>
                     <div class="row">
                         <div class="col-12 col-md-6 col-lg-6">
-                            <label class="form-label">
-                                <h5>Artisti</h5>
-                            </label>
+                            <h5 class="form-label">Artisti</h5>
                             <select class="selectpicker mb-3" data-live-search="true" disabled>
                                 <option value="${disco.artista.key}" selected>${disco.artista.nomeArte}</option>
                                 <input type="hidden" value="${disco.artista.key}" name="selectArtisti1"/>
@@ -445,9 +428,8 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-6 col-lg-6">
-                            <label class="form-label">
-                                <h5>Ruolo</h5>
-                            </label>
+                            <h5 class="form-label">Ruolo</h5>
+
                             <select class="selectpicker mb-3" aria-label="Default select example" disabled>
                                 <option value="Entrambi" selected>Entrambi</option>
                                 <input type="hidden" value="Entrambi" name="ruolo1"/>
@@ -515,9 +497,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <label class="form-label">
-                                    <h5>Nome</h5>
-                                </label>
+                                <h5 class="form-label">Nome</h5>
                                 <div class="input-group">
                                     <input type="text" class="form-control"
                                            aria-label="Sizing example input"
@@ -535,9 +515,7 @@
                             <br>
                             <div class="row">
                                 <div class="col-12 col-md-6 col-lg-6">
-                                    <label class="form-label">
-                                        <h5>Durata</h5>
-                                    </label>
+                                    <h5 class="form-label">Durata</h5>
                                     <div class="input-group">
                                         <input type="text" class="form-control"
                                                aria-label="Sizing example input"
@@ -552,9 +530,8 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-6">
-                                    <label class="form-label">
-                                        <h5>Genere</h5>
-                                    </label>
+                                    <h5 class="form-label">Genere:</h5>
+
                                     <select class="selectpicker" multiple
                                             data-live-search="true"
                                             id="selectGeneri" name="selectGeneri">
@@ -583,9 +560,7 @@
                             </div>
                             <br>
                             <div class="row">
-                                <label class="form-label">
-                                    <h5>Artisti</h5>
-                                </label>
+                                <h5 class="form-label">Artisti</h5>
                                 <select class="selectpicker" multiple data-live-search="true"
                                         id="selectArtisti" name="selectArtisti">
                                     <#list lista_artisti as artista>

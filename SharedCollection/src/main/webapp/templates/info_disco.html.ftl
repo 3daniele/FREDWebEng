@@ -9,7 +9,7 @@
                            class="btn btn-secondary"
                            role="button">
                             <img src="images/templateimg/imgFont/pencil-fill.svg" alt="modifica"
-                                 width="24" height="24" class="text-light" fill="currentColor">
+                                 width="24" height="24" class="text-light" >
                         </a>
                         <input type="hidden" name="listaDiscoID" id="listaDiscoID" value="${infoDisco.key}"/>
                         <button type="submit" class="btn btn-danger" value="${infoDisco.key}" id="elimina_disco"

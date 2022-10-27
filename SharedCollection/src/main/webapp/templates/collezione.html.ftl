@@ -9,7 +9,7 @@
                     <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-secondary"
                        role="button">
                         <img src="images/templateimg/imgFont/pencil-fill.svg" alt="modifica"
-                             width="24" height="24" class="text-light" fill="currentColor">
+                             width="24" height="24" class="text-light" >
                     </a>
                     <input type="hidden" id="collezioneID" name="collezioneID" value="${collezione.key}">
                     <button type="submit" class="btn btn-danger" id="eliminaCollezione"
@@ -17,7 +17,7 @@
                         <img src="images/templateimg/imgFont/trash3-fill.svg"
                              alt="modifica"
                              width="24" height="24" class="text-light"
-                             fill="currentColor">
+                             >
                     </button>
                 </form>
             </div>
@@ -126,7 +126,7 @@
                                         <a href="modificaDisco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
                                            class="btn btn-secondary">
                                             <img src="images/templateimg/imgFont/pencil-fill.svg" alt="Bootstrap"
-                                                 width="24" height="24" class="text-light" fill="currentColor">
+                                                 width="24" height="24" class="text-light" >
                                         </a>
                                         <input type="hidden" name="listaDiscoID" id="listaDiscoID"
                                                value="${dettaglio.key}"/>

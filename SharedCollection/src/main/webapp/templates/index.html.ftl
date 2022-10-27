@@ -20,7 +20,7 @@
     <div class="main-header-area sticky">
         <div class="classy-nav-container left breakpoint-on">
             <nav class="classy-navbar justify-content-between" id="pocaNav">
-                <a class="nav-brand" href="home"><img src="images/templateimg/core-img/logo.png"></a>
+                <a class="nav-brand" href="home"><img src="images/templateimg/core-img/logo.png" alt="Logo"></a>
                 <div class="classy-navbar-toggler">
                     <span class="navbarToggler"><span></span><span></span><span></span></span>
                 </div>
@@ -86,6 +86,7 @@
 
 <!-- ===== CAROSELLO ===== -->
 <section class="welcome-area">
+
     <div class="welcome-slides owl-carousel">
         <#if display??>
             <div class="welcome-welcome-slide bg-img bg-overlay"
