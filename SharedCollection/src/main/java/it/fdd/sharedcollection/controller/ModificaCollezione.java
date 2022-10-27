@@ -92,7 +92,6 @@ public class ModificaCollezione extends SharedCollectionBaseController {
             request.setAttribute("page_title", "Modifica " + collezione.getNome());
             request.setAttribute("collezione", collezione);
             request.setAttribute("lista_utenti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti());
-            request.setAttribute("utenti_autorizzati", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByCollezione(collezione_key));
             request.setAttribute("lista_artisti", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtisti());
 
             List<ListaDischi> dettagliDischi = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaDischiDAO().getDischiByCollezione(collezione_key);
@@ -109,6 +108,16 @@ public class ModificaCollezione extends SharedCollectionBaseController {
             lista_dischi.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getDiscoDAO().getDischi());
 
             request.setAttribute("lista_dischi", lista_dischi);
+
+            List<Integer> listautentiid = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().getUtentiAutorizzatiByCollezione(collezione_key);
+            List<Utente> utentiAutorizzati = new ArrayList<>();
+            for (Integer i: listautentiid) {
+                utentiAutorizzati.add(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(i));
+            }
+
+            request.setAttribute("utenti_autorizzati", utentiAutorizzati);
+
+
 
             if (collezione.getUtente().getKey() == user_key) {
                 res.activate("modifica_collezione.html.ftl", request, response);
