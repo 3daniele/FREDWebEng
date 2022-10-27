@@ -7,9 +7,8 @@
     <form action="modificaCondivisione" method="post">
         <div>
             <div class="mb-3">
-                <label class="form-label">
-                    <h5>Cerca utente:</h5>
-                </label>
+                <h5 class="form-label">Cerca utente</h5>
+
                 <input type="text" class="form-control" id="username" name="username"/>
                 <div class="form-text">
                     Inserisci lo username dell'utente da cercare.
@@ -54,7 +53,7 @@
                                 <button type="submit" class="btn btn-success" id="aggiungiUtente"
                                         name="aggiungiUtente"><img src="images/templateimg/imgFont/check.svg"
                                                                   alt="modifica" width="24" height="24"
-                                                                  class="text-light" fill="currentColor"></button>
+                                                                  class="text-light" ></button>
                             </form>
                         </td>
                     </tr>
