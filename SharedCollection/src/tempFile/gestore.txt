@@ -76,3 +76,42 @@ Le auguriamo una buona giornata!
 
 
 
+[ 2022-10-27T16:22:17.954965 ]  admin@admin.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile Gestore Gestore,
+Le informiamo che l'utente antonio ha condiviso con lei la sua collezione 'Antonio's collection'.
+Le auguriamo una buona giornata!
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+
+[ 2022-10-27T16:22:35.974329 ]  admin@admin.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile Gestore Gestore,
+Le informiamo che l'utente antonio ha rimosso la condivisione con lei della sua collezione 'Antonio's collection'.
+Le auguriamo una buona giornata!
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+
+[ 2022-10-27T16:23:03.703985 ]  admin@admin.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile Gestore Gestore,
+Le informiamo che l'utente antonio ha condiviso con lei la sua collezione 'Antonio's collection'.
+Le auguriamo una buona giornata!
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+

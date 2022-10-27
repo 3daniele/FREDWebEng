@@ -26,7 +26,7 @@
             <h2>
                 Risultati della ricerca:
             </h2>
-            <#if (utenti_cercati??)>
+            <#if (utenti_cercati?? && utenti_cercati.key != userid)>
             <table class="table custom-table">
                 <thead class="thead-dark">
                 <tr>
@@ -112,6 +112,11 @@
             <p>La collezione non è ancora stata condivisa, cerca un utente per poterla condividere</p>
         </#if>
 
+    </div>
+    <div class="mt-40">
+        <div class="text-center">
+            <a class="btn poca-btn mt-20" href="modificaCollezione?numero=${collezione_key}">Torna alla modifica</a>
+        </div>
     </div>
 
 </div>
