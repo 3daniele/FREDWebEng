@@ -13,11 +13,11 @@
                     <input type="text" class="form-control" name="${disco.key}"
                            id="${disco.key}" value="${disco.nome}">
                     <input type="hidden" name="discoID" id="discoID"
-                           value="${disco.key}"/>
+                           value="${disco.key}">
                     <input type="hidden" name="collezioneID" id="collezioneID"
-                           value="${collezione.key}"/>
+                           value="${collezione.key}">
                     <input type="hidden" name="formato" id="formato"
-                           value="${infoDisco.formato}"/>
+                           value="${infoDisco.formato}">
                 </div>
             </div>
         </div>

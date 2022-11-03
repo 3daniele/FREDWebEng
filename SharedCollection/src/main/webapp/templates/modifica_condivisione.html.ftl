@@ -9,7 +9,7 @@
             <div class="mb-3">
                 <h5 class="form-label">Cerca utente</h5>
 
-                <input type="text" class="form-control" id="username" name="username"/>
+                <input type="text" class="form-control" id="username" name="username">
                 <div class="form-text">
                     Inserisci lo username dell'utente da cercare.
                 </div>
@@ -99,7 +99,7 @@
                             <button type="submit" class="btn btn-danger" id="eliminaUtente"
                                     name="eliminaUtente"><img src="images/templateimg/imgFont/trash3-fill.svg"
                                                               alt="modifica" width="24" height="24"
-                                                              class="text-light" fill="currentColor"></button>
+                                                              class="text-light" ></button>
                         </form>
                     </td>
                 </tr>

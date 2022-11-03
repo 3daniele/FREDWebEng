@@ -26,7 +26,7 @@
                             </#list>
                         </div>
                         <noscript>
-                            <style type="text/css">
+                            <style>
                                 .pagecontainer {display:none;}
                             </style>
                             <div class="noscriptmsg">

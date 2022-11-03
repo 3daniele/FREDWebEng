@@ -15,7 +15,7 @@
                         <#if nome??>
                             value="${nome}"
                         </#if>
-                />
+                >
                 <div class="form-text">
                     Inserisci il nome dell'artista.
                 </div>
@@ -27,7 +27,7 @@
                         <#if cognome??>
                             value="${cognome}"
                         </#if>
-                />
+                >
                 <div class="form-text">
                     Inserisci il cognome dell'artista.
                 </div>
@@ -39,7 +39,7 @@
                         <#if nomeArte??>
                             value="${nomeArte}"
                         </#if>
-                />
+                >
                 <div class="form-text">
                     Inserisci il nome d'arte dell'artista.
                 </div>

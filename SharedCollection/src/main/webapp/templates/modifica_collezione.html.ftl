@@ -11,7 +11,7 @@
             <h2 class="text-danger">Informazioni:</h2>
             <h5 class="form-label">Nuova Collezione</h5>
 
-            <input type="text" class="form-control" id="nome" name="nome" value="${collezione.nome}"/>
+            <input type="text" class="form-control" id="nome" name="nome" value="${collezione.nome}">
             <div class="form-text">
                 Modifica il nome della collezione.
             </div>
@@ -28,7 +28,7 @@
                 </#if>
             </select>
             <div class="form-text">
-                <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
+                <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}">
                 Modifica il tipo di condivisione.
             </div>
             <div class="text-end">
@@ -76,7 +76,7 @@
             </button>
         </div>
 
-        <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
+        <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}">
     </div>
     <br>
     <div class="row">
@@ -111,7 +111,7 @@
                                             <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.stato}</a>
                                         </div>
                                         <input type="hidden" name="listaDiscoID" id="listaDiscoID"
-                                               value="${dettaglio.key}"/>
+                                               value="${dettaglio.key}">
                                     </div>
                                     <br>
                                     <a href="disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
@@ -158,7 +158,7 @@
                             <#list lista_dischi as disco>
                                 <option value="${disco.key}" id="discoID" name="discoID">${disco.nome}</option>
                             </#list>
-                            <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
+                            <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}">
                         </select>
                         <div class="form-text">
                             Seleziona i dischi da aggiungere alla tua collezione.

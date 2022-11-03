@@ -16,7 +16,7 @@
                             <#if username??>
                                 value="${username}"
                             </#if>
-                    />
+                    >
                 </div>
 
                 <!-- Email input -->
@@ -26,7 +26,7 @@
                             <#if email??>
                                 value="${email}"
                             </#if>
-                    />
+                    >
                 </div>
 
                 <!-- nome input -->
@@ -36,7 +36,7 @@
                             <#if nome??>
                                 value="${nome}"
                             </#if>
-                    />
+                    >
                 </div>
 
                 <!-- cognome input -->
@@ -46,19 +46,19 @@
                             <#if cognome??>
                                 value="${cognome}"
                             </#if>
-                    />
+                    >
                 </div>
 
                 <!-- Password input -->
                 <div class="form-outline mb-3">
                     <input type="password" name="password" class="form-control form-control-lg"
-                           placeholder="Password"/>
+                           placeholder="Password">
                 </div>
 
                 <!-- Password input -->
                 <div class="form-outline mb-3">
                     <input type="password" name="password2" class="form-control form-control-lg"
-                           placeholder="Conferma password"/>
+                           placeholder="Conferma password">
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center">

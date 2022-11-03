@@ -152,7 +152,7 @@
                         <div class="card-body text-center">
                             <h5 class="card-title text">${utente.nickname}</h5>
                             <noscript>
-                                <style type="text/css">
+                                <style>
                                     .pagecontainer {
                                         display: none;
                                     }

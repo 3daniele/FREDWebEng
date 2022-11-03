@@ -126,7 +126,7 @@
                         <td>${strip_slashes(collezione.utente.nickname)}&nbsp;</td>
                         <td>${strip_slashes(collezione.dataCreazione)}&nbsp;</td>
                         <noscript>
-                            <style type="text/css">
+                            <style >
                                 .pagecontainer {
                                     display: none;
                                 }
@@ -163,7 +163,7 @@
                 <th scope="col">Autore</th>
                 <th scope="col">Data creazione</th>
                 <noscript>
-                    <style type="text/css">
+                    <style >
                         .pagecontainer {
                             display: none;
                         }
@@ -196,7 +196,7 @@
                     <td>${strip_slashes(collezione.utente.nickname)}&nbsp;</td>
                     <td>${strip_slashes(collezione.dataCreazione)}&nbsp;</td>
                     <noscript>
-                        <style type="text/css">
+                        <style>
                             .pagecontainer {
                                 display: none;
                             }

@@ -10,7 +10,7 @@
             <div class="mb-3">
                 <h5 class="form-label">Nuova collezione</h5>
 
-                <input type="text" class="form-control" id="nome" name="nome"/>
+                <input type="text" class="form-control" id="nome" name="nome">
                 <div class="form-text">
                     Inserisci il nome della collezione.
                 </div>

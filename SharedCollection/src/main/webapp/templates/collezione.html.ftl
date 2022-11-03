@@ -109,7 +109,7 @@
                                 </div>
                             </div>
                             <noscript>
-                                <style type="text/css">
+                                <style>
                                     .pagecontainer {
                                         display: none;
                                     }
@@ -129,7 +129,7 @@
                                                  width="24" height="24" class="text-light" >
                                         </a>
                                         <input type="hidden" name="listaDiscoID" id="listaDiscoID"
-                                               value="${dettaglio.key}"/>
+                                               value="${dettaglio.key}">
                                         <button type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco"
                                                 name="elimina_disco">
                                             <img

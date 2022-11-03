@@ -115,3 +115,29 @@ Le auguriamo una buona giornata!
 
 
 
+[ 2022-10-31T21:18:46.232289 ]  admin@admin.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile Gestore Gestore,
+Le informiamo che l'utente user ha condiviso con lei la sua collezione 'IL VOLO'.
+Le auguriamo una buona giornata!
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+
+[ 2022-11-03T09:45:52.107963 ]  admin@admin.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile Gestore Gestore,
+Le informiamo che l'utente user ha condiviso con lei la sua collezione 'prova2'.
+Le auguriamo una buona giornata!
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+
