@@ -95,6 +95,10 @@
         <servlet-class>it.fdd.sharedcollection.controller.ModificaDisco</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Importa Disco</servlet-name>
+        <servlet-class>it.fdd.sharedcollection.controller.ImportaDisco</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Nuovo Artista</servlet-name>
         <servlet-class>it.fdd.sharedcollection.controller.NuovoArtista</servlet-class>
     </servlet>
@@ -157,6 +161,10 @@
     <servlet-mapping>
         <servlet-name>Modifica Disco</servlet-name>
         <url-pattern>/modificaDisco</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Importa Disco</servlet-name>
+        <url-pattern>/importaDisco</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Nuovo Artista</servlet-name>

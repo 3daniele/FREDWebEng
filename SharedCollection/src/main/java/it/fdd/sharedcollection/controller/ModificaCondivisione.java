@@ -110,8 +110,18 @@ public class ModificaCondivisione extends SharedCollectionBaseController {
     private void action_ricerca(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, ServletException, TemplateManagerException {
 
         String nome = request.getParameter("username");
+
+        List<Utente> utenti_ = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenti();
+        List<Utente> utenti = new ArrayList<>();
+
+        for (Utente utente : utenti_) {
+            if (utente.getNickname().toLowerCase().contains(nome.toLowerCase())) {
+                utenti.add(utente);
+            }
+        }
+
         request.setAttribute("cercato", true);
-        request.setAttribute("utenti_cercati", ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtenteByUsername(nome));
+        request.setAttribute("utenti_cercati", utenti);
 
         action_default(request, response);
 
@@ -128,18 +138,18 @@ public class ModificaCondivisione extends SharedCollectionBaseController {
         ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().deleteUtenteAutorizzato(collezione_key, utenteE.getKey());
 
 
-                    UtentiAutorizzatiImpl u = new UtentiAutorizzatiImpl();
-                    u.setCollezione(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
-                    u.setUtente(utenteE);
-                    ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(u);
-                    // email di notifica
-                    Utente utente = u.getUtente();
-                    try {
-                        String text = " ha condiviso con lei la sua collezione ";
-                        UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/" + utenteE.getNickname() + ".txt", utenteE, collezione, text);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+        UtentiAutorizzatiImpl u = new UtentiAutorizzatiImpl();
+        u.setCollezione(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getCollezioneDAO().getCollezione(collezione_key));
+        u.setUtente(utenteE);
+        ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getUtentiAutorizzatiDAO().storeUtentiAutorizzati(u);
+        // email di notifica
+        Utente utente = u.getUtente();
+        try {
+            String text = " ha condiviso con lei la sua collezione ";
+            UtilityMethods.sharingEmail(System.getenv("FILE_DIRECTORY") + "/" + utenteE.getNickname() + ".txt", utenteE, collezione, text);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         request.setAttribute("cercato", false);
         response.sendRedirect("modificaCondivisione?collezioneId=" + collezione_key);

@@ -18,14 +18,10 @@ import it.fdd.sharedcollection.data.impl.ListaDischiImpl;
 import it.fdd.sharedcollection.data.impl.UtentiAutorizzatiImpl;
 import it.fdd.sharedcollection.data.model.*;
 import it.fdd.sharedcollection.data.utility.UtilityMethods;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import java.io.*;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ModificaCollezione extends SharedCollectionBaseController {
@@ -291,7 +287,7 @@ public class ModificaCollezione extends SharedCollectionBaseController {
      * Returns a short description of the servlet.
      */
     public String getServletInfo() {
-        return "Servlet per la modifica di una nuova collezione";
+        return "Servlet per la modifica di una collezione";
     }
 
 }

@@ -9,9 +9,8 @@
                     ${error_}
                 </div>
             </#if>
-            <h5 class="form-label">Condivisione</h5>
 
-                <h2 class="form-label text-danger">Informazioni disco:</h2>
+            <h2 class="form-label text-danger">Informazioni disco:</h2>
 
             <div class="row">
                 <h5 class="form-label">Titolo:</h5>
@@ -265,7 +264,8 @@
                 <table class="table custom-table">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>ere
+                        <th scope="col">#</th>
+                        ere
                         <th scope="col">Nome</th>
                         <th scope="col">Durata</th>
                         <th scope="col">Autore</th>
@@ -379,7 +379,7 @@
                                     id="selectGeneri" name="selectGeneri">
                                 <#list lista_generi as genere>
                                     <option value="${genere.key}"
-                                           >${genere.nome}
+                                    >${genere.nome}
                                     </option>
                                 </#list>
                             </select>

@@ -1,0 +1,26 @@
+[ 2022-11-04T14:39:18.265381 ]  utente@utente.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile Utente Utente,
+Le informiamo che l'utente gestore ha rimosso la condivisione con lei della sua collezione 'a'.
+Le auguriamo una buona giornata!
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+
+[ 2022-11-04T15:04:32.379997 ]  utente@utente.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile Utente Utente,
+Le informiamo che l'utente gestore ha condiviso con lei la sua collezione 'a'.
+Le auguriamo una buona giornata!
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+
