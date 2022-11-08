@@ -49,7 +49,6 @@ public class ModificaCollezione extends SharedCollectionBaseController {
                 } else {
                     action_disco(request, response);
                 }
-
                 response.sendRedirect("collezioni");
             }
         } catch (NumberFormatException ex) {

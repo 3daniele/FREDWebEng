@@ -38,7 +38,7 @@ public class ImportaDisco extends SharedCollectionBaseController {
                     action_disco(request, response);
                 } else if (request.getParameter("add") != null) {
                     action_add(request, response);
-                }else{
+                } else {
                     response.sendRedirect("collezioni");
                 }
             }

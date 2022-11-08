@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="style/default-assets/multi-select.css">
 <div class="container">
     <#if error??>
         <div class="alert alert-danger text-center" role="alert">
@@ -48,7 +47,3 @@
         </div>
     </form>
 </div>
-
-<script src="js/jquerySelect.min.js"></script>
-<script src="js/bootstrapSelect.bundle.min.js"></script>
-<script src="js/bootstrap-select.min.js"></script>

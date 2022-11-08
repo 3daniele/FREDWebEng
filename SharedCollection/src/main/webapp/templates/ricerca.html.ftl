@@ -13,12 +13,12 @@
 
     <br>
     <div class="row">
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-4 col-md-4">
         </div>
-        <div class="col-12 col-lg-5 col-md-5">
+        <div class="col-12 col-lg-4 col-md-4">
             <input type="submit" class="btn btn-danger" id="filtra" name="filtra" value="Cerca" style="width: 100%">
         </div>
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-4 col-md-4">
 
         </div>
     </div>

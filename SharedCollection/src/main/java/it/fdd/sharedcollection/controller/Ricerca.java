@@ -168,9 +168,7 @@ public class Ricerca extends SharedCollectionBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             action_default(request, response);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (TemplateManagerException e) {
+        } catch (IOException | TemplateManagerException e) {
             throw new RuntimeException(e);
         }
     }

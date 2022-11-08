@@ -30,8 +30,7 @@ public class NuovoArtista extends SharedCollectionBaseController {
                 collezione_key = SecurityLayer.checkNumeric(request.getParameter("c"));
                 formato = request.getParameter("f");
                 action_default(request, response);
-            }
-            if (request.getParameter("nuovo_artista") != null) {
+            } else if (request.getParameter("nuovo_artista") != null) {
                 action_artista(request, response);
             } else {
                 String https_redirect_url = String.valueOf(SecurityLayer.checkHttps(request));

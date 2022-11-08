@@ -69,20 +69,20 @@ public class ViewCollezione extends SharedCollectionBaseController {
             //Sezione statistiche
             /* ------------------------------------------------------------------------------------------------------------------------------------------------------------- */
             List<ListaBrani> listaBrani = new ArrayList<>();
-            for (ListaDischi i: dettagliDischi) {
+            for (ListaDischi i : dettagliDischi) {
                 listaBrani.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaBraniDAO().getListeBrani(i.getDisco().getKey()));
             }
             //Generi
             List<ListaGeneri> listaGeneri = new ArrayList<>();
-            for (ListaBrani i: listaBrani) {
+            for (ListaBrani i : listaBrani) {
                 listaGeneri.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaGeneriDAO().getListaGeneriByCanzone(i.getCanzone().getKey()));
             }
 
             List<Genere> generi = new ArrayList<>();
-            for (ListaGeneri i: listaGeneri) {
-                Genere g =((SharedCollectionDataLayer) request.getAttribute("datalayer")).getGenereDAO().getGenere(i.getGenere().getKey());
+            for (ListaGeneri i : listaGeneri) {
+                Genere g = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getGenereDAO().getGenere(i.getGenere().getKey());
 
-                if(!generi.contains(g))
+                if (!generi.contains(g))
                     generi.add(g);
 
             }
@@ -90,11 +90,11 @@ public class ViewCollezione extends SharedCollectionBaseController {
             //Mi serve il numero totale dei brani = listaBrani.size()
             //Devo calcolarmi le occorrenze di ogni singolo genere per ogni canzone
             List<Integer> occorrenze = new ArrayList<>();
-            int sum=0;
-            for (Genere i: generi) {
+            int sum = 0;
+            for (Genere i : generi) {
                 sum = 0;
-                for (ListaGeneri j: listaGeneri) {
-                    if(i.getKey() == j.getGenere().getKey())
+                for (ListaGeneri j : listaGeneri) {
+                    if (i.getKey() == j.getGenere().getKey())
                         sum++;
                 }
                 occorrenze.add(sum);
@@ -102,30 +102,30 @@ public class ViewCollezione extends SharedCollectionBaseController {
 
             //Calcolo delle percentuali
             List<String> percentuali = new ArrayList<>();
-            for (Integer i: occorrenze) {
-                percentuali.add(i*100/listaBrani.size()+"%");
+            for (Integer i : occorrenze) {
+                percentuali.add(i * 100 / listaBrani.size() + "%");
             }
 
-            request.setAttribute("generi",generi);
+            request.setAttribute("generi", generi);
             request.setAttribute("percentuali", percentuali);
             /* ------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
             List<ListaArtisti> listaArtisti = new ArrayList<>();
-            for (ListaBrani i: listaBrani) {
+            for (ListaBrani i : listaBrani) {
                 listaArtisti.addAll(((SharedCollectionDataLayer) request.getAttribute("datalayer")).getListaArtistiDAO().getListaArtistiByCanzone(i.getCanzone().getKey()));
             }
 
             List<Artista> artisti = new ArrayList<>();
-            for (ListaArtisti i: listaArtisti) {
+            for (ListaArtisti i : listaArtisti) {
                 Artista a = ((SharedCollectionDataLayer) request.getAttribute("datalayer")).getArtistaDAO().getArtista(i.getArtista().getKey());
                 if (!artisti.contains(a))
                     artisti.add(a);
             }
             List<Integer> occorrenzeArtisti = new ArrayList<>();
-            for (Artista i: artisti){
+            for (Artista i : artisti) {
                 sum = 0;
-                for(ListaArtisti j : listaArtisti){
-                    if(i.getKey() == j.getArtista().getKey()){
+                for (ListaArtisti j : listaArtisti) {
+                    if (i.getKey() == j.getArtista().getKey()) {
                         sum++;
                     }
                 }
@@ -134,11 +134,11 @@ public class ViewCollezione extends SharedCollectionBaseController {
 
             //Calcolo delle percentuali
             List<String> percentualiArtisiti = new ArrayList<>();
-            for(Integer i : occorrenzeArtisti){
-                percentualiArtisiti.add(i*100/listaBrani.size()+"%");
+            for (Integer i : occorrenzeArtisti) {
+                percentualiArtisiti.add(i * 100 / listaBrani.size() + "%");
             }
 
-            request.setAttribute("artisti",artisti);
+            request.setAttribute("artisti", artisti);
             request.setAttribute("percentualiA", percentualiArtisiti);
 
             res.activate("collezione.html.ftl", request, response);
@@ -170,11 +170,10 @@ public class ViewCollezione extends SharedCollectionBaseController {
                 collezione_key = SecurityLayer.checkNumeric(request.getParameter("numero"));
                 request.setAttribute("collezioneID", collezione_key);
                 action_default(request, response);
+            } else if (request.getParameter("elimina_disco") != null) {
+                System.out.println("nope");
+                action_delete(request, response);
             } else {
-                if (request.getParameter("elimina_disco") != null) {
-                    System.out.println("nope");
-                    action_delete(request, response);
-                }
                 response.sendRedirect("collezioni");
             }
         } catch (NumberFormatException ex) {

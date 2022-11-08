@@ -36,21 +36,24 @@ public class InfoDisco extends SharedCollectionBaseController {
                 request.setAttribute("collezioneID", collezione_key);
                 request.setAttribute("formato", formato);
                 action_default(request, response);
+            } else if (request.getParameter("elimina_disco") != null) {
+                action_delete(request, response);
             } else {
-                if (request.getParameter("elimina_disco") != null) {
-                    action_delete(request, response);
-                }
                 response.sendRedirect("collezioni");
             }
-        } catch (NumberFormatException ex) {
+        } catch (
+                NumberFormatException ex) {
             request.setAttribute("message", "Invalid number submitted");
             action_error(request, response);
-        } catch (IOException ex) {
+        } catch (
+                IOException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
-        } catch (DataException e) {
+        } catch (
+                DataException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
