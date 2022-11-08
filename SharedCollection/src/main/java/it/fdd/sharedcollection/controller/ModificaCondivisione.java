@@ -7,12 +7,8 @@ import it.fdd.framework.result.TemplateManagerException;
 import it.fdd.framework.result.TemplateResult;
 import it.fdd.framework.security.SecurityLayer;
 import it.fdd.sharedcollection.data.dao.SharedCollectionDataLayer;
-import it.fdd.sharedcollection.data.impl.DiscoImpl;
-import it.fdd.sharedcollection.data.impl.ListaDischiImpl;
 import it.fdd.sharedcollection.data.impl.UtentiAutorizzatiImpl;
 import it.fdd.sharedcollection.data.model.Collezione;
-import it.fdd.sharedcollection.data.model.Disco;
-import it.fdd.sharedcollection.data.model.ListaDischi;
 import it.fdd.sharedcollection.data.model.Utente;
 import it.fdd.sharedcollection.data.utility.UtilityMethods;
 
@@ -21,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +40,9 @@ public class ModificaCondivisione extends SharedCollectionBaseController {
                     action_aggiunta(request, response);
                 } else if (request.getParameter("eliminaUtente") != null) {
                     action_delete(request, response);
+                } else {
+                    response.sendRedirect("collezioni");
                 }
-                response.sendRedirect("collezioni");
             }
         } catch (NumberFormatException ex) {
             request.setAttribute("message", "Invalid number submitted");

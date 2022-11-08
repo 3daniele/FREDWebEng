@@ -37,3 +37,16 @@ Le auguriamo una buona giornata!
 
 
 
+[ 2022-11-08T11:44:04.273276 ]  antonio@site.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile De Amicis Antonio,
+Le informiamo che l'utente user ha condiviso con lei la sua collezione 'Rovere'.
+Le auguriamo una buona giornata!
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+

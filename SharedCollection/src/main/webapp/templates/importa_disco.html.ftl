@@ -48,13 +48,13 @@
                             <td>${disco.artista.nomeArte}</td>
                             <td>
                                 <form action="importaDisco" method="post">
-                                    <input type="hidden" id="collezioneID" name="collezioneID"
+                                    <input type="hidden" id="collezioneID${disco.key}" name="collezioneID"
                                            value="${collezione_key}">
-                                    <input type="hidden" id="discoID" name="discoID" value="${disco.key}">
-                                    <button type="submit" class="btn btn-success" id="aggiungiDisco"
+                                    <input type="hidden" id="discoID${disco.key}" name="discoID" value="${disco.key}">
+                                    <button type="submit" class="btn btn-success" id="aggiungiDisco${disco.key}"
                                             name="aggiungiDisco">
                                         <img src="images/templateimg/imgFont/check.svg" alt="aggiungi" width="24"
-                                             height="24" class="text-light" fill="currentColor">
+                                             height="24" class="text-light">
                                     </button>
                                 </form>
                             </td>
@@ -82,9 +82,7 @@
                             <input type="text" class="form-control" name="titolo"
                                    id="titolo" value="${disco.nome}" readonly>
                             <input type="hidden" name="discoID" id="discoID"
-                                   value="${disco.key}"/>
-                            <input type="hidden" name="collezioneID" id="collezioneID"
-                                   value="${collezione.key}"/>
+                                   value="${disco.key}">
                         </div>
                     </div>
                 </div>
@@ -156,8 +154,7 @@
                 <div class="input-group mb-3">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control"
-                               aria-label="Sizing example input"
-                               aria-describedby="inputGroup-sizing-default" id="barcode"
+                               id="barcode"
                                name="barcode"
                         >
                     </div>

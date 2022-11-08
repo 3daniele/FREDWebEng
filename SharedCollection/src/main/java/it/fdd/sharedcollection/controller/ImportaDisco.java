@@ -38,8 +38,9 @@ public class ImportaDisco extends SharedCollectionBaseController {
                     action_disco(request, response);
                 } else if (request.getParameter("add") != null) {
                     action_add(request, response);
+                }else{
+                    response.sendRedirect("collezioni");
                 }
-                response.sendRedirect("collezioni");
             }
         } catch (NumberFormatException ex) {
             request.setAttribute("message", "Invalid number submitted");

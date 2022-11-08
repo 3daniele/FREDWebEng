@@ -18,7 +18,7 @@
                     </svg>
                 </div>
             </div>
-            <input type="text" class="form-control" id="inlineFormInputGroupUsername" value="${profilo.nickname}"
+            <input type="text" class="form-control" value="${profilo.nickname}"
                    readonly>
         </div>
         <div class="input-group mb-3">
@@ -30,7 +30,7 @@
                     </svg>
                 </div>
             </div>
-            <input type="text" class="form-control" id="inlineFormInputGroupUsername" value="${profilo.email}" readonly>
+            <input type="text" class="form-control" value="${profilo.email}" readonly>
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -41,7 +41,7 @@
                     </svg>
                 </div>
             </div>
-            <input type="text" class="form-control" id="inlineFormInputGroupUsername" value="${profilo.nome}" readonly>
+            <input type="text" class="form-control" value="${profilo.nome}" readonly>
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -55,7 +55,7 @@
                     </svg>
                 </div>
             </div>
-            <input type="text" class="form-control" id="inlineFormInputGroupUsername" value="${profilo.cognome}"
+            <input type="text" class="form-control" value="${profilo.cognome}"
                    readonly>
         </div>
         <div class="input-group mb-3">
@@ -67,7 +67,7 @@
                     </svg>
                 </div>
             </div>
-            <input type="text" class="form-control" id="inlineFormInputGroupUsername" value="${n_dati[0]}" readonly>
+            <input type="text" class="form-control" value="${n_dati[0]}" readonly>
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -78,7 +78,7 @@
                     </svg>
                 </div>
             </div>
-            <input type="text" class="form-control" id="inlineFormInputGroupUsername" value="${n_dati[1]}" readonly>
+            <input type="text" class="form-control" value="${n_dati[1]}" readonly>
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -90,7 +90,7 @@
                     </svg>
                 </div>
             </div>
-            <input type="text" class="form-control" id="inlineFormInputGroupUsername" value="${n_dati[2]}" readonly>
+            <input type="text" class="form-control" value="${n_dati[2]}" readonly>
         </div>
     </div>
 </div>

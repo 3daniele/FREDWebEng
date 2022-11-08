@@ -56,7 +56,7 @@
                                     <button type="submit" class="btn btn-success" id="aggiungiUtente"
                                             name="aggiungiUtente"><img src="images/templateimg/imgFont/check.svg"
                                                                        alt="modifica" width="24" height="24"
-                                                                       class="text-light" fill="currentColor"></button>
+                                                                       class="text-light"></button>
                                 </form>
                             </td>
                         </tr>

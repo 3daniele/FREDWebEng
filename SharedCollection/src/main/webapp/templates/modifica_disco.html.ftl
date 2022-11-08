@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="style/default-assets/multi-select.css" xmlns="http://www.w3.org/1999/html">
+<link rel="stylesheet" href="style/default-assets/multi-select.css" xmlns="http://www.w3.org/1999/xhtml">
 
 <!-- FORM MODIFICA DATI DISCO -->
 <form action="modificaDisco" method="post">
@@ -22,11 +22,11 @@
                             </#if>
                     >
                     <input type="hidden" name="discoID" id="discoID"
-                           value="${disco.key}"/>
+                           value="${disco.key}">
                     <input type="hidden" name="collezioneID" id="collezioneID"
-                           value="${collezione.key}"/>
+                           value="${collezione.key}">
                     <input type="hidden" name="formato" id="formato"
-                           value="${infoDisco.formato}"/>
+                           value="${infoDisco.formato}">
                 </div>
             </div>
         </div>
@@ -107,9 +107,7 @@
             <h5 class="form-label">Barcode :</h5>
             <div class="input-group mb-3">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control"
-                           aria-label="Sizing example input"
-                           aria-describedby="inputGroup-sizing-default" id="barcode"
+                    <input type="text" class="form-control" id="barcode"
                            name="barcode"
                             <#if (infoDisco.barcode??)>
                         value="${infoDisco.barcode}"
@@ -192,45 +190,36 @@
         <form action="modificaDisco" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Copertina</label>
-                    <input type="file" class="form-control" id="imgCopertina" name="imgCopertina"
-                           class="form-control form-control-lg"
-                            <#if (infoDisco.imgCopertina??)>
-                        value="${infoDisco.imgCopertina}"
-                            </#if>>
+                    <label class="input-group-text" style="width: 83px;">Copertina</label>
+                    <input type="file" id="imgCopertina" name="imgCopertina"
+                           class="form-control"
+                    >
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Frontale</label>
-                    <input type="file" class="form-control" id="imgFronte" name="imgFronte"
-                           class="form-control form-control-lg"
-                            <#if (infoDisco.imgFronte??)>
-                        value="${infoDisco.imgFronte}"
-                            </#if>>
+                    <label class="input-group-text" style="width: 83px;">Frontale</label>
+                    <input type="file" id="imgFronte" name="imgFronte"
+                           class="form-control"
+                    >
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Retro</label>
-                    <input type="file" class="form-control" id="imgRetro" name="imgRetro"
-                           class="form-control form-control-lg"
-                            <#if (infoDisco.imgRetro??)>
-                        value="${infoDisco.imgRetro}"
-                            </#if>>
+                    <label class="input-group-text" style="width: 83px;">Retro</label>
+                    <input type="file" id="imgRetro" name="imgRetro"
+                           class="form-control"
+                    >
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupFile01" style="width: 83px;">Libretto</label>
-                    <input type="file" class="form-control" id="imgLibretto" name="imgLibretto"
-                           class="form-control form-control-lg"
-                            <#if (infoDisco.imgLibretto??)>
-                        value="${infoDisco.imgLibretto}"
-                            </#if>>
+                    <label class="input-group-text" style="width: 83px;">Libretto</label>
+                    <input type="file" id="imgLibretto" name="imgLibretto"
+                           class="form-control">
                 </div>
             </div>
             <br>
@@ -265,7 +254,6 @@
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        ere
                         <th scope="col">Nome</th>
                         <th scope="col">Durata</th>
                         <th scope="col">Autore</th>
@@ -330,12 +318,12 @@
 </div>
 
 <!-- MODAL PROVVISORIO PER LA NUOVA TRACCIA -->
-<div class="modal fade" id="newBranoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="newBranoModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form action="modificaDisco" method="POST">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Nuovo brano</h1>
+                    <h1 class="modal-title fs-5">Nuovo brano</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
@@ -345,9 +333,6 @@
 
                         <div class="input-group">
                             <input type="text" class="form-control"
-                                   aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default"
-                                   id="nome"
                                    name="nome"
                             >
                         </div>
@@ -361,9 +346,6 @@
                             <h5 class="form-label">Durata :</h5>
                             <div class="input-group">
                                 <input type="text" class="form-control"
-                                       aria-label="Sizing example input"
-                                       aria-describedby="inputGroup-sizing-default"
-                                       id="durata"
                                        name="durata"
                                        placeholder="00:00"
                                 >
@@ -394,15 +376,15 @@
                             <h5 class="form-label">Artisti</h5>
                             <select class="selectpicker mb-3" data-live-search="true" disabled>
                                 <option value="${disco.artista.key}" selected>${disco.artista.nomeArte}</option>
-                                <input type="hidden" value="${disco.artista.key}" name="selectArtisti1"/>
                             </select>
+                            <input type="hidden" value="${disco.artista.key}" name="selectArtisti1">
                             <br>
                             <select class="selectpicker mb-3" data-live-search="true"
                                     id="selectArtisti2" name="selectArtisti2">
                                 <option value="0" selected>Seleziona l'artista</option>
                                 <#list lista_artisti as artista>
                                     <option value="${artista.key}"
-                                            id="${artista.key}">${artista.nomeArte}
+                                            id="${artista.key}1">${artista.nomeArte}
                                     </option>
                                 </#list>
                             </select>
@@ -412,7 +394,7 @@
                                 <option value="0" selected>Seleziona l'artista</option>
                                 <#list lista_artisti as artista>
                                     <option value="${artista.key}"
-                                            id="${artista.key}">${artista.nomeArte}
+                                            id="${artista.key}2">${artista.nomeArte}
                                     </option>
                                 </#list>
                             </select>
@@ -422,7 +404,7 @@
                                 <option value="0" selected>Seleziona l'artista</option>
                                 <#list lista_artisti as artista>
                                     <option value="${artista.key}"
-                                            id="${artista.key}">${artista.nomeArte}
+                                            id="${artista.key}3">${artista.nomeArte}
                                     </option>
                                 </#list>
                             </select>
@@ -432,8 +414,8 @@
 
                             <select class="selectpicker mb-3" aria-label="Default select example" disabled>
                                 <option value="Entrambi" selected>Entrambi</option>
-                                <input type="hidden" value="Entrambi" name="ruolo1"/>
                             </select>
+                            <input type="hidden" value="Entrambi" name="ruolo1">
                             <br>
                             <select class="selectpicker mb-3" aria-label="Default select example"
                                     id="ruolo2" name="ruolo2">
@@ -484,13 +466,13 @@
 <#if (listaBrani?size>0)>
     <#list listaBrani as brano>
         <!-- MODAL PER LA MODIFICA DEL BRANO -->
-        <div class="modal fade" id="editModal${brano.canzone.key}" tabindex="-1" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="editModal${brano.canzone.key}" tabindex="-1"
              aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form action="modificaDisco" method="POST">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica
+                            <h1 class="modal-title fs-5">Modifica
                                 brano</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -500,9 +482,6 @@
                                 <h5 class="form-label">Nome</h5>
                                 <div class="input-group">
                                     <input type="text" class="form-control"
-                                           aria-label="Sizing example input"
-                                           aria-describedby="inputGroup-sizing-default"
-                                           id="nome"
                                            name="nome"
                                            value="${brano.canzone.nome}"
                                     >
@@ -518,9 +497,6 @@
                                     <h5 class="form-label">Durata</h5>
                                     <div class="input-group">
                                         <input type="text" class="form-control"
-                                               aria-label="Sizing example input"
-                                               aria-describedby="inputGroup-sizing-default"
-                                               id="durata"
                                                name="durata"
                                                value="${brano.canzone.durata?substring(3)}"
                                         >
@@ -534,7 +510,7 @@
 
                                     <select class="selectpicker" multiple
                                             data-live-search="true"
-                                            id="selectGeneri" name="selectGeneri">
+                                            id="selectGeneri1" name="selectGeneri">
                                         <#list lista_generi as genere>
                                             <#assign selezionato = false>
                                             <#list listaGeneri as selectGenere>
@@ -544,11 +520,11 @@
                                             </#list>
                                             <#if selezionato>
                                                 <option value="${genere.key}"
-                                                        id="${genere.key}" selected>${genere.nome}
+                                                        id="${genere.key}a" selected>${genere.nome}
                                                 </option>
                                             <#else>
                                                 <option value="${genere.key}"
-                                                        id="${genere.key}">${genere.nome}
+                                                        id="${genere.key}a">${genere.nome}
                                                 </option>
                                             </#if>
                                         </#list>
@@ -572,12 +548,12 @@
                                         </#list>
                                         <#if selezionato>
                                             <option value="${artista.key}"
-                                                    id="${artista.key}"
+                                                    id="${artista.key}n"
                                                     selected>${artista.nomeArte}
                                             </option>
                                         <#else>
                                             <option value="${artista.key}"
-                                                    id="${artista.key}">${artista.nomeArte}
+                                                    id="${artista.key}n">${artista.nomeArte}
                                             </option>
                                         </#if>
                                     </#list>
