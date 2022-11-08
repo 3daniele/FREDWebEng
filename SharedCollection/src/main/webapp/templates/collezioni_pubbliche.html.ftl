@@ -26,9 +26,6 @@
                             </#list>
                         </div>
                         <noscript>
-                            <style>
-                                .pagecontainer {display:none;}
-                            </style>
                             <div class="noscriptmsg">
                                 <a href="collezione?numero=${collezione.key}" class="btn poca-btn mt-10">Visualizza</a>
                             </div>

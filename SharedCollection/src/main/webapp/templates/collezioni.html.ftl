@@ -32,7 +32,7 @@
                     <#assign n++>
                     <tr style="cursor:pointer" onclick="location.href='collezione?numero=${collezione.key}'">
                         <th scope="row">${n}</th>
-                        <td>${strip_slashes(collezione.nome)}&nbsp; </td>
+                        <td>${strip_slashes(collezione.nome)}&nbsp;</td>
                         <td>
                             <#assign i = 0>
                             <#list dischi as disco>
@@ -51,23 +51,14 @@
                         <td>${strip_slashes(collezione.dataCreazione)}&nbsp;</td>
                         <td>
                             <form action="collezioni" method="post">
-                                <noscript>
-                                    <style>
-                                        .pagecontainer {
-                                            display: none;
-                                        }
-                                    </style>
-                                    <a href="collezione?numero=${collezione.key}"
-                                       class="btn btn-success">
-                                        <img src="images/templateimg/imgFont/arrow-up.svg"
-                                             alt="Bootstrap" width="24" height="24"></a>
-
-
-                                </noscript>
+                                <a href="collezione?numero=${collezione.key}"
+                                   class="btn btn-success">
+                                    <img src="images/templateimg/imgFont/arrow-up.svg"
+                                         alt="Bootstrap" width="24" height="24"></a>
                                 <a href="modificaCollezione?numero=${collezione.key}" class="btn btn-secondary"
                                    role="button">
                                     <img src="images/templateimg/imgFont/pencil-fill.svg" alt="modifica"
-                                         width="24" height="24" class="text-light" >
+                                         width="24" height="24" class="text-light">
                                 </a>
 
                                 <input type="hidden" id="collezioneID" name="collezioneID" value="${collezione.key}">
@@ -125,21 +116,12 @@
                         <td>${strip_slashes(collezione.condivisione)}&nbsp;</td>
                         <td>${strip_slashes(collezione.utente.nickname)}&nbsp;</td>
                         <td>${strip_slashes(collezione.dataCreazione)}&nbsp;</td>
-                        <noscript>
-                            <style >
-                                .pagecontainer {
-                                    display: none;
-                                }
-                            </style>
-                            <div class="noscriptmsg">
-                                <td>
-                                    <a href="collezione?numero=${collezione.key}"
-                                       class="btn btn-success">
-                                        <img src="images/templateimg/imgFont/arrow-up.svg"
-                                             alt="Bootstrap" width="24" height="24" f></a>
-                                </td>
-                            </div>
-                        </noscript>
+                        <td>
+                            <a href="collezione?numero=${collezione.key}"
+                               class="btn btn-success">
+                                <img src="images/templateimg/imgFont/arrow-up.svg"
+                                     alt="Bootstrap" width="24" height="24"></a>
+                        </td>
                     </tr>
                 </#list>
                 </tbody>
@@ -162,16 +144,8 @@
                 <th scope="col">Lista dischi</th>
                 <th scope="col">Autore</th>
                 <th scope="col">Data creazione</th>
-                <noscript>
-                    <style >
-                        .pagecontainer {
-                            display: none;
-                        }
-                    </style>
-                    <div class="noscriptmsg">
-                        <th scope="col"></th>
-                    </div>
-                </noscript>
+                <th scope="col"></th>
+
             </tr>
             </thead>
             <tbody>
@@ -195,24 +169,20 @@
                     </td>
                     <td>${strip_slashes(collezione.utente.nickname)}&nbsp;</td>
                     <td>${strip_slashes(collezione.dataCreazione)}&nbsp;</td>
-                    <noscript>
-                        <style>
-                            .pagecontainer {
-                                display: none;
-                            }
-                        </style>
-                        <div class="noscriptmsg">
-                            <td>
-                                <a href="collezione?numero=${collezione.key}"
-                                   class="btn btn-success">
-                                    <img src="images/templateimg/imgFont/arrow-up.svg"
-                                         alt="Bootstrap" width="24" height="24" ></a>
-                            </td>
-                        </div>
-                    </noscript>
+                    <td>
+                        <a href="collezione?numero=${collezione.key}"
+                           class="btn btn-success">
+                            <img src="images/templateimg/imgFont/arrow-up.svg"
+                                 alt="Bootstrap" width="24" height="24"></a>
+                    </td>
                 </tr>
             </#list>
             </tbody>
         </table>
     </#if>
 </div>
+
+<div class="col-12 text-center">
+    <a href="collezioni" class="btn poca-btn mt-70">MOSTRA ALTRO</a>
+</div>
+

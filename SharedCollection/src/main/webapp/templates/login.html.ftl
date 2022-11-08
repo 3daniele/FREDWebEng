@@ -29,7 +29,7 @@
                 <!-- Password input -->
                 <div class="form-outline mb-3">
                     <input type="password" name="password" class="form-control form-control-lg"
-                           placeholder="Inserisci la tua password"/>
+                           placeholder="Inserisci la tua password">
                 </div>
 
                 <div class="text-center text-lg-start mt-4 pt-2">

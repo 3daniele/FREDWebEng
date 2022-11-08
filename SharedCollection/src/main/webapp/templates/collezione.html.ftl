@@ -109,11 +109,6 @@
                                 </div>
                             </div>
                             <noscript>
-                                <style>
-                                    .pagecontainer {
-                                        display: none;
-                                    }
-                                </style>
                                 <div class="noscriptmsg">
                                     <a href="disco?numero=${disco.key}&collezione=${collezione_key}&formato=${dettaglio.formato}"
                                        class="btn poca-btn mt-10">Visualizza</a>

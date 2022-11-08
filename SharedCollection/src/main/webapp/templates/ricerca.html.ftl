@@ -3,10 +3,10 @@
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon3">Cerca:</span>
             <#if keyword??>
-                <input type="text" class="form-control" id="campo" name="campo" aria-describedby="basic-addon3"
+                <input type="text" class="form-control" id="campo_" name="campo_" aria-describedby="basic-addon3"
                        value="${keyword}">
             <#else>
-                <input type="text" class="form-control" id="campo" name="campo" aria-describedby="basic-addon3">
+                <input type="text" class="form-control" id="campo_" name="campo_" aria-describedby="basic-addon3">
             </#if>
         </div>
     </div>
@@ -64,11 +64,6 @@
                                 </div>
                             </div>
                             <noscript>
-                                <style >
-                                    .pagecontainer {
-                                        display: none;
-                                    }
-                                </style>
                                 <div class="noscriptmsg">
                                     <a href="collezione?numero=${collezione.key}"
                                        class="btn poca-btn mt-10">Visualizza</a>
@@ -118,11 +113,6 @@
                                         </div>
                                     </div>
                                     <noscript>
-                                        <style >
-                                            .pagecontainer {
-                                                display: none;
-                                            }
-                                        </style>
                                         <div class="noscriptmsg">
                                             <a href="disco?numero=${disco.key}&collezione=${dettaglio.collezione.key}&formato=${dettaglio.formato}"
                                                class="btn poca-btn mt-10">Visualizza</a>
@@ -152,11 +142,6 @@
                         <div class="card-body text-center">
                             <h5 class="card-title text">${utente.nickname}</h5>
                             <noscript>
-                                <style>
-                                    .pagecontainer {
-                                        display: none;
-                                    }
-                                </style>
                                 <div class="noscriptmsg">
                                     <a href="utente?id=${utente.key}"
                                        class="btn poca-btn mt-10">Visualizza</a>

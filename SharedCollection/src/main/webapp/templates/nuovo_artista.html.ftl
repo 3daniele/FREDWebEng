@@ -9,7 +9,7 @@
         <div>
             <div class="mb-3">
 
-                    <h5 class="form-label">Nome</h5>
+                <h5 class="form-label">Nome</h5>
 
                 <input type="text" class="form-control" id="nome" name="nome"
                         <#if nome??>

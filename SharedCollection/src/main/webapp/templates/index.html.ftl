@@ -85,10 +85,9 @@
 </header>
 
 <!-- ===== CAROSELLO ===== -->
-<section class="welcome-area">
-
-    <div class="welcome-slides owl-carousel">
-        <#if display??>
+<#if display??>
+    <section class="welcome-area">
+        <div class="welcome-slides owl-carousel">
             <div class="welcome-welcome-slide bg-img bg-overlay"
                  style="background-image:url(images/templateimg/bg-img/1.jpg)">
                 <div class="container h-100">
@@ -117,9 +116,9 @@
                     </div>
                 </div>
             </div>
-        </#if>
-    </div>
-</section>
+        </div>
+    </section>
+</#if>
 
 <#if !dispaly??>
     <br>

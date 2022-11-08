@@ -50,7 +50,8 @@
                             <td>${utente.cognome}</td>
                             <td>
                                 <form action="modificaCondivisione" method="post">
-                                    <input type="hidden" id="collezioneIDA" name="collezioneIDA" value="${collezione_key}">
+                                    <input type="hidden" id="collezioneIDA" name="collezioneIDA"
+                                           value="${collezione_key}">
                                     <input type="hidden" id="utenteIDA" name="utenteIDA" value="${utente.key}">
                                     <button type="submit" class="btn btn-success" id="aggiungiUtente"
                                             name="aggiungiUtente"><img src="images/templateimg/imgFont/check.svg"
