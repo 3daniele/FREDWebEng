@@ -45,7 +45,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
             getUtenteByUsername = connection.prepareStatement("SELECT id FROM Utente WHERE nickname = ?");
             sUtentiByNickname = connection.prepareStatement("SELECT * FROM Utente WHERE MATCH (nickname) AGAINST (? IN NATURAL LANGUAGE MODE)");
 
-            getUtentiByLetter = connection.prepareStatement("SELECT *FROM Utente WHERE nome LIKE ?");
+            getUtentiByLetter = connection.prepareStatement("SELECT *FROM Utente WHERE nickname LIKE ?");
 
             loginUtente = connection.prepareStatement("SELECT id, password FROM Utente WHERE email = ?");
 
@@ -311,6 +311,11 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
     @Override
     public Utente getLink(String link) throws DataException {
+
+        if (dataLayer.getCache().has(Utente.class, link)) {
+            return dataLayer.getCache().get(Utente.class, link);
+        }
+
         Utente utente = null;
 
         try {
@@ -330,6 +335,11 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
     @Override
     public Utente getUtente(String email) throws DataException {
+
+        if (dataLayer.getCache().has(Utente.class, email)) {
+            return dataLayer.getCache().get(Utente.class, email);
+        }
+
         Utente utente = null;
 
         try {
@@ -347,6 +357,12 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
 
     public String getPassword(String email) throws DataException {
+
+        if (dataLayer.getCache().has(Utente.class, email)) {
+            Utente utente = dataLayer.getCache().get(Utente.class, email);
+            return utente.getPassword();
+        }
+
         String pass = null;
 
         try {
@@ -365,6 +381,11 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO {
 
     @Override
     public Utente getUtenteByUsername(String username) throws DataException {
+
+        if (dataLayer.getCache().has(Utente.class, username)) {
+            return dataLayer.getCache().get(Utente.class, username);
+        }
+
         Utente utente = null;
 
         try {
