@@ -50,3 +50,16 @@ Le auguriamo una buona giornata!
 
 
 
+[ 2022-11-08T21:07:13.778804 ]  antonio@site.it:
+--------------------------------- Sharedcollection Web Site ----------------------------------
+Gentile De Amicis Antonio,
+Le informiamo che l'utente gestore ha condiviso con lei la sua collezione 'a'.
+Le auguriamo una buona giornata!
+--------------------------------- Sharedcollection Web Site ----------------------------------
+
+
+
+
+
+
+

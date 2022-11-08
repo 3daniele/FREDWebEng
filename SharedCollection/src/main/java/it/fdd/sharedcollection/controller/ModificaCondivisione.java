@@ -29,8 +29,8 @@ public class ModificaCondivisione extends SharedCollectionBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
         try {
-            if (request.getParameter("collezioneId") != null) {
-                collezione_key = SecurityLayer.checkNumeric(request.getParameter("collezioneId"));
+            if (request.getParameter("c") != null) {
+                collezione_key = SecurityLayer.checkNumeric(request.getParameter("c"));
                 request.setAttribute("collezioneID", collezione_key);
                 action_default(request, response);
             } else {

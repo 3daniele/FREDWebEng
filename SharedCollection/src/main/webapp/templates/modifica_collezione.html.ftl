@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="style/default-assets/multi-select.css" xmlns="http://www.w3.org/1999/html">
+<link rel="stylesheet" href="style/default-assets/multi-select.css" xmlns="http://www.w3.org/1999/xhtml">
 <div class="row">
     <#if error??>
         <div class="alert alert-danger text-center" role="alert">
@@ -11,7 +11,7 @@
             <h2 class="text-danger">Informazioni:</h2>
             <h5 class="form-label">Nuova Collezione</h5>
 
-            <input type="text" class="form-control" id="nome" name="nome" value="${collezione.nome}">
+            <input type="text" class="form-control" id="nome_" name="nome" value="${collezione.nome}">
             <div class="form-text">
                 Modifica il nome della collezione.
             </div>
@@ -45,17 +45,17 @@
         <ul>
             <#if (utenti_autorizzati?size > 0)>
                 <#list utenti_autorizzati as utente>
-                    <p>${utente.nickname}</p>
+                    <li>${utente.nickname}</li>
                 </#list>
             <#else>
-                <p>Attualmente la collezione non è stata condivisa con altri utenti</p>
+                <li>Attualmente la collezione non è stata condivisa con altri utenti</li>
             </#if>
         </ul>
-
-        <form action="modificaCondivisione" method="get" class="text-end">
-            <input type="hidden" name="collezioneId" id="collezioneId" value="${collezione_key}">
-            <input type="submit" class="btn btn-danger" name="modifica" value="Gestisci condivisione">
-        </form>
+        <div class="text-end">
+            <a href="modificaCondivisione?c=${collezione.key}" class="btn btn-danger">
+                Gestisci condivisione
+            </a>
+        </div>
     </div>
 </div>
 <hr>
@@ -75,8 +75,6 @@
                 Nuovo disco
             </button>
         </div>
-
-        <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}">
     </div>
     <br>
     <div class="row">
@@ -110,7 +108,7 @@
                                         <div>
                                             <a href="#"><i class="" aria-hidden="true"></i>${dettaglio.stato}</a>
                                         </div>
-                                        <input type="hidden" name="listaDiscoID" id="listaDiscoID"
+                                        <input type="hidden" name="listaDiscoID" id="listaDiscoID${dettaglio.key}"
                                                value="${dettaglio.key}">
                                     </div>
                                     <br>
@@ -122,7 +120,8 @@
                                         <img src="images/templateimg/imgFont/pencil-fill.svg" alt="Bootstrap"
                                              width="24" height="24" class="text-light">
                                     </a>
-                                    <button type="submit" class="btn btn-danger" value="Elimina" id="elimina_disco"
+                                    <button type="submit" class="btn btn-danger" value="Elimina"
+                                            id="elimina_disco${dettaglio.key}"
                                             name="elimina_disco">
                                         <img
                                                 src="images/templateimg/imgFont/trash3-fill.svg" alt="elimina"
@@ -154,7 +153,7 @@
 
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default" id="nome" name="nome">
+                                   id="nome" name="nome">
                         </div>
                     </div>
                     <div class="row">
@@ -163,7 +162,7 @@
 
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" aria-label="Sizing example input"
-                                       aria-describedby="inputGroup-sizing-default" id="etichetta" name="etichetta">
+                                       id="etichetta" name="etichetta">
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 col-md-6">
@@ -171,7 +170,7 @@
 
                             <div class="input-group mb-3">
                                 <input type="date" class="form-control" aria-label="Sizing example input"
-                                       aria-describedby="inputGroup-sizing-default" id="anno" name="anno">
+                                       id="anno" name="anno">
                             </div>
                         </div>
                     </div>
@@ -183,7 +182,6 @@
                             <#list lista_artisti as artista>
                                 <option value="${artista.key}" id="${artista.key}">${artista.nomeArte}</option>
                             </#list>
-                            <input type="hidden" name="collezioneID" id="collezioneID" value="${collezione.key}"/>
                         </select>
                     </div>
                     <br>
@@ -237,7 +235,7 @@
 
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default" id="barcode" name="barcode">
+                                   id="barcode" name="barcode">
                         </div>
                     </div>
                     <br>
